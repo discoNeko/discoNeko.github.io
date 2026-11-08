@@ -3,7 +3,7 @@
 <a href="https://disconeko.github.io/"><img src="https://disconeko.github.io/readme/banner.svg?v=9ddcdf6e" width="100%" alt="discoNeko works — ダッシュボードを開く"></a>
 </p>
 
-### ★ Featured
+### Featured
 
 <table><tr>
 <td width="55%"><a href="https://disconeko.github.io/megastructure-mock/playable-mock.html"><img src="https://disconeko.github.io/thumbs/megastructure-mock.jpg" width="100%" alt="第七縦穴 プレイアブルモック"></a></td>
@@ -15,7 +15,7 @@
 </td>
 </tr></table>
 
-### 🆕 Recent
+### Recent
 
 <table><tr>
 <td width="33%" valign="top">

@@ -143,7 +143,7 @@ const md = `<!-- このブロックは discoNeko.github.io の scripts/build-rea
 <a href="${SITE}"><img src="${SITE}readme/banner.svg?v=${hash(banner)}" width="100%" alt="discoNeko works — ダッシュボードを開く"></a>
 </p>
 ${featured.length ? `
-### ★ Featured
+### Featured
 
 ${featured.map((g) => `<table><tr>
 <td width="55%"><a href="${link(g) ?? SITE}"><img src="${thumb(g)}" width="100%" alt="${esc(g.title)}"></a></td>
@@ -155,7 +155,7 @@ ${featured.map((g) => `<table><tr>
 </td>
 </tr></table>`).join("\n")}
 ` : ""}
-### 🆕 Recent
+### Recent
 
 <table><tr>
 ${recent.map((g) => `<td width="33%" valign="top">
