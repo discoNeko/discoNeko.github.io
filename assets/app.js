@@ -65,7 +65,7 @@ function cardHTML(g) {
   <article class="card a-${g.access} c-${g.category}${g.featured ? " featured" : ""}" data-slug="${esc(g.slug)}">
     <button type="button" class="thumb" data-open="${esc(g.slug)}" aria-label="${esc(g.title)} の詳細">${thumbHTML(g)}
       <span class="access-badge">${esc(accessLabel(g))}</span>
-      ${g.featured ? '<span class="feature-badge">★ FEATURED</span>' : ""}
+      ${g.featured ? '<span class="feature-badge">FEATURED</span>' : ""}
     </button>
     <div class="body">
       <div class="meta-row">

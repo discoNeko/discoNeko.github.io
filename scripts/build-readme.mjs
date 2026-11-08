@@ -85,7 +85,7 @@ function bannerSVG() {
       <defs><clipPath id="cc${i}"><rect width="${W}" height="${H}" rx="12"/></clipPath></defs>
       <g clip-path="url(#cc${i})">${img}</g>
       <rect width="${W}" height="${H}" rx="12" fill="none" stroke="#ecebf3" stroke-opacity=".22"/>
-      ${g.featured ? `<rect x="10" y="10" width="94" height="20" rx="5" fill="#ffcf5c"/><text x="57" y="24" text-anchor="middle" font-family="${EN}" font-size="10" font-weight="700" letter-spacing="1.2" fill="#1a1400">★ FEATURED</text>` : ""}
+      ${g.featured ? `<rect x="10" y="10" width="80" height="20" rx="5" fill="#ffcf5c"/><text x="50" y="24" text-anchor="middle" font-family="${EN}" font-size="10" font-weight="700" letter-spacing="1.2" fill="#1a1400">FEATURED</text>` : ""}
     </g>`;
   };
   const layout = [[8, 42, 4], [-3, -18, -6], [-13, -70, 6]]; // 手前 → 奥
