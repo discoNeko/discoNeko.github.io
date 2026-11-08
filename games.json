@@ -388,7 +388,13 @@
       ],
       "url": "talks/kasu-ponkotsu-yunou/",
       "created": "2026-07-16",
-      "updated": "2026-07-16"
+      "updated": "2026-07-16",
+      "variants": [
+        {
+          "label": "図解版",
+          "file": "visual.html"
+        }
+      ]
     },
     {
       "slug": "isekai-derby",

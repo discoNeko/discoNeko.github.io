@@ -74,6 +74,16 @@ for (const [i, g] of (data.items ?? []).entries()) {
   if (g.access === "hub" && g.url && !g.spec && existsSync(join(root, g.url, "notes", "spec.md"))) {
     warnings.push(`${at}: ${g.url}notes/spec.md があるが spec: true が付いていません`);
   }
+  // 別バージョン(variants): 同居作品のフォルダ内のファイルだけ
+  if (g.variants !== undefined) {
+    if (!Array.isArray(g.variants)) errors.push(`${at}: variants は配列`);
+    else if (g.access !== "hub") errors.push(`${at}: variants は同居作品(access: hub)だけ`);
+    else for (const v of g.variants) {
+      if (!v?.label || !v?.file) errors.push(`${at}: variants の各要素には label と file が必要`);
+      else if (!/^[\w.-]+\.html$/.test(v.file)) errors.push(`${at}: variants の file はフォルダ内の .html ファイル名だけ(${v.file})`);
+      else if (!existsSync(join(root, g.url, v.file))) errors.push(`${at}: ${g.url}${v.file} がありません`);
+    }
+  }
   for (const k of ["featured", "notes", "spec"]) {
     if (k in g && typeof g[k] !== "boolean") errors.push(`${at}: ${k} は true / false`);
   }

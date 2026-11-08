@@ -256,7 +256,11 @@ async function openDetail(slug, { push = true } = {}) {
   const specLink = spec
     ? `<a class="btn ghost" href="${esc(spec)}" target="_blank" rel="noopener">${ICON.note}詳細な仕様書<span class="ext">${ICON.ext}</span></a>`
     : "";
-  $("d-actions").innerHTML = primaryAction(g) + repoLink + specLink;
+  // 同じ作品の別バージョン(例: 対話の図解版)。同居作品のフォルダ内のファイルを開く
+  const variantLinks = g.access === "hub"
+    ? (g.variants ?? []).map((v) => `<a class="btn ghost" href="${esc(g.url + v.file)}">${ICON.read}${esc(v.label)}</a>`).join("")
+    : "";
+  $("d-actions").innerHTML = primaryAction(g) + variantLinks + repoLink + specLink;
   const meta = [
     ["カテゴリ", LABEL.category[g.category]],
     ["公開状態", accessLabel(g)],
