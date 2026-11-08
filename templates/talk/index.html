@@ -135,10 +135,17 @@ section > h2 {
 
 footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--stroke); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: 0.85rem; }
 </style>
+<!-- 共通ヘッダー(talks/talkbar.css / talkbar.js)。talks/<slug>/ に置いた時の相対パス -->
+<link rel="stylesheet" href="../talkbar.css">
 </head>
 <body>
+<div class="talkbar">
+  <a class="talkbar-back" href="../../">← discoNeko works</a>
+  <!-- 図解版(visual.html)を作ったら、読み物版・図解版の両方に切り替えを入れる:
+  <span class="vs" role="group" aria-label="表示の切り替え"><a aria-current="page">読み物版</a><a href="visual.html">図解版</a></span> -->
+  <div class="talkbar-progress" aria-hidden="true"></div>
+</div>
 <div class="wrap">
-  <a class="back" href="../../">← discoNeko works</a>
 
   <header>
     <div class="kicker">TALK</div>
@@ -198,5 +205,6 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--stroke
     <span>この対話は読みやすさのために抜粋・編集しています。</span>
   </footer>
 </div>
+<script src="../talkbar.js"></script>
 </body>
 </html>

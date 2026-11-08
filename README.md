@@ -74,6 +74,8 @@ AI との対話で生まれた面白い議論は、HTML 作品として `talks/<
 1. `templates/talk/index.html` を `talks/<slug>/index.html` にコピーして、タイトル・要旨・本文を書き換える
    - `.turn.me` が自分、`.turn.ai` が AI の発言、`.aside` が後から付けた注釈、`.quote` が刺さった一文
    - 生のログを全部貼る必要はありません。面白い所を抜粋・編集して読み物にします
+   - 上部の固定ヘッダー(戻るリンク・プログレスバー)は `talks/talkbar.css` / `talkbar.js` を共通で使います
+   - 図解版を作るときは `visual.html` として同じフォルダに置き、`talks/choice-design/visual.html` の構成(左の目次・番号付きの節・フッター)に合わせます。読み物版と図解版の両方のヘッダーに「読み物版 | 図解版」の切り替えを入れ、台帳の `variants` に図解版を登録します
 2. `games.json` に `category: "talk"`, `access: "hub"`, `url: "talks/<slug>/"` で登録する
 3. `node scripts/check.mjs` を実行する。`talks/` は本文も文章なので、ページ全体が公開 NG 文字列の検査対象です
 

@@ -1,0 +1,36 @@
+/* talks 共通ヘッダー
+   読み物版・図解版のどちらでも、戻るリンク(左)と 読み物版|図解版 の切り替え(右)を同じ位置に出す。
+   色は各ページの変数(--bg / --stroke / --muted / --txt または --ink)に合わせる。 */
+:root { --tb-h: 52px; }
+html { scroll-padding-top: calc(var(--tb-h) + 20px); }
+body { padding-top: var(--tb-h); }
+.talkbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 90;
+  height: var(--tb-h);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 0 20px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--stroke);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  line-height: 1;
+}
+.talkbar-back { font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.talkbar-back:hover { color: var(--txt, var(--ink)); }
+.talkbar .vs {
+  display: inline-flex; gap: 2px; padding: 3px; flex: none;
+  border: 1px solid var(--stroke); border-radius: 999px;
+  background: color-mix(in srgb, var(--txt, var(--ink)) 5%, transparent);
+  font-size: 12px; font-weight: 700; letter-spacing: .05em;
+}
+.talkbar .vs a { display: inline-block; padding: 7px 13px; border-radius: 999px; color: var(--muted); text-decoration: none; }
+.talkbar .vs a:hover { color: var(--txt, var(--ink)); }
+.talkbar .vs a[aria-current="page"] { background: var(--txt, var(--ink)); color: var(--bg); }
+/* 読んだ位置のプログレスバー(talkbar.js が幅を更新する) */
+.talkbar-progress {
+  position: absolute; top: 0; left: 0; height: 3px; width: 0;
+  background: var(--tb-accent, var(--acid, var(--link)));
+  transition: width .12s;
+}
+@media (prefers-reduced-motion: reduce) { .talkbar-progress { transition: none; } }
+@media print { .talkbar { display: none; } body { padding-top: 0; } }

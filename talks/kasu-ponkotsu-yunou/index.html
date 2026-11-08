@@ -53,32 +53,6 @@ body {
 a { color: var(--link); }
 .wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
 
-.back {
-  display: inline-block;
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 0.85rem;
-  color: var(--muted);
-  text-decoration: none;
-}
-.back:hover { color: var(--txt); }
-
-/* 読み物版 ↔ 図解版の切り替え */
-.topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-.vs {
-  display: inline-flex;
-  gap: 2px;
-  padding: 3px;
-  border: 1px solid var(--stroke);
-  border-radius: 999px;
-  background: var(--surface);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  line-height: 1;
-}
-.vs a { padding: 7px 13px; border-radius: 999px; color: var(--muted); text-decoration: none; }
-.vs a:hover { color: var(--txt); }
-.vs a[aria-current="page"] { background: var(--txt); color: var(--bg); }
 
 header { margin: 40px 0 32px; }
 .kicker { font-family: "Space Grotesk", sans-serif; font-weight: 700; letter-spacing: 0.2em; font-size: 0.75rem; color: var(--ai); }
@@ -171,15 +145,18 @@ h1, section > h2, .quote { text-wrap: balance; }
 }
 
 footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--stroke); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: 0.85rem; }
+footer .back { color: var(--muted); text-decoration: none; }
+footer .back:hover { color: var(--txt); }
 </style>
+<link rel="stylesheet" href="../talkbar.css">
 </head>
 <body>
+<div class="talkbar">
+  <a class="talkbar-back" href="../../">← discoNeko works</a>
+  <span class="vs" role="group" aria-label="表示の切り替え"><a aria-current="page">読み物版</a><a href="visual.html">図解版</a></span>
+  <div class="talkbar-progress" aria-hidden="true"></div>
+</div>
 <div class="wrap">
-  <div class="topbar">
-    <a class="back" href="../../">← discoNeko works</a>
-    <span class="vs" role="group" aria-label="表示の切り替え"><a aria-current="page">読み物版</a><a href="visual.html">図解版</a></span>
-  </div>
-
   <header>
     <div class="kicker">TALK</div>
     <h1>カスでポンコツで有能なキャラは、<br>なぜ刺さるのか</h1>
@@ -326,5 +303,6 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--stroke
     <span>ChatGPT との対話を、読みやすさのために抜粋・編集しています。元の回答に付いていた出典表示は省略しました。</span>
   </footer>
 </div>
+<script src="../talkbar.js"></script>
 </body>
 </html>

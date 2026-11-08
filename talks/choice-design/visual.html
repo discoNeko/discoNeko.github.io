@@ -127,7 +127,7 @@
     footer{padding:48px 0;color:var(--muted);font-size:11px;border-top:1px solid var(--stroke);margin-top:84px}
     .mobilebar{display:none}
     @media(max-width:1080px){:root{--aside:218px}.sidebar{padding:25px 15px}.main{padding:0 35px 90px}.ingredients{grid-template-columns:repeat(3,1fr)}.pattern-grid{grid-template-columns:repeat(2,1fr)}.chain{grid-template-columns:repeat(2,1fr)}.chain .step:nth-child(2)::after{display:none}}
-    @media(max-width:720px){html{scroll-padding-top:77px}.sidebar{display:none}.layout{margin-left:0}.main{padding:0 19px 70px}.mobilebar{display:flex;position:sticky;top:0;z-index:30;background:#0b1316ed;backdrop-filter:blur(10px);border-bottom:1px solid #2b3c3a;justify-content:space-between;align-items:center;padding:12px 19px;font-size:12px}.mobilebar b{letter-spacing:.02em}.mobilebar a{color:var(--acid);font-size:12px}.hero{padding:63px 0 49px}.hero h1{font-size:42px}.hero::after{font-size:360px;right:-40px;top:-75px}.lead{font-size:14px}.herofoot{gap:12px}.herofoot span{font-size:10px}section{padding-top:60px}section+section{margin-top:55px}.grid,.compare,.warnings,.fields,.result{grid-template-columns:1fr}.pattern-grid{grid-template-columns:1fr 1fr}.ingredients{grid-template-columns:repeat(2,1fr)}.choices{grid-template-columns:1fr}.choice{min-height:auto}.scenario{padding:20px}.scenario-head{flex-direction:column}.chain{grid-template-columns:1fr 1fr}.workshop{padding:19px}.save-state{margin-left:0;width:100%}.ending p{font-size:17px}}
+    @media(max-width:720px){.sidebar{display:none}.layout{margin-left:0}.main{padding:0 19px 70px}.mobilebar{display:flex;position:sticky;top:0;z-index:30;background:#0b1316ed;backdrop-filter:blur(10px);border-bottom:1px solid #2b3c3a;justify-content:space-between;align-items:center;padding:12px 19px;font-size:12px}.mobilebar b{letter-spacing:.02em}.mobilebar a{color:var(--acid);font-size:12px}.hero{padding:63px 0 49px}.hero h1{font-size:42px}.hero::after{font-size:360px;right:-40px;top:-75px}.lead{font-size:14px}.herofoot{gap:12px}.herofoot span{font-size:10px}section{padding-top:60px}section+section{margin-top:55px}.grid,.compare,.warnings,.fields,.result{grid-template-columns:1fr}.pattern-grid{grid-template-columns:1fr 1fr}.ingredients{grid-template-columns:repeat(2,1fr)}.choices{grid-template-columns:1fr}.choice{min-height:auto}.scenario{padding:20px}.scenario-head{flex-direction:column}.chain{grid-template-columns:1fr 1fr}.workshop{padding:19px}.save-state{margin-left:0;width:100%}.ending p{font-size:17px}}
     @media(max-width:420px){.hero h1{font-size:36px}.pattern-grid,.chain{grid-template-columns:1fr}.chain .step:not(:last-child)::after{content:"↓";right:50%;top:auto;bottom:-20px}.ingredient{padding:15px 10px}.spectrum-head span{font-size:10px}.miniopts{flex-wrap:wrap}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
     @media print{html,body{background:#fff;color:#111;font-size:12px}.sidebar,.mobilebar,.progress,.actions,.save-state{display:none!important}.layout{margin:0}.main{max-width:none;padding:0 12px}.hero{padding:12px 0}.hero::after{display:none}h1,h2,h3,.quote,.card h3,.ingredient b,.pattern b,.step b,.warning h3,.checkitem b,.ending p{color:#111!important}p,.section-intro,.lead,.card p,.pattern p,.step p,.note,.warning p,.question p,.field .hint{color:#424242!important}.card,.ingredient,.pattern,.scenario,.spectrum,.spectrum-out,.step,.warning,.checkboard,.workshop,.question,.ending,.choice{background:#fff!important;color:#111!important;border-color:#b8b8b8!important;box-shadow:none!important}section{padding-top:32px;break-inside:auto}section+section{margin-top:18px}h2,h3,.card,.pattern,.ingredient,.step,.field,.checkitem,.question{break-inside:avoid}textarea{background:#fff;color:#111;border:1px solid #bbb;min-height:80px}.eyebrow,.secno,.index,.stat{color:#477632!important}}
@@ -206,12 +206,9 @@
 
   
 /* 読み物版 ↔ 図解版の切り替え */
-.vs{display:inline-flex;gap:2px;padding:3px;border:1px solid var(--stroke);border-radius:999px;background:#ffffff08;font-size:12px;font-weight:700;letter-spacing:.05em;line-height:1;align-self:flex-start}
-.vs a{display:inline-block;padding:7px 13px;border-radius:999px;color:var(--soft);text-decoration:none}
-.vs a:hover{color:var(--ink)}
-.vs a[aria-current="page"]{background:var(--ink);color:var(--bg)}
-.sidebar .vs{margin-top:22px}
-</style>
+  .sidebar{top:var(--tb-h)}
+  </style>
+  <link rel="stylesheet" href="../talkbar.css">
 </head>
 <body>
   <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
@@ -277,10 +274,13 @@
     </symbol>
   </defs>
 </svg>
-  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="talkbar">
+    <a class="talkbar-back" href="../../">← discoNeko works</a>
+    <span class="vs" role="group" aria-label="表示の切り替え"><a href="./">読み物版</a><a aria-current="page">図解版</a></span>
+    <div class="talkbar-progress" aria-hidden="true"></div>
+  </div>
   <aside class="sidebar">
     <div class="brand"><div class="mark">?</div><div><b>CHOICE DESIGN</b><small>GAME DESIGN NOTES / ILLUSTRATED</small></div></div>
-    <span class="vs" role="group" aria-label="表示の切り替え"><a href="./">読み物版</a><a aria-current="page">図解版</a></span>
     <div class="sidecap">CONTENTS</div>
     <nav aria-label="目次">
       <a href="#definition"><span class="num">01</span> 面白い選択の構造</a>
@@ -296,7 +296,6 @@
     <div class="sideend"><strong>考えるためのノート。</strong><br>読み物としても、ゲーム企画を検討するワークシートとしても使えます。入力メモはこのブラウザ内に保存されます。</div>
   </aside>
   <div class="layout">
-    <div class="mobilebar"><span class="vs" role="group" aria-label="表示の切り替え"><a href="./">読み物版</a><a aria-current="page">図解版</a></span><a href="#workshop">企画ワークへ ↓</a></div>
     <main class="main">
       <header class="hero">
         <div class="hero-copy">
@@ -602,9 +601,10 @@
       $('downloadNotes').addEventListener('click',()=>{const blob=new Blob([textNotes()],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='面白い意思決定_企画メモ.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);});
       $('clearNotes').addEventListener('click',()=>{if(!confirm('記入した企画メモをすべて消去しますか？'))return;notes.forEach(x=>x.value='');safeSet('choice_design_notes_v1','{}');$('saveState').textContent='入力を消去しました';});
       const nav=[...document.querySelectorAll('.sidebar nav a')];
-      function syncScroll(){const max=document.documentElement.scrollHeight-innerHeight;$('progress').style.width=(max>0?Math.min(100,scrollY/max*100):0)+'%';let chosen='';for(let s of document.querySelectorAll('main section')){if(s.getBoundingClientRect().top<innerHeight*.43)chosen='#'+s.id;}nav.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===chosen));}
+      function syncScroll(){let chosen='';for(let s of document.querySelectorAll('main section')){if(s.getBoundingClientRect().top<innerHeight*.43)chosen='#'+s.id;}nav.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===chosen));}
       addEventListener('scroll',syncScroll,{passive:true});addEventListener('resize',syncScroll);syncScroll();
     })();
   </script>
+  <script src="../talkbar.js"></script>
 </body>
 </html>

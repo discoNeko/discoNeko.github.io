@@ -1,200 +1,585 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="カス、ポンコツ、有能。3つの矛盾が同居するキャラクターの魅力を、動く相関図と感情のループで読み解く。">
-<meta name="theme-color" content="#10131c">
-<title>カス × ポンコツ × 有能｜キャラクター魅力の三角形</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800;900&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#10131c;--panel:#171b27;--panel2:#1f2431;--line:#353a48;--cream:#f5f1e8;--txt:#e9e9ed;--muted:#a8adbc;--red:#ff7285;--yellow:#f9c65b;--blue:#75c6fb;--green:#a1e4c0;--r:24px;--kasu:var(--red);--ponkotsu:var(--yellow);--yunou:var(--blue);--stroke:#454c5c;--txt:var(--cream);color-scheme:dark}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--txt);font-family:'Noto Sans JP',system-ui,sans-serif;line-height:1.85;overflow-x:hidden}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:20;opacity:.11;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E")}
-a{color:inherit}button{font:inherit}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:4px}.container{max-width:1200px;margin:auto;padding:0 36px}.eyebrow,.index,.en{font-family:'DM Sans',system-ui,sans-serif;font-weight:800;letter-spacing:.16em}.eyebrow{font-size:12px}.index{color:var(--muted);font-size:12px}.dim{color:var(--muted)}.red{color:var(--red)}.yellow{color:var(--yellow)}.blue{color:var(--blue)}
-.nav{height:68px;border-bottom:1px solid #ffffff15;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:3}.brand{font-weight:900;letter-spacing:-.05em;text-decoration:none;font-size:16px}.brand span{color:var(--yellow)}.nav-right{display:flex;gap:24px;align-items:center;font-size:12px;font-weight:700;letter-spacing:.1em}.nav-right a{text-decoration:none;color:#b9bcc7}.nav-right a:hover{color:white}
-.hero{position:relative;isolation:isolate;overflow:hidden;border-bottom:1px solid var(--line);background:radial-gradient(ellipse at 78% 35%,#303346 0%,transparent 47%),radial-gradient(ellipse at 12% 85%,#301f2b 0%,transparent 38%),var(--bg)}.hero:after{content:"";position:absolute;inset:0;z-index:-1;opacity:.23;background-image:linear-gradient(to right,#81839115 1px,transparent 1px),linear-gradient(to bottom,#81839115 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(90deg,transparent 25%,#000)}.hero-inner{min-height:660px;display:grid;grid-template-columns:1.09fr .91fr;align-items:center;position:relative;gap:0}.hero-copy{padding:60px 0 70px;position:relative;z-index:2}.section-tag{display:inline-flex;align-items:center;gap:10px;color:#cad0df;font-size:11px;font-weight:900;letter-spacing:.16em}.section-tag:before{content:"";width:21px;height:2px;background:currentColor}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(46px,5.25vw,78px);line-height:1.21;letter-spacing:-.072em;font-weight:900;margin:22px 0 30px}h1 .line{display:block}h1 .small{font-size:.58em;letter-spacing:-.045em;display:block;margin-top:18px}.hero-lead{font-size:clamp(15px,1.55vw,19px);line-height:1.9;color:#d0d1db;max-width:575px;font-weight:600}.hero-lead strong{color:white}.hero-lead .em{background:linear-gradient(transparent 60%,#f9c65b40 60%)}.mini-traits{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.mini-traits span{border:1px solid #ffffff34;border-radius:999px;padding:5px 14px;background:#090d15a0;font-size:12px;font-weight:800}.mini-traits b{font-family:'DM Sans';margin-right:7px}.hero-hint{display:flex;gap:12px;align-items:center;margin-top:43px;font-size:12px;color:#b2bac9;letter-spacing:.03em}.hero-hint:before{content:"↓";display:grid;place-items:center;border:1px solid #8b91a7;border-radius:50%;height:34px;width:34px;font-size:19px;color:white}
-.hero-art{min-height:590px;position:relative;display:grid;place-items:center;align-self:stretch}.hero-aura{width:520px;height:520px;max-width:110%;border-radius:50%;position:absolute;top:8%;left:0%;background:radial-gradient(circle,#52556c7c 0 29%,#222638aa 30% 47%,#64647a43 47.3% 47.6%,transparent 48%),conic-gradient(from 12deg,transparent 8%,#ff728522 18%,transparent 28%,#f9c65b25 42%,transparent 56%,#75c6fb28 72%,transparent 90%);filter:blur(.2px)}.hero-aura:before,.hero-aura:after{content:"";position:absolute;border:1px dashed #ffffff35;border-radius:50%;inset:29px;animation:spin 45s linear infinite}.hero-aura:after{inset:72px;border-style:solid;border-color:#ffffff19;animation-direction:reverse}.portrait-svg{width:min(100%,520px);position:relative;z-index:1;filter:drop-shadow(0 30px 35px #08091185);overflow:visible;transform:translate(8px,10px)}.orbit{position:absolute;z-index:3;border:1px solid #ffffff48;background:#171b27e8;box-shadow:0 12px 30px #07090c9c;padding:10px 15px;border-radius:10px;backdrop-filter:blur(7px);font-weight:900;font-size:19px;letter-spacing:.05em;transform:rotate(var(--rot))}.orbit small{display:block;font-family:'DM Sans';font-size:10px;letter-spacing:.16em;color:#a9adbe;font-weight:700}.orbit-1{--rot:-9deg;top:14%;left:3%;color:var(--red)}.orbit-2{--rot:8deg;top:39%;right:-2%;color:var(--yellow)}.orbit-3{--rot:-4deg;bottom:16%;left:2%;color:var(--blue)}.hero-art-note{position:absolute;bottom:27px;right:4%;font:800 10px 'DM Sans';letter-spacing:.24em;color:#b0b8c9}
-.strip{background:var(--cream);color:#161925;border-bottom:1px solid #eee5da}.strip-grid{display:grid;grid-template-columns:repeat(3,1fr)}.strip-item{padding:27px 23px 25px;border-right:1px solid #cbc5bc}.strip-item:first-child{border-left:1px solid #cbc5bc}.strip-item b{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:900}.strip-item b span{font-size:29px;line-height:1}.strip-item p{font-size:12px;line-height:1.6;color:#696d76;margin:7px 0 0 38px}
-.section{padding:106px 0}.section-head{margin-bottom:47px}.section-head .eyebrow{font-size:12px;color:var(--yellow)}.section-head h2{font-size:clamp(30px,3.45vw,46px);line-height:1.35;letter-spacing:-.065em;margin:11px 0 15px;font-weight:900}.section-head>p{font-size:15px;color:#aeb4c3;max-width:730px;margin:0}.underline-mark{background:linear-gradient(transparent 75%,#f9c65b66 75%)}
-.lab{background:#141824}.lab-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,.8fr);gap:42px;align-items:center}.triangle-board{position:relative;aspect-ratio:700/650;max-width:700px;width:100%;margin:auto;isolation:isolate}.triangle-board:before{content:"";position:absolute;inset:13% 8% 6%;background:radial-gradient(circle at center,#2e3748 0%,#151923 68%);border-radius:50%;filter:blur(16px)}.tri-svg{width:100%;height:100%;position:absolute;inset:0;overflow:visible}.tri-svg polygon{transition:all .4s ease}.tri-svg .tri-main{fill:#24293875;stroke:#818ba28a;stroke-width:2}.tri-svg .tri-inner{fill:none;stroke:#ffffff22;stroke-width:2;stroke-dasharray:5 10}.tri-svg .edge{fill:none;stroke-width:8;opacity:.4;stroke-linecap:round}.tri-svg .edge.r{stroke:var(--red)}.tri-svg .edge.y{stroke:var(--yellow)}.tri-svg .edge.b{stroke:var(--blue)}.tri-center{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);width:48%;text-align:center;pointer-events:none}.tri-center .center-small{font-size:10px;color:#b8bcc7;letter-spacing:.18em;font-family:'DM Sans';font-weight:800}.tri-center .center-title{font-size:clamp(16px,2vw,29px);font-weight:900;letter-spacing:-.045em;line-height:1.5;margin:13px 0}.tri-center .center-sub{font-size:11px;line-height:1.5;color:#c8ccda}.tri-node{position:absolute;display:grid;place-content:center;width:113px;height:113px;border-radius:50%;border:2px solid var(--node-color);background:#171b27;box-shadow:0 0 0 10px #151923,0 18px 45px #05080faa;color:var(--node-color);text-align:center;z-index:2;cursor:pointer;transition:filter .25s,opacity .25s,transform .25s}.tri-node:hover{transform:translate(-50%,-50%) scale(1.09)}.tri-node .node-icon{font-size:24px;font-weight:900;line-height:1.1}.tri-node .node-title{font-size:19px;font-weight:900;line-height:1.4}.tri-node .node-en{font:800 9px 'DM Sans';letter-spacing:.08em;opacity:.7}.tri-node.k{--node-color:var(--red);left:50%;top:10%;transform:translate(-50%,-50%)}.tri-node.p{--node-color:var(--yellow);left:13%;top:84%;transform:translate(-50%,-50%)}.tri-node.y{--node-color:var(--blue);left:87%;top:84%;transform:translate(-50%,-50%)}.tri-node.k:hover,.tri-node.p:hover,.tri-node.y:hover{transform:translate(-50%,-50%) scale(1.09)}.tri-node.is-missing{filter:grayscale(1);opacity:.35;border-style:dashed}.board-note{position:absolute;bottom:-10px;left:0;right:0;color:#9fa8ba;text-align:center;font-size:11px}
-.result{border:1px solid #3d4655;border-radius:22px;background:linear-gradient(145deg,#242b3b,#171b26 65%);overflow:hidden;box-shadow:0 24px 80px #02040a55}.result-top{padding:26px 28px 22px;border-bottom:1px solid #ffffff16}.result-top .eyebrow{color:var(--yellow);font-size:11px}.result-top h3{font-size:clamp(26px,2.7vw,36px);font-weight:900;letter-spacing:-.06em;line-height:1.35;margin:8px 0 11px}.result-top p{font-size:14px;line-height:1.85;color:#bec4d0;margin:0;min-height:76px}.result-scene{height:178px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 51% 75%,#73748c31,transparent 60%)}.result-scene svg{display:block;margin:0 auto;width:100%;height:100%;max-width:340px}.result-scene .scene-caption{position:absolute;bottom:6px;right:15px;font:700 10px 'DM Sans';letter-spacing:.14em;color:#abb1be}.result-bottom{padding:23px 27px 29px}.result-bottom .small-label{font-size:11px;color:#aeb7c6;letter-spacing:.1em;font-weight:800}.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:14px}.choice{background:#121722;border:1px solid #4b5160;color:#c9ced7;text-align:left;padding:12px 12px;border-radius:11px;font-size:13px;font-weight:800;min-height:55px;cursor:pointer;transition:.2s}.choice:hover{border-color:#e2e7ef;color:white;transform:translateY(-2px)}.choice.active{border-color:var(--yellow);color:var(--cream);background:#4c3d2760;box-shadow:inset 0 0 0 1px #f9c65b46}.choice small{display:block;color:#9ea7b7;font-size:10px;font-weight:600}.result-foot{margin-top:14px;color:#bfc5d0;font-size:12px}.result-foot strong{color:var(--yellow)}
-.pair-section{background:#eeeae1;color:#171b25}.pair-section .section-head p{color:#5d626a}.pair-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:19px}.pair{border-radius:19px;overflow:hidden;background:#fff;box-shadow:0 12px 40px #0c102014;border:1px solid #dfd9cb;position:relative}.pair-visual{height:226px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}.pair-visual:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#ffffff60 1px,transparent 1px);background-size:16px 16px;mask-image:linear-gradient(to bottom,black,transparent)}.pair:nth-child(1) .pair-visual{background:#46303b}.pair:nth-child(2) .pair-visual{background:#4c4035}.pair:nth-child(3) .pair-visual{background:#253f4e}.pair-visual svg{height:205px;width:240px;position:relative;z-index:1;filter:drop-shadow(0 10px 15px #0005)}.pair-number{position:absolute;z-index:2;top:14px;left:18px;color:#ffffffa6;font:800 12px 'DM Sans';letter-spacing:.15em}.pair-token{position:absolute;bottom:13px;right:16px;z-index:2;font-size:11px;color:#fff;font-weight:800;border:1px solid #ffffff55;background:#0003;padding:5px 10px;border-radius:99px}.pair-body{padding:24px 24px 28px}.pair-body .pair-kicker{font-size:12px;font-weight:800;letter-spacing:.04em;color:#636672}.pair-body h3{font-size:25px;line-height:1.3;letter-spacing:-.055em;margin:10px 0 10px;font-weight:900}.pair-body p{font-size:13px;line-height:1.83;color:#5c626e;min-height:70px;margin:0 0 16px}.missing-tag{font-size:11px;padding-top:15px;border-top:1px solid #e0ded9;font-weight:900;color:#666d77}.pair:hover{transform:translateY(-5px);box-shadow:0 25px 45px #0c102028}.pair{transition:transform .25s,box-shadow .25s}
-.cycle-section{background:var(--bg)}.cycle-rows{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.cycle-card{padding:33px 27px 28px;border:1px solid #3c4352;border-radius:18px;background:linear-gradient(160deg,#202635,#151a24);position:relative;min-height:286px}.cycle-card:before{content:"";position:absolute;top:0;left:27px;right:27px;height:3px;background:var(--tone)}.cycle-card .big-char{font-size:51px;font-weight:900;line-height:1.15;color:var(--tone)}.cycle-card .cycle-small{font-size:11px;letter-spacing:.1em;font-weight:800;color:#b9bfcb;margin:24px 0 8px}.cycle-card h3{font-size:20px;font-weight:900;margin:0 0 12px;line-height:1.55;letter-spacing:-.04em}.cycle-card p{font-size:13px;line-height:1.9;color:#abb5c4;margin:0}.cycle-card:nth-child(1){--tone:var(--red)}.cycle-card:nth-child(2){--tone:var(--yellow)}.cycle-card:nth-child(3){--tone:var(--blue)}.cycle-caption{text-align:center;color:#aeb4c3;font-weight:800;font-size:14px;margin-top:29px}.cycle-caption b{color:white}
-.emotion-section{background:#1b202c;border-top:1px solid #ffffff14;border-bottom:1px solid #ffffff14}.emotion-stage{border:1px solid #495064;border-radius:20px;background:#151924;padding:38px 37px 31px;position:relative;overflow:hidden}.emotion-stage:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,transparent 92%,#ffffff0a 92%),linear-gradient(90deg,transparent 95%,#ffffff0a 95%);background-size:50px 50px}.emotion-stage .eyebrow{color:#bdc4d2}.emotion-line{width:100%;height:auto;display:block;position:relative;overflow:visible;margin:20px 0 0}.pulse{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 3s .5s ease forwards}.emotion-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:20px;position:relative}.emotion-step{border-left:2px solid var(--tone);padding-left:14px}.emotion-step .n{color:var(--tone);font:800 12px 'DM Sans';letter-spacing:.08em}.emotion-step b{display:block;font-size:18px;margin:5px 0;font-weight:900}.emotion-step p{color:#aab4c3;font-size:12px;line-height:1.8;margin:0}.emotion-step:nth-child(1){--tone:var(--red)}.emotion-step:nth-child(2){--tone:var(--yellow)}.emotion-step:nth-child(3){--tone:var(--blue)}.emotion-step:nth-child(4){--tone:var(--red)}
-.final-section{background:var(--cream);color:#171a25;padding:112px 0}.final-quote{max-width:1000px}.final-quote .eyebrow{color:#9b5962}.final-quote blockquote{margin:16px 0 30px;font-family:'Zen Old Mincho',serif;font-weight:900;font-size:clamp(27px,4.6vw,60px);line-height:1.72;letter-spacing:-.055em}.final-quote blockquote span{display:block}.final-quote .closing{padding-top:25px;border-top:2px solid #171a25;font-size:16px;font-weight:700;max-width:690px;line-height:2}.final-quote .closing strong{font-weight:900}
-.archive-section{background:#11151e;padding:80px 0}.archive-section h2{font-size:29px;letter-spacing:-.055em;margin:8px 0 11px}.archive-intro{color:#adb5c3;font-size:13px}.archive-details{border:1px solid #444b58;border-radius:15px;margin-top:22px;overflow:hidden}.archive-details>summary{padding:20px 26px;cursor:pointer;font-weight:900;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:15px}.archive-details>summary::-webkit-details-marker{display:none}.archive-details>summary:after{content:'＋';font-size:23px;color:var(--yellow)}.archive-details[open]>summary:after{content:'−'}.archive-details>summary:hover{background:#232938}.archive-copy{padding:0 28px 38px;border-top:1px solid #444b58;font-size:14px;line-height:2;max-width:920px;margin:auto}.archive-copy section{margin-top:44px}.archive-copy section>h2{font-size:23px;margin:0 0 18px}.archive-copy .turn{margin:18px 0;padding:13px 18px;border-left:3px solid var(--red);background:#1c222e;border-radius:0 10px 10px 0}.archive-copy .turn.me{border-color:var(--yellow);background:transparent}.archive-copy .who{font:800 11px 'DM Sans';letter-spacing:.18em;color:var(--red)}.archive-copy .turn.me .who{color:var(--yellow)}.archive-copy .turn p{margin:7px 0}.archive-copy h3{font-size:16px;margin:20px 0 8px}.archive-copy .k{color:var(--red);font-weight:900}.archive-copy .p{color:var(--yellow);font-weight:900}.archive-copy .y{color:var(--blue);font-weight:900}.archive-copy .quote{text-align:center;font-family:'Zen Old Mincho';font-size:20px;font-weight:900;margin:40px 0;line-height:2}.archive-copy .aside{color:#a7adbd}.archive-copy figure{margin:30px auto;max-width:660px}.archive-copy figure svg{max-width:100%;height:auto}.archive-copy figure svg text{fill:#e2e8f0;font-family:'Noto Sans JP'}.archive-copy figure svg .sub{fill:#aab0c3}.archive-copy figure figcaption{font-size:11px;color:#aab4c3;text-align:center}.archive-copy .table-wrap{overflow-x:auto}.archive-copy table{border-collapse:collapse;min-width:530px;width:100%;font-size:12px}.archive-copy th,.archive-copy td{padding:10px;border-bottom:1px solid #404654;text-align:left}.archive-copy th{color:#adb3c1}.archive-copy td:first-child{white-space:nowrap}
-.footer{border-top:1px solid #343c4b;padding:32px 0 45px;color:#9ea7b5;font-size:11px}.footer .container{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}.footer a{text-decoration:none;color:#d1d8e2}.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}.reveal.visible{opacity:1;transform:none}
-@keyframes spin{to{transform:rotate(360deg)}}@keyframes draw{to{stroke-dashoffset:0}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.pulse{stroke-dashoffset:0}.reveal{opacity:1;transform:none}}
-@media(max-width:1000px){.container{padding-left:26px;padding-right:26px}.hero-inner{min-height:620px}.hero-art{min-height:570px}.orbit-2{right:-5%}.lab-grid{grid-template-columns:1fr;gap:15px}.triangle-board{max-width:620px}.result{max-width:630px;margin:auto;width:100%}.result-scene{height:140px}.pair-body{padding:20px}.pair-body h3{font-size:21px}.cycle-card{padding:26px 21px}}
-@media(max-width:700px){.container{padding:0 19px}.nav{height:60px}.nav-right{gap:14px}.nav-right a:first-child{display:none}.hero-inner{display:block;min-height:0}.hero-copy{padding:57px 0 12px}.hero-copy h1{font-size:clamp(43px,10vw,63px);margin:17px 0 18px}.hero-copy h1 .small{font-size:.58em}.hero-lead{font-size:15px}.hero-hint{margin-top:22px}.hero-art{min-height:420px;max-width:500px;margin:auto}.hero-aura{width:380px;height:380px;top:0;left:50%;transform:translateX(-50%)}.hero-aura:before,.hero-aura:after{animation:none}.portrait-svg{max-width:365px;transform:translateY(6px)}.orbit{font-size:14px;padding:7px 11px}.orbit-1{top:8%;left:0}.orbit-2{top:31%;right:1%}.orbit-3{bottom:10%;left:0}.hero-art-note{bottom:9px}.strip-grid{grid-template-columns:1fr}.strip-item,.strip-item:first-child{border-left:0;border-right:0;border-bottom:1px solid #cbc5bc;padding:15px 4px}.strip-item b{font-size:14px}.strip-item b span{font-size:22px}.strip-item p{margin:2px 0 0 35px}.section{padding:72px 0}.section-head{margin-bottom:27px}.section-head h2{font-size:30px}.section-head>p{font-size:13px}.triangle-board{max-width:550px}.tri-node{width:77px;height:77px;box-shadow:0 0 0 6px #151923,0 10px 25px #05080f88}.tri-node .node-icon{font-size:15px}.tri-node .node-title{font-size:14px}.tri-node .node-en{font-size:7px}.tri-center .center-small{font-size:8px}.tri-center .center-title{font-size:clamp(13px,4vw,21px);margin:8px 0}.tri-center .center-sub{font-size:9px}.board-note{bottom:-15px;font-size:10px}.result-top{padding:22px 20px}.result-top h3{font-size:27px}.result-top p{min-height:0}.result-bottom{padding:22px 20px}.pair-grid,.cycle-rows{grid-template-columns:1fr}.pair{display:grid;grid-template-columns:41% 59%}.pair-visual{height:100%;min-height:245px}.pair-visual svg{width:100%;height:200px}.pair-body{padding:24px 17px}.pair-body .pair-kicker{font-size:10px}.pair-body p{font-size:12px;min-height:0}.pair-body h3{font-size:20px}.pair-token{font-size:9px;right:8px;bottom:10px}.cycle-card{min-height:0}.cycle-card .big-char{font-size:40px}.cycle-card .cycle-small{margin-top:12px}.emotion-stage{padding:23px 17px}.emotion-line{margin-top:10px}.emotion-steps{grid-template-columns:repeat(2,1fr);gap:26px 14px}.emotion-step b{font-size:15px}.final-section{padding:79px 0}.final-quote blockquote{font-size:clamp(25px,6.5vw,44px);line-height:1.8}.final-quote .closing{font-size:14px}.archive-section{padding:70px 0}.archive-copy{padding:5px 18px 26px}.archive-copy .quote{font-size:16px}.archive-copy section>h2{font-size:19px}}
-@media(max-width:390px){.tri-node{width:66px;height:66px}.tri-node .node-title{font-size:12px}.tri-node .node-en{font-size:6px}.tri-node .node-icon{font-size:14px}.pair{grid-template-columns:37% 63%}.pair-body{padding:20px 13px}.pair-body h3{font-size:18px}.pair-visual svg{min-width:155px}.mini-traits span{padding:4px 10px;font-size:11px}}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>カスでポンコツで有能なキャラは、なぜ刺さるのか — 図解版</title>
+  <meta name="description" content="人間性がカスでポンコツなのに有能なキャラに惹かれる理由を、3つの要素が生む感情と三すくみの構造から図解したノート。">
+  <style>
+    :root{--bg:#0d0e15;--panel:#14161f;--panel2:#1a1d28;--ink:#eeedf3;--soft:#b6b3c4;--muted:#8d89a0;--stroke:#30334a;--acid:#ecc0ef;--mint:#8fd9c4;--gold:#ffc887;--rose:#fa9b9d;--kasu:#ff7285;--pon:#f9c65b;--yu:#75c6fb;--aside:260px}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:28px}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;line-height:1.85;font-size:15px}
+    ::selection{background:var(--acid);color:#17200c}
+    a{color:inherit;text-decoration:none}
+    button,input,textarea{font:inherit}
+    button{cursor:pointer}
+    :focus-visible{outline:2px solid var(--acid);outline-offset:3px}
+    .progress{position:fixed;top:0;left:0;z-index:100;height:3px;width:0;background:var(--acid);transition:width .12s}
+    .sidebar{position:fixed;inset:0 auto 0 0;width:var(--aside);border-right:1px solid #263338;background:#0c1318;display:flex;flex-direction:column;padding:31px 24px;z-index:20}
+    .brand{display:flex;align-items:center;gap:11px;line-height:1.3}
+    .mark{width:38px;height:38px;display:grid;place-items:center;border:1px solid #718b66;border-radius:11px;color:var(--acid);font-size:21px;font-weight:800;transform:rotate(-7deg)}
+    .brand b{font-size:14px;letter-spacing:.07em}.brand small{display:block;font-size:10px;letter-spacing:.14em;color:var(--muted);margin-top:4px}
+    .sidecap{font-size:10px;letter-spacing:.2em;color:var(--muted);margin:40px 0 10px}
+    .sidebar nav{display:grid;gap:3px}
+    .sidebar nav a{font-size:12px;padding:9px 10px;border-radius:8px;color:#9eafa8;line-height:1.5;transition:background .2s,color .2s}
+    .sidebar nav a:hover,.sidebar nav a.active{color:var(--acid);background:#1a292b}
+    .num{display:inline-block;width:26px;font-family:ui-monospace,monospace;font-size:10px;opacity:.58}
+    .sideend{margin-top:auto;border-top:1px solid var(--stroke);padding-top:17px;font-size:11px;line-height:1.8;color:var(--muted)}
+    .sideend strong{color:var(--ink);font-weight:500}
+    .layout{margin-left:var(--aside)}
+    .main{max-width:1160px;margin:auto;padding:0 68px 130px}
+    .hero{position:relative;overflow:hidden;padding:83px 0 67px;border-bottom:1px solid var(--stroke)}
+    .hero::after{content:"?";font-size:490px;line-height:1;position:absolute;right:-5px;top:-135px;color:#1b2726;font-family:Georgia,serif;transform:rotate(13deg);z-index:-1}
+    .eyebrow{color:var(--acid);letter-spacing:.22em;font:600 11px ui-monospace,SFMono-Regular,Consolas,monospace;text-transform:uppercase}
+    .hero h1{font-size:clamp(40px,5.2vw,76px);line-height:1.23;letter-spacing:-.055em;margin:27px 0;max-width:860px;font-weight:800}
+    .hero h1 em{font-style:normal;color:var(--acid)}
+    .lead{font-size:17px;color:#b8c6bd;max-width:720px;line-height:2}
+    .herofoot{display:flex;gap:25px;flex-wrap:wrap;color:var(--muted);font:11px ui-monospace,monospace;margin-top:44px}
+    .herofoot span{border-left:2px solid #465448;padding-left:12px}
+    section{padding:82px 0 6px;scroll-margin-top:14px}
+    section + section{border-top:1px solid #2c373c;margin-top:70px}
+    .section-top{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+    .secno{color:var(--acid);font:12px ui-monospace,monospace;letter-spacing:.08em}
+    .line{height:1px;flex:1;background:var(--stroke)}
+    h2{font-size:clamp(27px,3.1vw,43px);line-height:1.35;letter-spacing:-.04em;margin:0 0 21px;font-weight:790}
+    h3{font-size:18px;line-height:1.5;margin:0 0 10px}
+    p{margin:0 0 17px}.section-intro{font-size:16px;color:var(--soft);max-width:790px;margin-bottom:31px}
+    strong{color:#f1f8ed} .accent{color:var(--acid)}
+    .quote{border-left:3px solid var(--acid);padding:6px 0 6px 25px;margin:34px 0;font-size:clamp(20px,2.7vw,29px);line-height:1.65;letter-spacing:-.025em;font-weight:700}
+    .note{color:var(--muted);font-size:12px;line-height:1.8}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .card{border:1px solid var(--stroke);border-radius:14px;background:var(--panel);padding:25px;min-width:0}
+    .card small{font:600 10px ui-monospace,monospace;letter-spacing:.12em;color:var(--mint)}
+    .card h3{margin:8px 0 9px}.card p{font-size:13px;color:var(--soft);line-height:1.9;margin:0}
+    .ingredients{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-top:23px}
+    .ingredient{background:#172026;border:1px solid #31403e;border-radius:11px;padding:18px 13px}
+    .ingredient .index{font:11px ui-monospace,monospace;color:var(--acid)}
+    .ingredient b{display:block;font-size:13px;margin:14px 0 8px;line-height:1.55}.ingredient p{color:var(--muted);font-size:11px;margin:0;line-height:1.8}
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+    .compare>.card{padding:28px}
+    .compare .kicker{font:700 11px ui-monospace,monospace;letter-spacing:.12em;display:flex;align-items:center;gap:7px;margin-bottom:18px}
+    .bad .kicker{color:var(--rose)}.good .kicker{color:var(--mint)}
+    .miniopts{display:flex;gap:8px;margin:22px 0}
+    .miniopts span{padding:13px 7px;flex:1;text-align:center;border:1px solid #425058;border-radius:9px;font-size:12px;color:#d8e0dc}
+    .miniopts b{display:block;font-size:20px;letter-spacing:-.04em;margin-top:3px}
+    .goodline{display:block;padding:11px 14px;margin:7px 0;border:1px solid #3a4b4c;border-radius:8px;background:#1b272c;font-size:12px}
+    .goodline b{color:var(--acid)}
+    .pattern-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+    .pattern{background:#111b20;border:1px solid var(--stroke);border-radius:13px;padding:21px;min-height:210px}
+    .pattern .glyph{font-size:28px;line-height:1;margin-bottom:14px;display:block}
+    .pattern b{display:block;font-size:15px;margin-bottom:7px}.pattern p{font-size:12px;color:var(--soft);margin-bottom:9px;line-height:1.75}.pattern small{font-size:11px;color:var(--mint)}
+    .scenario{border:1px solid #496052;border-radius:16px;background:linear-gradient(145deg,#1c2a2a,#151d24 70%);padding:28px;margin-top:28px}
+    .scenario-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:22px}
+    .scenario h3{font-size:20px;margin:5px 0 5px}.stat{display:inline-flex;gap:9px;align-items:center;color:var(--acid);font:600 12px ui-monospace,monospace}
+    .scenario-desc{font-size:13px;color:var(--soft);line-height:1.85}
+    .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:19px 0 15px}
+    .choice{border-radius:10px;background:#111a20;color:var(--ink);border:1px solid #455456;text-align:left;padding:15px;min-height:104px;transition:background .15s,border .15s,transform .15s}
+    .choice:hover{transform:translateY(-2px);border-color:var(--acid)}
+    .choice.selected{border-color:var(--acid);background:#26392f;box-shadow:inset 0 0 0 1px var(--acid)}
+    .choice b{display:block;font-size:14px;margin-bottom:5px}.choice span{display:block;font-size:11px;color:var(--soft)}
+    .result{border-top:1px solid #45534b;padding-top:17px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .result em{display:block;font-style:normal;font:700 10px ui-monospace,monospace;letter-spacing:.12em;margin-bottom:5px}
+    .result .benefit em{color:var(--mint)}.result .cost em{color:var(--rose)}
+    .result p{font-size:13px;margin:0;color:#d9e4db}
+    .spectrum{border:1px solid var(--stroke);border-radius:14px;padding:27px;background:#131b21;margin-top:24px}
+    .spectrum-head{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:21px}
+    .spectrum-head span{font-size:12px;color:#a0aaa4}.spectrum-head span:nth-child(2){text-align:center;color:var(--acid)}.spectrum-head span:last-child{text-align:right}
+    input[type=range]{width:100%;accent-color:var(--acid)}
+    .spectrum-out{margin-top:20px;background:#1d292a;border:1px solid #354c45;border-radius:10px;padding:16px;font-size:13px;min-height:96px}
+    .spectrum-out strong{color:var(--acid)}.spectrum-out p{font-size:12px;color:var(--soft);margin:5px 0 0}
+    .chain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:24px 0}
+    .chain .step{position:relative;background:#182229;border-radius:10px;border:1px solid #344249;padding:20px 17px;min-height:175px}
+    .chain .step:not(:last-child)::after{content:"→";position:absolute;right:-15px;top:50%;z-index:2;color:var(--acid);font-size:18px}
+    .chain .step small{font:11px ui-monospace,monospace;color:var(--acid)}
+    .chain .step b{display:block;line-height:1.55;margin:13px 0 8px;font-size:13px}.chain .step p{font-size:11px;color:var(--soft);margin:0}
+    .warnings{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .warning{padding:20px;border-left:2px solid var(--rose);background:#201c22;border-radius:0 9px 9px 0}
+    .warning h3{font-size:14px;margin:0 0 6px}.warning p{font-size:12px;color:var(--soft);margin:0}
+    .checkboard{background:var(--panel);border:1px solid var(--stroke);border-radius:14px;overflow:hidden}
+    .check-head{padding:22px 25px;display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--stroke)}
+    .check-head h3{margin:0}.check-total{font:700 17px ui-monospace,monospace;color:var(--acid)}
+    .checkitem{padding:15px 25px;border-top:1px solid #29343a;display:flex;gap:14px;align-items:start;cursor:pointer}
+    .checkitem:first-child{border-top:0}.checkitem:hover{background:#1a2429}
+    .checkitem input{accent-color:var(--acid);width:18px;height:18px;margin:5px 0 0;flex:none;cursor:pointer}
+    .checkitem b{display:block;font-size:13px}.checkitem small{display:block;color:var(--muted);font-size:11px;line-height:1.85;margin-top:4px}
+    .check-feedback{border-top:1px solid var(--stroke);padding:16px 25px;background:#1d2928;font-size:12px;color:#c3dbc8}
+    .workshop{background:#151f23;border:1px solid #465952;border-radius:16px;padding:29px;margin-top:27px}
+    .fields{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .field{display:flex;flex-direction:column;gap:7px;min-width:0}
+    .field.wide{grid-column:1/-1}
+    .field label{font-size:13px;font-weight:700}
+    .field label span{color:var(--acid);font:11px ui-monospace,monospace;margin-right:8px}
+    .field .hint{color:var(--muted);font-size:11px;line-height:1.6}
+    textarea{resize:vertical;width:100%;border:1px solid #405254;border-radius:9px;background:#0c151a;color:var(--ink);padding:13px 14px;min-height:100px;line-height:1.75;outline:none;font-size:13px}
+    textarea:focus{border-color:var(--acid)}textarea::placeholder{color:#687c78}
+    .actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:22px}
+    .btn{background:var(--acid);color:#17200c;border:1px solid var(--acid);padding:11px 17px;border-radius:8px;font-size:12px;font-weight:800;transition:transform .15s}
+    .btn:hover{transform:translateY(-2px)}.btn.ghost{background:transparent;color:#cdd7d0;border-color:#52625d}
+    .save-state{font-size:11px;color:var(--muted);margin-left:auto}
+    .questions{counter-reset:question;display:grid;gap:11px}
+    .question{border:1px solid var(--stroke);border-radius:10px;padding:18px 19px;background:#121b1f}
+    .question::before{counter-increment:question;content:counter(question,decimal-leading-zero);font:11px ui-monospace,monospace;color:var(--acid);margin-right:12px}
+    .question strong{font-size:14px}.question p{font-size:12px;color:var(--muted);margin:7px 0 0 32px}
+    .ending{border:1px solid #4f6644;border-radius:13px;padding:28px;background:linear-gradient(130deg,#1f3229,#141d22);margin-top:33px}
+    .ending p{font-size:20px;font-weight:700;line-height:1.8;margin:0}.ending small{color:var(--soft);font-size:12px}
+    footer{padding:48px 0;color:var(--muted);font-size:11px;border-top:1px solid var(--stroke);margin-top:84px}
+    .mobilebar{display:none}
+    @media(max-width:1080px){:root{--aside:218px}.sidebar{padding:25px 15px}.main{padding:0 35px 90px}.ingredients{grid-template-columns:repeat(3,1fr)}.pattern-grid{grid-template-columns:repeat(2,1fr)}.chain{grid-template-columns:repeat(2,1fr)}.chain .step:nth-child(2)::after{display:none}}
+    @media(max-width:720px){.sidebar{display:none}.layout{margin-left:0}.main{padding:0 19px 70px}.mobilebar{display:flex;position:sticky;top:0;z-index:30;background:#0b1316ed;backdrop-filter:blur(10px);border-bottom:1px solid #2b3c3a;justify-content:space-between;align-items:center;padding:12px 19px;font-size:12px}.mobilebar b{letter-spacing:.02em}.mobilebar a{color:var(--acid);font-size:12px}.hero{padding:63px 0 49px}.hero h1{font-size:42px}.hero::after{font-size:360px;right:-40px;top:-75px}.lead{font-size:14px}.herofoot{gap:12px}.herofoot span{font-size:10px}section{padding-top:60px}section+section{margin-top:55px}.grid,.compare,.warnings,.fields,.result{grid-template-columns:1fr}.pattern-grid{grid-template-columns:1fr 1fr}.ingredients{grid-template-columns:repeat(2,1fr)}.choices{grid-template-columns:1fr}.choice{min-height:auto}.scenario{padding:20px}.scenario-head{flex-direction:column}.chain{grid-template-columns:1fr 1fr}.workshop{padding:19px}.save-state{margin-left:0;width:100%}.ending p{font-size:17px}}
+    @media(max-width:420px){.hero h1{font-size:36px}.pattern-grid,.chain{grid-template-columns:1fr}.chain .step:not(:last-child)::after{content:"↓";right:50%;top:auto;bottom:-20px}.ingredient{padding:15px 10px}.spectrum-head span{font-size:10px}.miniopts{flex-wrap:wrap}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+    @media print{html,body{background:#fff;color:#111;font-size:12px}.sidebar,.mobilebar,.progress,.actions,.save-state{display:none!important}.layout{margin:0}.main{max-width:none;padding:0 12px}.hero{padding:12px 0}.hero::after{display:none}h1,h2,h3,.quote,.card h3,.ingredient b,.pattern b,.step b,.warning h3,.checkitem b,.ending p{color:#111!important}p,.section-intro,.lead,.card p,.pattern p,.step p,.note,.warning p,.question p,.field .hint{color:#424242!important}.card,.ingredient,.pattern,.scenario,.spectrum,.spectrum-out,.step,.warning,.checkboard,.workshop,.question,.ending,.choice{background:#fff!important;color:#111!important;border-color:#b8b8b8!important;box-shadow:none!important}section{padding-top:32px;break-inside:auto}section+section{margin-top:18px}h2,h3,.card,.pattern,.ingredient,.step,.field,.checkitem,.question{break-inside:avoid}textarea{background:#fff;color:#111;border:1px solid #bbb;min-height:80px}.eyebrow,.secno,.index,.stat{color:#477632!important}}
 
-/* 05 / emotional oscillation -> devoted attachment */
-.obsession-section{position:relative;background:radial-gradient(ellipse at 20% 30%,#3b234450,transparent 48%),linear-gradient(155deg,#161725,#111522 70%);border-bottom:1px solid #484252;overflow:hidden}
-.obsession-section:before{content:"";pointer-events:none;position:absolute;inset:0;opacity:.17;background-image:radial-gradient(#bcb7cd 1px,transparent 1px);background-size:26px 26px;mask-image:linear-gradient(115deg,#000,transparent 65%)}
-.obsession-section .section-head .eyebrow{color:#eb9cd6}.obsession-section .section-head>p{max-width:810px}
-.obsession-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:center}
-.obsession-orbit{position:relative;min-height:540px;isolation:isolate}
-.obsession-orbit:before{content:"";position:absolute;left:50%;top:50%;width:64%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,#3b2949cc,#22243866 55%,transparent 69%);filter:blur(20px)}
-.obsession-orbit .orbit-diagram{position:absolute;width:min(100%,520px);height:auto;aspect-ratio:1;left:50%;top:50%;transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
-.obsession-orbit .orbit-grid{fill:none;stroke:#ffffff12;stroke-width:1;stroke-dasharray:3 7}
-.obsession-orbit .orbit-arc{fill:none;stroke-width:5;stroke-linecap:round;opacity:.8}
-.obsession-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:230px;height:230px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;border-radius:50%;background:radial-gradient(circle at 35% 30%,#34384b,#1e202f 70%);border:1px solid #ffffff45;box-shadow:0 0 0 13px #ffffff08,0 15px 65px #0008;padding:27px;z-index:1}
-.obsession-core .core-kicker{font:800 10px 'DM Sans',sans-serif;letter-spacing:.15em;color:#cba9d3}.obsession-core strong{display:block;font-size:clamp(19px,2.1vw,26px);letter-spacing:-.06em;line-height:1.45;margin:12px 0;color:#fff}.obsession-core small{font-size:11px;line-height:1.5;color:#bec1d0}
-.obsession-step{--tone:#eb9cd6;position:absolute;z-index:2;width:124px;min-height:86px;border:1px solid color-mix(in srgb,var(--tone) 70%,#242433);background:#1c1e2e;color:#fff;border-radius:18px;cursor:pointer;padding:12px 9px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 15px 33px #08080e77;transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
-.obsession-step small{display:block;color:var(--tone);font:800 10px 'DM Sans',sans-serif;letter-spacing:.1em}.obsession-step b{font-size:16px;font-weight:900;line-height:1.5}.obsession-step.active{background:#2c2b3d;box-shadow:0 0 0 3px var(--tone),0 0 40px color-mix(in srgb,var(--tone) 28%,transparent);transform:var(--loc-transform) scale(1.07)}
-.obsession-step:hover{background:#303143}.obsession-step.s1{--tone:var(--red);top:1%;left:50%;--loc-transform:translateX(-50%);transform:var(--loc-transform)}.obsession-step.s2{--tone:var(--yellow);top:50%;right:0;--loc-transform:translateY(-50%);transform:var(--loc-transform)}.obsession-step.s3{--tone:var(--blue);bottom:1%;left:50%;--loc-transform:translateX(-50%);transform:var(--loc-transform)}.obsession-step.s4{--tone:#d3a1e8;top:50%;left:0;--loc-transform:translateY(-50%);transform:var(--loc-transform)}
-.obsession-right{position:relative}.obsession-label{font:800 11px 'DM Sans',sans-serif;letter-spacing:.14em;color:#dba8e5}.obsession-right h3{font-family:'Zen Old Mincho',serif;font-size:clamp(29px,3vw,40px);line-height:1.55;letter-spacing:-.04em;margin:11px 0 20px}.obsession-right h3 em{color:#e6b1ec;font-style:normal}.obsession-right h3{text-wrap:balance}
-.obsession-focus{background:linear-gradient(125deg,#292b42,#1d2132);border:1px solid #66607d;border-radius:18px;padding:24px 25px;margin:28px 0 24px;min-height:163px}.obsession-focus>span{font:800 11px 'DM Sans',sans-serif;letter-spacing:.12em;color:#dba8e5}.obsession-focus h4{font-size:20px;margin:9px 0 8px;line-height:1.5}.obsession-focus p{margin:0;font-size:13px;line-height:1.85;color:#c7c4d2}
-.obsession-chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:22px 0}.obsession-chain span{border:1px solid #565163;color:#ded8e6;background:#ffffff08;border-radius:8px;padding:7px 11px;font-size:12px;font-weight:800}.obsession-chain i{font-style:normal;font-size:17px;color:#bb91c5}
-.obsession-thesis{padding:17px 19px;border-left:3px solid #e6a7d9;background:#ffffff09;border-radius:0 12px 12px 0;font-size:14px;line-height:2;color:#e9e4ed}.obsession-thesis b{color:#ffcaef}.obsession-caveat{font-size:11px;color:#a9a6b8;line-height:1.85;margin-top:24px}
-@media(max-width:1000px){.obsession-grid{grid-template-columns:1fr;gap:12px}.obsession-orbit{min-height:520px;max-width:560px;width:100%;margin:auto}.obsession-right{max-width:710px;margin:auto;width:100%}.obsession-right h3{font-size:34px}}
-@media(max-width:700px){.obsession-orbit{min-height:360px;max-width:380px}.obsession-orbit .orbit-diagram{width:95%}.obsession-core{width:168px;height:168px;padding:16px;box-shadow:0 0 0 7px #ffffff08,0 15px 45px #0008}.obsession-core .core-kicker{font-size:8px}.obsession-core strong{font-size:18px;margin:7px 0}.obsession-core small{font-size:9px}.obsession-step{width:85px;min-height:61px;padding:7px 3px;border-radius:12px}.obsession-step small{font-size:8px}.obsession-step b{font-size:12px}.obsession-step.s1{top:0}.obsession-step.s3{bottom:0}.obsession-right h3{font-size:26px}.obsession-focus{padding:20px;min-height:172px}.obsession-chain span{font-size:10px;padding:6px 7px}.obsession-chain i{font-size:12px}.obsession-thesis{font-size:13px}.nav-right a:nth-child(2){display:none}}
-@media(max-width:390px){.obsession-orbit{min-height:320px}.obsession-core{width:154px;height:154px}.obsession-core strong{font-size:16px}.obsession-step{width:78px;min-height:57px}.obsession-step b{font-size:11px}}
+    /* ILLUSTRATED EDITION: reusable vector scenes and visual explanations */
+    .hero{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(350px,.98fr);align-items:center;gap:18px;padding:75px 0 62px}
+    .hero::after{display:none}
+    .hero h1{font-size:clamp(38px,4.35vw,66px);margin:22px 0 24px}
+    .hero .lead{font-size:15px;line-height:2}
+    .herofoot{gap:12px 15px;margin-top:28px;line-height:1.5}
+    .hero-visual{min-width:0;margin-left:0}
+    .hero-svg{display:block;width:100%;max-height:410px;filter:drop-shadow(0 20px 37px #0003)}
+    .hero-visual-caption{font-size:11px;color:var(--soft);text-align:center;margin-top:6px}
+    .legend-dot{display:inline-block;width:7px;height:7px;background:var(--acid);border-radius:50%;margin-right:6px}
+    .anatomy-figure{margin:32px 0 25px;border:1px solid #476253;background:linear-gradient(145deg,#1a2929,#121d24);border-radius:17px;padding:23px 22px}
+    .anatomy-header{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:16px}
+    .anatomy-header strong{font-size:13px;color:#d9ecdd}
+    .anatomy-flow{display:grid;grid-template-columns:1fr 22px 1fr 22px 1fr;gap:9px;align-items:center}
+    .anatomy-part{text-align:center;border-radius:12px;background:#0e1c22;padding:14px 10px 15px;min-height:235px;display:flex;flex-direction:column;align-items:center}
+    .anatomy-image{height:99px;width:142px;max-width:100%}
+    .anatomy-image svg{height:100%;width:100%}
+    .anatomy-part small{display:block;color:var(--mint);font:700 10px ui-monospace,monospace;letter-spacing:.04em}
+    .anatomy-part b{font-size:14px;margin-top:8px}
+    .anatomy-part p{color:var(--soft);font-size:11px;margin:4px 0 0;line-height:1.6}
+    .anatomy-arrow{font-size:22px;color:var(--acid);text-align:center}
+    .anatomy-figure figcaption{font-size:12px;color:var(--soft);margin-top:14px;text-align:center}
+    .compare-picture{display:block;width:100%;height:auto;margin:14px 0 16px;border-radius:13px}
+    .compare .card h3{margin-bottom:0}
+    .scenario-visual{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:center;gap:22px;background:#0e1d23;border:1px solid #3f5650;border-radius:13px;padding:13px;margin:9px 0 18px}
+    .scenario-picture{display:block;width:100%;border-radius:12px}
+    .scenario-picture [data-scene]{opacity:0;visibility:hidden;transition:opacity .25s}
+    .scenario-picture [data-scene].active{opacity:1;visibility:visible}
+    .scenario-readout{padding:4px 7px 4px 0}
+    .scenario-readout small{color:var(--mint);font:700 10px ui-monospace,monospace;letter-spacing:.08em}
+    .scenario-readout strong{display:block;font-size:17px;margin:6px 0;color:var(--ink)}
+    .scenario-readout>p{font-size:12px;color:var(--soft);margin:0 0 10px}
+    .choice-meters{display:grid;gap:7px}
+    .choice-meters>div{display:grid;grid-template-columns:95px 1fr;gap:8px;align-items:center}
+    .choice-meters span{color:var(--soft);font-size:10px}
+    .meter{height:8px;background:#27383b;border-radius:10px;overflow:hidden}
+    .meter i{height:100%;display:block;border-radius:10px;transition:width .25s}
+    .scenario-readout .note{font-size:10px;margin-top:12px;line-height:1.6}
+    .pattern{display:flex;flex-direction:column;min-height:275px}
+    .pattern-illus{display:block;width:136px;max-width:100%;height:97px;margin:0 0 10px;filter:drop-shadow(0 4px 10px #0003)}
+    .pattern p{flex:1}
+    .chest-experiment{padding:19px 0 8px}
+    .chest-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+    .chest-state{font-size:11px;color:#bfebcd;background:#223931;padding:5px 11px;border-radius:50px}
+    .chest-cards{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .chest-card{min-width:0;background:#0c181d;border:1px solid #4a5042;border-radius:13px;padding:13px;display:flex;flex-direction:column;align-items:center;text-align:center}
+    .chest-card.risk-chest{border-color:#5c4b64}
+    .chest-art{height:122px;max-width:190px;width:100%}
+    .chest-art svg{width:100%;height:100%;display:block;filter:drop-shadow(0 5px 8px #0003)}
+    .chest-card>b{font-size:13px;line-height:1.3}
+    .chest-claim{font-size:15px;color:var(--gold);margin:6px 0 5px;min-height:27px}
+    .risk-chest .chest-claim{color:var(--mint)}
+    .chest-card p{font-size:11px;color:var(--soft);margin:0;min-height:39px}
+    .fog-line{margin-top:13px;background:#182b2b;border-radius:9px;padding:10px 13px;font-size:12px;color:#cce6d4;display:flex;gap:10px;align-items:center}
+    .fog-light{color:var(--acid);font-size:19px}
+    .chest-experiment[data-level="low"] .chest-cards{filter:saturate(.5)}
+    .chest-experiment[data-level="low"] .chest-art{opacity:.7}
+    .chest-experiment[data-level="high"] .risk-chest{border-color:var(--rose)}
+    .chest-experiment[data-level="high"] .risk-chest .chest-claim{color:var(--rose)}
+    .chain .step{min-height:256px;display:flex;flex-direction:column;align-items:flex-start}
+    .step-illus{width:100%;height:91px;max-width:160px;display:block;margin:0 0 9px}
+    .chain .step small{margin-top:3px}
+    .chain .step b{margin:9px 0}
+    .final-illustration{background:#152321;border:1px solid #405f4e;border-radius:12px;margin:24px 0 15px;overflow:hidden}
+    .final-illustration svg{display:block;width:100%;height:auto;max-height:122px}
+    @media(max-width:1280px){.hero{grid-template-columns:minmax(0,1fr) minmax(280px,.88fr)}.hero h1{font-size:clamp(37px,4.3vw,60px)}.herofoot{font-size:9px}}
+    @media(max-width:980px){.hero{grid-template-columns:1fr}.hero-visual{width:min(560px,100%);margin:8px auto 0}.hero h1{font-size:clamp(45px,6vw,68px)}.hero .lead{max-width:760px}.herofoot{font-size:11px}.anatomy-part{min-height:251px}}
+    @media(max-width:720px){.hero{gap:3px}.hero h1{font-size:clamp(38px,8vw,56px)}.hero .lead{font-size:14px}.hero-visual{max-width:490px}.anatomy-figure{padding:16px 13px}.anatomy-header{flex-direction:column;align-items:start;gap:4px}.anatomy-flow{grid-template-columns:1fr;gap:4px}.anatomy-part{min-height:0;padding:10px 12px;display:grid;grid-template-columns:106px 1fr;grid-template-rows:auto auto auto;text-align:left;column-gap:13px;align-items:center}.anatomy-image{grid-row:1/4;width:106px;height:80px}.anatomy-part b{font-size:13px;margin:2px 0}.anatomy-part p{font-size:11px}.anatomy-arrow{transform:rotate(90deg);height:26px}.scenario-visual{grid-template-columns:1fr;gap:5px}.scenario-readout{padding:4px 5px 7px}.pattern{min-height:273px}.pattern-illus{height:76px}.chest-claim{font-size:12px}.chest-cards{gap:7px}.chest-card{padding:11px 6px}.chest-art{height:102px}.chest-header .eyebrow{font-size:9px}}
+    @media(max-width:420px){.hero-visual-caption{font-size:10px}.anatomy-part{grid-template-columns:85px 1fr}.anatomy-image{width:85px;height:70px}.chest-card p{font-size:10px}.chain .step{min-height:245px}.pattern{min-height:0}.pattern-illus{height:90px}.final-illustration svg{min-height:73px}}
+    @media(prefers-reduced-motion:reduce){.scenario-picture [data-scene],.meter i{transition:none}}
+    @media print{.hero{grid-template-columns:1fr 290px;gap:12px}.hero h1{font-size:40px}.hero-visual-caption{color:#444}.hero-svg{max-height:270px}.anatomy-figure,.anatomy-part,.chest-experiment,.chest-card,.scenario-visual,.final-illustration{background:white!important;border-color:#bbb!important;color:#111!important}.anatomy-part p,.scenario-readout p,.chest-card p{color:#444!important}.scenario-picture{max-width:270px}.scenario-visual{grid-template-columns:1fr 1fr}.pattern-illus{filter:none}}
 
+  
 /* 読み物版 ↔ 図解版の切り替え */
-.nav-right .vs{display:inline-flex;gap:2px;padding:3px;border:1px solid #ffffff2e;border-radius:999px;background:#ffffff0a;letter-spacing:.05em;line-height:1}
-.nav-right .vs a{display:inline-block!important;padding:7px 13px;border-radius:999px;color:#e9e9ed;opacity:.72;text-decoration:none}
-.nav-right .vs a:hover{opacity:1}
-.nav-right .vs a[aria-current="page"]{background:var(--cream);color:var(--bg);opacity:1}
-@media(max-width:700px){.nav-right>a{display:none}}
-</style>
+  .sidebar{top:var(--tb-h)}
+  /* KASU / PONKOTSU / YUNOU: 見本の部品に、3要素の色と固有の図を足す */
+  ::selection{color:#2a1d2e}
+  .k{color:var(--kasu)}.p{color:var(--pon)}.y{color:var(--yu)}
+  strong{color:#f6eef8}
+  .sidebar{background:#0d0f17;border-right-color:#262a36}
+  .sidebar nav a{color:#a9a5ba}
+  .sidebar nav a:hover,.sidebar nav a.active{background:#251f2d}
+  .mark{border-color:#8a6f8f;font-size:17px;letter-spacing:-.04em}
+  section + section{border-top-color:#2a2d3c}
+  .hero h1 .y{color:var(--yu)}
+  .ingredient{background:#171922;border-color:#33354a}
+  .ingredients.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .ingredient p{font-size:12px}
+  .anatomy-figure{border-color:#4f4560;background:linear-gradient(145deg,#1e1a29,#121722)}
+  .anatomy-part{background:#10131c}
+  .anatomy-part small.k{color:var(--kasu)}.anatomy-part small.p{color:var(--pon)}.anatomy-part small.y{color:var(--yu)}
+  .scenario{border-color:#55496a;background:linear-gradient(145deg,#211c2b,#151923 70%)}
+  .scenario-visual{background:#11141e;border-color:#3f3a52}
+  .scenario-readout small{color:var(--acid)}
+  .choices.four{grid-template-columns:repeat(4,1fr)}
+  .choice{background:#12141d;border-color:#46445a;min-height:84px}
+  .choice.selected{background:#2b2234}
+  .meter{background:#2a2b3b}
+  .result{border-top-color:#47425a}
+  .tri [data-v],.tri [data-e],.tri .elabel{transition:opacity .25s,stroke .25s,fill .25s}
+  .tri .off{opacity:.14}
+  .tri [data-e].on{stroke:var(--acid);stroke-width:5}
+  .tri .elabel{fill:#8f8aa6;font-size:13px;font-weight:700}
+  .tri .elabel.on{fill:#f3dcf5;font-size:14px}
+  .pattern{background:#12141d}
+  .pattern .pair-token{font:700 11px ui-monospace,monospace;letter-spacing:.06em;color:var(--acid);margin-bottom:6px}
+  .pattern small{color:var(--soft)}
+  .cycle-figure{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:20px;align-items:center;margin:8px 0 6px}
+  .cycle-figure svg{display:block;width:100%;height:auto}
+  .cycle-list{display:grid;gap:10px}
+  .cycle-list .card{padding:17px 20px;border-left-width:3px}
+  .cycle-list .ck{border-left-color:var(--kasu)}.cycle-list .cp{border-left-color:var(--pon)}.cycle-list .cy{border-left-color:var(--yu)}
+  .cycle-list .card small{color:var(--muted)}
+  .cycle-list .card h3{font-size:15px}
+  .emotion-figure{margin:28px 0 6px;border:1px solid #3f3a52;border-radius:17px;background:linear-gradient(145deg,#1b1826,#121722);padding:21px 22px 12px}
+  .emotion-figure svg{display:block;width:100%;height:auto}
+  .chain .step{min-height:0;background:#161822;border-color:#34364a}
+  .card{background:var(--panel)}
+  .card small{color:var(--acid)}
+  .loop [data-dot] circle{fill:#1a1d28;stroke-width:3;transition:fill .2s}
+  .loop [data-dot].active circle{fill:#3a2c40;stroke-width:5}
+  .flowline{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:10px;font-size:11px}
+  .flowline span{border:1px solid #4a4560;border-radius:999px;padding:4px 10px;color:#e1d6e8}
+  .flowline i{font-style:normal;color:var(--acid)}
+  .checkitem:hover{background:#1b1d27}
+  .check-feedback{background:#211d2a;color:#e1d2e8}
+  .ending{border-color:#6a4f6b;background:linear-gradient(130deg,#2b1f30,#141822)}
+  @media(max-width:980px){.cycle-figure{grid-template-columns:1fr}.cycle-figure svg{max-width:400px;margin:0 auto}}
+  @media(max-width:720px){.choices.four{grid-template-columns:1fr 1fr}.ingredients.three,.pattern-grid.three{grid-template-columns:1fr}.emotion-figure{padding:15px 12px 8px}}
+  @media print{.ingredient,.pattern,.cycle-list .card,.emotion-figure,.scenario,.scenario-visual{background:white!important;border-color:#bbb!important}}
+  </style>
+  <link rel="stylesheet" href="../talkbar.css">
 </head>
 <body>
-<header class="nav container" id="top"><a href="../../" class="brand">disco<span>Neko</span> works</a><nav class="nav-right" aria-label="ページ内ナビゲーション"><a href="#lab">相関図</a><a href="#types">組み合わせ</a><a href="#obsession">執着の仕組み</a><span class="vs" role="group" aria-label="表示の切り替え"><a href="./">読み物版</a><a aria-current="page">図解版</a></span></nav></header>
-<main>
-<section class="hero" aria-labelledby="main-title"><div class="container hero-inner">
-  <div class="hero-copy"><div class="section-tag">CHARACTER STUDY / 001</div>
-    <h1 id="main-title"><span class="line red">カス。</span><span class="line yellow">ポンコツ。</span><span class="line blue">なのに有能。</span><span class="small">なぜ、こんな奴が<br>好きになるのか。</span></h1>
-    <p class="hero-lead">軽蔑したい。笑いたい。尊敬したい。<br>その<strong>3つの感情がぶつかる</strong>とき、<br><span class="em">キャラクターは、やけに目が離せなくなる。</span></p>
-    <div class="mini-traits" aria-label="3つの特性"><span><b class="red">01</b>反感</span><span><b class="yellow">02</b>親しみ</span><span><b class="blue">03</b>尊敬</span></div>
-    <a class="hero-hint" href="#lab">三つの要素のバランスを見てみる</a>
+  <div class="talkbar">
+    <a class="talkbar-back" href="../../">← discoNeko works</a>
+    <span class="vs" role="group" aria-label="表示の切り替え"><a href="./">読み物版</a><a aria-current="page">図解版</a></span>
+    <div class="talkbar-progress" aria-hidden="true"></div>
   </div>
-  <div class="hero-art" aria-hidden="true"><div class="hero-aura"></div>
-    <svg class="portrait-svg" viewBox="0 0 520 590" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="coat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#384058"/><stop offset="1" stop-color="#151926"/></linearGradient><linearGradient id="face" x1="0" y1=".4" x2="1" y2=".7"><stop stop-color="#a4a2ac"/><stop offset=".52" stop-color="#d6c4c0"/><stop offset="1" stop-color="#776c7d"/></linearGradient><clipPath id="ch"><circle cx="262" cy="292" r="222"/></clipPath></defs>
-      <circle cx="263" cy="288" r="225" fill="#292e3e" stroke="#747e963a" stroke-width="2"/>
-      <g clip-path="url(#ch)"><path d="M6 570Q60 447 196 416L304 405Q448 440 514 570V620H0Z" fill="url(#coat)" stroke="#77758b" stroke-width="6"/><path d="M192 410L166 455L258 571L334 458L309 405Z" fill="#e5e2e1"/><path d="M185 416L222 565L146 489L169 453Z" fill="#55586b"/><path d="M318 415L294 566L377 482L339 448Z" fill="#49536c"/><path d="M239 470L270 464L294 568L237 570Z" fill="#fc7788"/><path d="M218 364L218 451Q258 490 304 435L302 365Z" fill="#998997" stroke="#40394b" stroke-width="5"/>
-      <path d="M159 208Q160 152 214 133L297 119Q359 134 361 208L346 316Q335 378 267 411Q210 407 177 341Z" fill="url(#face)" stroke="#292735" stroke-width="7"/><path d="M166 265Q135 238 147 293Q153 330 182 329M356 264Q379 247 377 292Q375 318 350 325" fill="#9c8d97" stroke="#393645" stroke-width="5"/><path d="M152 239Q114 144 187 122Q193 84 260 100Q304 68 344 114Q398 131 367 247L349 224L338 171Q303 198 259 185Q210 216 161 206Z" fill="#151724" stroke="#484758" stroke-width="7"/><path d="M158 172L218 127L200 186L238 157L240 197Q293 158 333 152" fill="none" stroke="#333644" stroke-width="12" stroke-linecap="round"/>
-      <path d="M188 270Q215 256 244 267" stroke="#2d2836" stroke-width="8" stroke-linecap="round"/><path d="M282 263Q313 250 339 257" stroke="#2d2836" stroke-width="8" stroke-linecap="round"/><path d="M197 282Q219 295 240 279M292 278Q313 294 333 272" stroke="#241e29" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M260 284L250 330L271 338" stroke="#65535f" fill="none" stroke-width="5" stroke-linecap="round"/><path d="M222 358Q261 375 303 351" fill="none" stroke="#302434" stroke-width="6" stroke-linecap="round"/><path d="M272 363L299 350" fill="none" stroke="#f7e6e8" stroke-width="3" stroke-linecap="round"/><path d="M207 306L240 310M294 305L328 298" stroke="#e5a4a5" opacity=".45" stroke-width="4"/></g>
-      <circle cx="262" cy="289" r="226" fill="none" stroke="#e1e5f029" stroke-width="2"/><path d="M16 134L97 88M426 121L504 74M35 466L88 490M436 475L511 503" stroke="#ffffff25" stroke-width="2"/><g fill="#f9c65b"><path d="M397 62l10 23 23 10-23 10-10 23-10-23-23-10 23-10z"/><circle cx="100" cy="346" r="4"/></g><path d="M106 112l10 25 25 10-25 10-10 25-10-25-25-10 25-10z" fill="#ff7285" opacity=".85"/><path d="M435 367l8 19 19 8-19 8-8 19-8-19-19-8 19-8z" fill="#75c6fb"/>
-    </svg>
-    <div class="orbit orbit-1"><small>01 / DANGER</small>カス</div><div class="orbit orbit-2"><small>02 / COMEDY</small>ポンコツ</div><div class="orbit orbit-3"><small>03 / RESPECT</small>有能</div><div class="hero-art-note">THE UNLOVABLE / LOVABLE</div>
-  </div>
-</div></section>
-<div class="strip"><div class="container strip-grid"><div class="strip-item"><b><span class="red">↯</span> カスが生むのは「反感」</b><p>好きになっていいのか、迷う。</p></div><div class="strip-item"><b><span style="color:#c18b22">☺</span> ポンコツが生むのは「親愛」</b><p>放っておけず、笑ってしまう。</p></div><div class="strip-item"><b><span style="color:#2884b9">✦</span> 有能が生むのは「尊敬」</b><p>肝心な場面で、全部持っていく。</p></div></div></div>
-<section class="section lab" id="lab"><div class="container"><div class="section-head reveal"><div class="eyebrow">01 / THE CHARACTER TRIANGLE</div><h2>どれか1つを抜くと、<br>キャラの印象が<span class="underline-mark">激変する。</span></h2><p>3要素がそろうと「軽蔑」「親愛」「尊敬」が同居する。下のボタン、または三角形の頂点を押して、1要素を取り除いてみよう。</p></div>
-<div class="lab-grid"><div class="triangle-board reveal"><svg class="tri-svg" viewBox="0 0 700 650" aria-hidden="true"><defs><radialGradient id="triGlow"><stop stop-color="#8f9cc0" stop-opacity=".2"/><stop offset="1" stop-color="#8f9cc0" stop-opacity="0"/></radialGradient></defs><circle cx="350" cy="342" r="290" fill="url(#triGlow)"/><polygon class="tri-main" points="350,65 91,548 609,548"/><polygon class="tri-inner" points="350,180 190,492 510,492"/><path class="edge r" d="M350 65L91 548"/><path class="edge y" d="M91 548L609 548"/><path class="edge b" d="M609 548L350 65"/><circle cx="350" cy="365" r="105" fill="none" stroke="#ffffff18" stroke-width="2" stroke-dasharray="2 9"/></svg>
-<button class="tri-node k" type="button" data-remove="k" aria-label="カスの有無を切り替える"><span class="node-icon">↯</span><span class="node-title">カス</span><span class="node-en">DANGER</span></button><button class="tri-node p" type="button" data-remove="p" aria-label="ポンコツの有無を切り替える"><span class="node-icon">☺</span><span class="node-title">ポンコツ</span><span class="node-en">COMEDY</span></button><button class="tri-node y" type="button" data-remove="y" aria-label="有能の有無を切り替える"><span class="node-icon">✦</span><span class="node-title">有能</span><span class="node-en">SKILL</span></button>
-<div class="tri-center" aria-live="polite"><div class="center-small" id="centerTag">ALL THREE TRAITS</div><div class="center-title" id="centerTitle">感情が<br>定まらない</div><div class="center-sub" id="centerSub">軽蔑 × 親愛 × 尊敬</div></div><div class="board-note">▲ 頂点をクリックすると、その要素を取り除けます</div></div>
-<div class="result reveal" aria-live="polite"><div class="result-top"><div class="eyebrow" id="resultEyebrow">THREE TRAITS / THE PARADOX</div><h3 id="resultTitle">嫌いなのに、<br>好きになってしまう。</h3><p id="resultDesc">カスだから軽蔑する。ポンコツだから笑う。有能だから尊敬する。評価を一つに決められないから、目が離せない。</p></div>
-<div class="result-scene" aria-hidden="true"><svg viewBox="0 0 340 180"><g id="sceneAll"><circle cx="170" cy="92" r="64" stroke="#f9c65b" stroke-width="2" stroke-dasharray="4 7" fill="#f9c65b10"/><path d="M142 109L166 56L194 112Z" fill="none" stroke="#f9c65b" stroke-width="3"/><circle cx="168" cy="92" r="28" fill="#273142" stroke="#f9c65b" stroke-width="2"/><path d="M156 91l9 8 18-19" fill="none" stroke="#f9c65b" stroke-width="4"/><path d="M38 105L99 61M241 58L303 106" stroke="#6b718d" stroke-width="2" stroke-dasharray="5 6"/><text x="39" y="54" fill="#ff7285" font-size="27" font-weight="900">↯</text><text x="276" y="52" fill="#75c6fb" font-size="26">✦</text><text x="153" y="173" fill="#f9c65b" font-size="26">☺</text></g>
-<g id="sceneDanger" style="display:none"><path d="M118 157L132 57L170 23L211 57L225 157Z" fill="#302432" stroke="#ff7285" stroke-width="2"/><path d="M141 80L198 80L211 157L130 157Z" fill="#181820"/><path d="M143 91L163 101M198 91L177 101" stroke="#ff7285" stroke-width="5"/><path d="M141 132Q170 150 200 132" fill="none" stroke="#ff7285" stroke-width="3"/><path d="M73 40L104 68M237 68L268 40" stroke="#ff7285" stroke-width="3"/><path d="M50 135L90 112M252 112L290 135" stroke="#ff7285" stroke-width="3"/></g>
-<g id="sceneFool" style="display:none"><path d="M114 156Q96 81 170 57Q237 79 225 156Z" fill="#53443a" stroke="#f9c65b" stroke-width="3"/><circle cx="170" cy="107" r="45" fill="#ddbc91"/><circle cx="152" cy="97" r="5" fill="#332625"/><circle cx="190" cy="105" r="5" fill="#332625"/><path d="M157 124Q176 137 189 120" stroke="#60412e" stroke-width="4" fill="none"/><path d="M115 68l-35-21 26 52M224 68l35-21-26 52" fill="#f9c65b" stroke="#f9c65b" stroke-width="3"/><text x="250" y="90" font-size="42" fill="#f9c65b">!?</text></g>
-<g id="sceneGenius" style="display:none"><circle cx="170" cy="92" r="63" fill="#213d55" stroke="#75c6fb" stroke-width="3"/><path d="M138 112L152 58H188L202 112Z" fill="#26394d" stroke="#75c6fb" stroke-width="3"/><path d="M144 105L158 95L171 105L184 95L197 105" fill="none" stroke="#75c6fb" stroke-width="4"/><path d="M157 126Q170 139 184 126" fill="none" stroke="#75c6fb" stroke-width="3"/><path d="M220 43l8 17 17 8-17 8-8 17-8-17-17-8 17-8z" fill="#75c6fb"/><path d="M106 17l5 11 11 5-11 5-5 11-5-11-11-5 11-5z" fill="#f9c65b"/></g></svg><span class="scene-caption" id="sceneCaption">THREE-WAY TENSION</span></div>
-<div class="result-bottom"><div class="small-label">要素を選ぶ / REMOVE ONE TRAIT</div><div class="choice-grid" role="group" aria-label="キャラクターの要素を切り替える"><button type="button" class="choice active" data-mode="all" aria-pressed="true">● 全部入り<small>カス × ポンコツ × 有能</small></button><button type="button" class="choice" data-mode="p" aria-pressed="false">− ポンコツ<small>カス × 有能</small></button><button type="button" class="choice" data-mode="y" aria-pressed="false">− 有能<small>カス × ポンコツ</small></button><button type="button" class="choice" data-mode="k" aria-pressed="false">− カス<small>ポンコツ × 有能</small></button></div><div class="result-foot" id="resultFoot">3つあるからこそ、<strong>魅力が単純な評価に回収されない。</strong></div></div></div>
-</div></div></section>
-<section class="section pair-section" id="types"><div class="container"><div class="section-head reveal"><div class="eyebrow" style="color:#a15b63">02 / WHAT'S MISSING?</div><h2>2つだけなら、<br>こんなキャラになる。</h2><p>単に「属性を足す」話ではない。欠けた1つが、そのキャラクターの印象を決定的に変えてしまう。</p></div>
-<div class="pair-grid">
-  <article class="pair reveal"><div class="pair-visual"><span class="pair-number">TYPE 01</span><svg viewBox="0 0 240 215" aria-hidden="true"><circle cx="120" cy="108" r="94" fill="#e17c8c13" stroke="#ff728566" stroke-width="2"/><path d="M62 215Q69 147 114 149Q171 150 181 215" fill="#24202b" stroke="#ff7285" stroke-width="4"/><path d="M81 100Q75 43 122 33Q166 43 158 106L148 149L112 173L93 145Z" fill="#a598a3" stroke="#29222c" stroke-width="4"/><path d="M85 94Q59 45 114 22Q170 11 166 91L147 72L147 52L106 74Z" fill="#17171c"/><path d="M91 111L113 120L103 108M133 119L150 107" stroke="#272027" stroke-width="5" stroke-linecap="round"/><path d="M104 144Q120 153 139 140" fill="none" stroke="#572c40" stroke-width="4"/><path d="M40 40L57 57M196 40L179 57" stroke="#ff7285" stroke-width="4"/></svg><span class="pair-token">カス ＋ 有能</span></div><div class="pair-body"><div class="pair-kicker">ポンコツが足りない</div><h3>本当に危険な人</h3><p>悪意を実現できる能力がある。笑って許せる失敗がないから、恐怖や憎悪に傾きやすい。</p><div class="missing-tag">欠落した安全装置 → <span style="color:#b38724">ポンコツ</span></div></div></article>
-  <article class="pair reveal"><div class="pair-visual"><span class="pair-number">TYPE 02</span><svg viewBox="0 0 240 215" aria-hidden="true"><circle cx="120" cy="108" r="94" fill="#f9c65b14" stroke="#f9c65b70" stroke-width="2"/><path d="M52 215Q66 162 100 152L141 151Q181 161 195 215" fill="#48433b" stroke="#ffcf70" stroke-width="4"/><path d="M83 83Q80 40 120 40Q168 44 165 89L152 145Q121 172 90 140Z" fill="#d5b390" stroke="#443b35" stroke-width="4"/><path d="M73 71L93 32L111 57L133 27L153 64L174 47L173 86L151 76L112 72L86 91Z" fill="#574331"/><circle cx="105" cy="108" r="5" fill="#39312d"/><circle cx="144" cy="103" r="5" fill="#39312d"/><path d="M113 130Q131 144 147 126" fill="none" stroke="#784633" stroke-width="4"/><path d="M178 45L205 15M195 50L227 42" stroke="#f9c65b" stroke-width="4"/><path d="M40 53L60 65" stroke="#f9c65b" stroke-width="3"/></svg><span class="pair-token">カス ＋ ポンコツ</span></div><div class="pair-body"><div class="pair-kicker">有能が足りない</div><h3>安全なクズ</h3><p>悪だくみはするが失敗する。笑える小悪党だが、底知れなさや尊敬による反転はない。</p><div class="missing-tag">欠落した逆転の切り札 → <span style="color:#297fa9">有能</span></div></div></article>
-  <article class="pair reveal"><div class="pair-visual"><span class="pair-number">TYPE 03</span><svg viewBox="0 0 240 215" aria-hidden="true"><circle cx="120" cy="108" r="94" fill="#75c6fb19" stroke="#75c6fb7a" stroke-width="2"/><path d="M55 215Q67 165 104 150L145 147Q183 169 187 215" fill="#30485c" stroke="#75c6fb" stroke-width="4"/><path d="M82 85Q81 39 119 36Q164 42 165 86L153 143L120 165L90 140Z" fill="#d5c4b4" stroke="#283644" stroke-width="4"/><path d="M78 95L77 52L108 25L147 31L176 60L159 103L148 68L109 75L95 91Z" fill="#d8d2ca" stroke="#677989" stroke-width="3"/><circle cx="105" cy="105" r="15" fill="none" stroke="#75c6fb" stroke-width="4"/><circle cx="145" cy="105" r="15" fill="none" stroke="#75c6fb" stroke-width="4"/><path d="M120 105L130 105" stroke="#75c6fb" stroke-width="3"/><path d="M115 136Q131 143 141 131" fill="none" stroke="#425063" stroke-width="4"/><path d="M192 34l8 14 14 8-14 8-8 14-8-14-14-8 14-8z" fill="#75c6fb"/></svg><span class="pair-token">ポンコツ ＋ 有能</span></div><div class="pair-body"><div class="pair-kicker">カスが足りない</div><h3>愛すべき天才</h3><p>日常では残念でも、肝心な才能は抜群。素直に好かれるが、毒や背徳の緊張感は弱い。</p><div class="missing-tag">欠落した刺激 → <span style="color:#c35a64">カス</span></div></div></article>
-</div></div></section>
-<section class="section cycle-section" id="balance"><div class="container"><div class="section-head reveal"><div class="eyebrow">03 / THE BALANCING ACT</div><h2>3つの欠点は、<br>互いの<span class="underline-mark">欠点を救っている。</span></h2><p>「カス」「ポンコツ」「有能」は、キャラクターを壊す要素でありながら、別の要素の弱点を補ってもいる。</p></div>
-<div class="cycle-rows"><div class="cycle-card reveal"><div class="big-char">↯</div><div class="cycle-small">01 / ANTI-BORING</div><h3><span class="red">カス</span>が、優等生を壊す。</h3><p>有能なだけなら、優秀で終わる。嫌な一面があることで、尊敬したくないのに尊敬する矛盾が生まれる。</p></div><div class="cycle-card reveal"><div class="big-char">☺</div><div class="cycle-small">02 / SAFETY VALVE</div><h3><span class="yellow">ポンコツ</span>が、危険を笑いにする。</h3><p>カスなだけなら、怖い。失敗して自爆する隙があることで、脅威を「笑える存在」に変える。</p></div><div class="cycle-card reveal"><div class="big-char">✦</div><div class="cycle-small">03 / REDEMPTION</div><h3><span class="blue">有能</span>が、失望を逆転させる。</h3><p>ポンコツなだけなら、頼りない。決定的な瞬間に能力を見せることで、評価が鮮やかにひっくり返る。</p></div></div><p class="cycle-caption reveal">強さと弱さが「打ち消し合う」のではなく、<b>互いを際立たせる。</b></p></div></section>
-<section class="section emotion-section" id="emotion"><div class="container"><div class="section-head reveal"><div class="eyebrow">04 / EMOTIONAL WHIPLASH</div><h2>感情が、忙しすぎる。</h2><p>魅力の正体は、属性を3つ持っていることそのものではなく、見る側の評価が何度も反転することなのかもしれない。</p></div>
-<div class="emotion-stage reveal"><div class="eyebrow">HOW THE AUDIENCE FEELS / 感情のジェットコースター</div><svg class="emotion-line" viewBox="0 0 1040 220" role="img" aria-label="軽蔑、笑い、尊敬、また軽蔑と感情が激しく上下する概念図"><defs><linearGradient id="emotionGradient" x1="0" x2="1"><stop stop-color="#ff7285"/><stop offset=".33" stop-color="#f9c65b"/><stop offset=".66" stop-color="#75c6fb"/><stop offset="1" stop-color="#ff7285"/></linearGradient></defs><path d="M10 160H1030M10 100H1030M10 40H1030" fill="none" stroke="#ffffff22" stroke-width="1" stroke-dasharray="4 8"/><path class="pulse" d="M10 162C92 168 113 169 157 170S239 160 260 105S339 132 391 137S472 174 520 44S613 20 659 72S746 144 786 155S892 78 937 81S986 131 1030 117" fill="none" stroke="url(#emotionGradient)" stroke-width="7" stroke-linecap="round"/><g fill="#151924" stroke-width="5"><circle cx="157" cy="170" r="10" stroke="#ff7285"/><circle cx="391" cy="137" r="10" stroke="#f9c65b"/><circle cx="520" cy="44" r="10" stroke="#75c6fb"/><circle cx="937" cy="81" r="10" stroke="#ff7285"/></g><g fill="#e4e7ef" font-family="Noto Sans JP" font-weight="800" font-size="17"><text x="145" y="204" text-anchor="middle">最低だ…</text><text x="380" y="175" text-anchor="middle">アホだ！</text><text x="550" y="23" text-anchor="middle">天才か？</text><text x="937" y="54" text-anchor="middle">やっぱ最低</text></g></svg><div class="emotion-steps"><div class="emotion-step"><div class="n">STEP 01</div><b>軽蔑する</b><p>人として最低。関わりたくない。</p></div><div class="emotion-step"><div class="n">STEP 02</div><b>笑ってしまう</b><p>なのに、しょうもない失敗をする。</p></div><div class="emotion-step"><div class="n">STEP 03</div><b>圧倒される</b><p>決定的な局面で、誰より正しい判断。</p></div><div class="emotion-step"><div class="n">STEP 04</div><b>また揺さぶられる</b><p>評価が定まりかけた瞬間、裏切られる。</p></div></div></div></div></section>
+  <aside class="sidebar">
+    <div class="brand"><div class="mark">!?</div><div><b>CHARACTER PARADOX</b><small>CHARACTER NOTES / ILLUSTRATED</small></div></div>
+    <div class="sidecap">CONTENTS</div>
+    <nav aria-label="目次">
+      <a href="#structure"><span class="num">01</span> 感情の置き場所がない</a>
+      <a href="#lab"><span class="num">02</span> 1つ抜いてみる</a>
+      <a href="#pairs"><span class="num">03</span> 2つだけのキャラ</a>
+      <a href="#balance"><span class="num">04</span> 三すくみの構造</a>
+      <a href="#whiplash"><span class="num">05</span> 感情のジェットコースター</a>
+      <a href="#obsession"><span class="num">06</span> 忘れられなくなる理由</a>
+      <a href="#test"><span class="num">07</span> キャラ造形チェック</a>
+    </nav>
+    <div class="sideend"><strong>キャラを読むためのノート。</strong><br>読み物としても、キャラクター造形のチェックシートとしても使えます。チェックはこのブラウザ内に保存されます。</div>
+  </aside>
+  <div class="layout">
+    <main class="main">
+      <header class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Character Study / Emotional Paradox</div>
+          <h1><span class="k">カス。</span><br><span class="p">ポンコツ。</span><br>なのに<span class="y">有能。</span></h1>
+          <p class="lead">軽蔑したい。笑いたい。尊敬したい。<br>その3つの感情がぶつかるとき、キャラクターはやけに目が離せなくなる。<br>なぜ、こんな奴を好きになってしまうのか。</p>
+          <div class="herofoot"><span>3 TRAITS × 3 EMOTIONS</span><span>INTERACTIVE TRIANGLE</span><span>CHARACTER CHECKLIST</span></div>
+        </div>
+        <div class="hero-visual">
+  <svg class="hero-svg" viewBox="0 0 520 414" role="img" aria-labelledby="hero-art-title hero-art-desc">
+    <title id="hero-art-title">三つの要素に引っ張られるキャラクター</title>
+    <desc id="hero-art-desc">三角形の頂点にカス・ポンコツ・有能が置かれ、中央のキャラクターに軽蔑・笑い・尊敬の矢印が向かっている。</desc>
+    <defs>
+      <linearGradient id="hs-bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#272036"/><stop offset="1" stop-color="#121826"/></linearGradient>
+      <radialGradient id="hs-glow"><stop stop-color="#ecc0ef" stop-opacity=".2"/><stop offset="1" stop-color="#ecc0ef" stop-opacity="0"/></radialGradient>
+      <marker id="hs-ak" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 8 4 0 8z" fill="#ff7285"/></marker>
+      <marker id="hs-ap" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 8 4 0 8z" fill="#f9c65b"/></marker>
+      <marker id="hs-ay" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 8 4 0 8z" fill="#75c6fb"/></marker>
+    </defs>
+    <rect x="4" y="4" width="512" height="406" rx="28" fill="url(#hs-bg)" stroke="#4a4560" stroke-width="2"/>
+    <circle cx="260" cy="214" r="160" fill="url(#hs-glow)"/>
+    <g fill="#ecc0ef" opacity=".7"><circle cx="58" cy="96" r="2"/><circle cx="452" cy="88" r="2"/><circle cx="470" cy="190" r="2"/><circle cx="40" cy="214" r="2"/><circle cx="382" cy="40" r="2"/></g>
+    <path d="M260 72 100 318h320Z" fill="none" stroke="#5c5672" stroke-width="2" stroke-dasharray="6 9"/>
+    <!-- arrows toward the character -->
+    <path d="M260 112v26" stroke="#ff7285" stroke-width="4" stroke-linecap="round" marker-end="url(#hs-ak)"/>
+    <path d="M132 296 196 256" stroke="#f9c65b" stroke-width="4" stroke-linecap="round" marker-end="url(#hs-ap)"/>
+    <path d="M388 296 324 256" stroke="#75c6fb" stroke-width="4" stroke-linecap="round" marker-end="url(#hs-ay)"/>
+    <text x="276" y="132" fill="#ffb3bd" font-size="14" font-weight="800">軽蔑</text>
+    <text x="130" y="262" fill="#ffe0a0" font-size="14" font-weight="800">笑い</text>
+    <text x="361" y="262" fill="#bfe4ff" font-size="14" font-weight="800">尊敬</text>
+    <!-- character -->
+    <g>
+      <ellipse cx="260" cy="306" rx="70" ry="10" fill="#0b0f18" opacity=".55"/>
+      <path d="M212 252h96l18 52H194z" fill="#3a4058" stroke="#596182" stroke-width="3"/>
+      <path d="M248 252l12 26 12-26" fill="#d9d4e6"/><path d="M256 262h8l-4 26z" fill="#a13f51"/>
+      <circle cx="260" cy="206" r="44" fill="#f3d3ae"/>
+      <path d="M214 204q-4-54 46-54 50 0 46 52l-10-17-9 11-8-17-12 13-10-15-12 15-10-13-10 14z" fill="#3c3650"/>
+      <path d="M238 196q9-6 18 0M266 193q9-7 18 0" stroke="#3a2f33" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M241 203h13M269 201h13" stroke="#3a2f33" stroke-width="3" stroke-linecap="round"/>
+      <path d="M247 226q14 9 27-5" stroke="#8b4f4a" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M306 168q-8 11 0 16 8-5 0-16z" fill="#9fd6ff"/>
+      <path d="m322 136 4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#75c6fb"/>
+    </g>
+    <!-- trait nodes -->
+    <g transform="translate(260 72)"><circle r="34" fill="#2b1820" stroke="#ff7285" stroke-width="3"/><text y="10" text-anchor="middle" font-size="28" font-weight="800" fill="#ff7285">↯</text></g>
+    <g transform="translate(100 318)"><circle r="34" fill="#2e2817" stroke="#f9c65b" stroke-width="3"/><text y="10" text-anchor="middle" font-size="27" font-weight="800" fill="#f9c65b">☺</text></g>
+    <g transform="translate(420 318)"><circle r="34" fill="#162636" stroke="#75c6fb" stroke-width="3"/><text y="10" text-anchor="middle" font-size="27" font-weight="800" fill="#75c6fb">✦</text></g>
+    <text x="306" y="68" fill="#ffb3bd" font-size="15" font-weight="800">カス</text><text x="306" y="84" fill="#a46a74" font-size="10" font-weight="700" letter-spacing="1.5">DANGER</text>
+    <text x="100" y="376" fill="#ffe0a0" font-size="15" font-weight="800" text-anchor="middle">ポンコツ</text>
+    <text x="420" y="376" fill="#bfe4ff" font-size="15" font-weight="800" text-anchor="middle">有能</text>
+    <rect x="17" y="17" width="178" height="29" rx="14" fill="#ecc0ef"/><text x="106" y="36" fill="#2a1d2e" font-size="12" font-weight="800" text-anchor="middle">EMOTION: UNDECIDED</text>
+    <rect x="180" y="360" width="160" height="36" rx="12" fill="#18172a" stroke="#6f6386"/><text x="260" y="383" font-size="13" text-anchor="middle" font-weight="700" fill="#f1dcf3">評価が、定まらない。</text>
+  </svg>
+  <div class="hero-visual-caption"><span class="legend-dot"></span> 軽蔑・笑い・尊敬。どれにも感情を固定できない。</div>
+</div>
+      </header>
 
-<section class="section obsession-section" id="obsession" aria-labelledby="obsession-title">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="eyebrow">05 / THE OBSESSION LOOP</div>
-      <h2 id="obsession-title">感情を揺さぶられるほど、<br><span style="color:#ecc0ef">忘れられなくなる。</span></h2>
-      <p>ここからはもう一歩踏み込んだ補助線。キャラにただ好感を持つことと、何度も考えずにはいられないことは違う。<strong>感情の反転が繰り返され、評価が決着しないこと</strong>が、強いファン的な執着につながるのではないか。</p>
+      <section id="structure">
+        <div class="section-top"><span class="secno">01 / STRUCTURE</span><span class="line"></span></div>
+        <h2>惹かれているのは、<br>感情の置き場所がないキャラ。</h2>
+        <p class="section-intro">単なる「クズキャラ」が好きなのではない。カス・ポンコツ・有能が同居すると、その人物を三方向から同時に見ることになり、評価が一つに決まらなくなる。</p>
+        <div class="quote">善良で有能な優等生よりも、<br><span class="accent">評価の決まらない奴</span>のほうが感情を揺さぶる。</div>
+<figure class="anatomy-figure" aria-label="3つの要素と、それぞれが生む感情">
+    <div class="anatomy-header"><span class="eyebrow">3 TRAITS → 3 EMOTIONS / 図で理解する</span><strong>3つの要素が、別々の感情を生む</strong></div>
+    <div class="anatomy-flow">
+      <div class="anatomy-part"><div class="anatomy-image"><svg viewBox="0 0 140 92" role="img" aria-label="「最低…」と書かれた吹き出し"><rect x="26" y="14" width="88" height="48" rx="13" fill="#3a1d26" stroke="#ff7285" stroke-width="3"/><path d="m50 61-9 17 22-16" fill="#3a1d26" stroke="#ff7285" stroke-width="3" stroke-linejoin="round"/><text x="70" y="45" text-anchor="middle" font-size="19" font-weight="800" fill="#ffb3bd">最低…</text></svg></div><small class="k">TRAIT 01 / カス</small><b>軽蔑する</b><p>人として最低。関わりたくない。<br>反感と緊張、予測不能さを生む。</p></div>
+      <span class="anatomy-arrow" aria-hidden="true">×</span>
+      <div class="anatomy-part"><div class="anatomy-image"><svg viewBox="0 0 140 92" role="img" aria-label="笑っている顔"><circle cx="70" cy="46" r="31" fill="#3a3120" stroke="#f9c65b" stroke-width="3"/><path d="M55 40q5-6 10 0M75 40q5-6 10 0" stroke="#f9c65b" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M55 52q15 16 30 0z" fill="#f9c65b"/><text x="108" y="30" font-size="17" font-weight="800" fill="#f9c65b">w</text><text x="20" y="34" font-size="14" font-weight="800" fill="#f9c65b">w</text><path d="M101 46q-5 8 0 11 5-3 0-11z" fill="#9fd6ff"/></svg></div><small class="p">TRAIT 02 / ポンコツ</small><b>笑う・心配する</b><p>偉そうなのに失敗する。<br>危険を下げ、親しみを生む。</p></div>
+      <span class="anatomy-arrow" aria-hidden="true">×</span>
+      <div class="anatomy-part"><div class="anatomy-image"><svg viewBox="0 0 140 92" role="img" aria-label="輝く星"><path d="m70 8 10 23 25 2-19 16 6 25-22-13-22 13 6-25-19-16 25-2z" fill="#1d3448" stroke="#75c6fb" stroke-width="3" stroke-linejoin="round"/><path d="m112 14 3 7 7 3-7 3-3 7-3-7-7-3 7-3zM28 58l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#bfe4ff"/></svg></div><small class="y">TRAIT 03 / 有能</small><b>尊敬する</b><p>肝心な場面で、全部持っていく。<br>期待と底知れなさを生む。</p></div>
     </div>
-    <div class="obsession-grid">
-      <div class="obsession-orbit reveal" role="group" aria-label="感情が反転し続ける四段階のループ。各段階を選ぶと説明が変わります">
-        <svg class="orbit-diagram" viewBox="0 0 520 520" aria-hidden="true">
-          <defs>
-            <marker id="obsArrowR" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7Z" fill="#ff7285"/></marker>
-            <marker id="obsArrowY" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7Z" fill="#f9c65b"/></marker>
-            <marker id="obsArrowB" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7Z" fill="#75c6fb"/></marker>
-            <marker id="obsArrowP" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7Z" fill="#d3a1e8"/></marker>
-          </defs>
-          <circle cx="260" cy="260" r="224" class="orbit-grid"/><circle cx="260" cy="260" r="175" class="orbit-grid"/>
-          <path class="orbit-arc" stroke="#ff7285" marker-end="url(#obsArrowR)" d="M306 44 A221 221 0 0 1 476 214"/>
-          <path class="orbit-arc" stroke="#f9c65b" marker-end="url(#obsArrowY)" d="M476 306 A221 221 0 0 1 306 476"/>
-          <path class="orbit-arc" stroke="#75c6fb" marker-end="url(#obsArrowB)" d="M214 476 A221 221 0 0 1 44 306"/>
-          <path class="orbit-arc" stroke="#d3a1e8" marker-end="url(#obsArrowP)" d="M44 214 A221 221 0 0 1 214 44"/>
-        </svg>
-        <div class="obsession-core"><span class="core-kicker">UNRESOLVED</span><strong>このキャラを、<br>どう評価すれば<br>いいんだ？</strong><small>結論が出ないから<br>考え続ける</small></div>
-        <button class="obsession-step s1 active" type="button" data-obs-step="0" aria-pressed="true"><small>01 / REJECT</small><b>軽蔑する</b></button>
-        <button class="obsession-step s2" type="button" data-obs-step="1" aria-pressed="false"><small>02 / LAUGH</small><b>笑ってしまう</b></button>
-        <button class="obsession-step s3" type="button" data-obs-step="2" aria-pressed="false"><small>03 / ADMIRE</small><b>尊敬する</b></button>
-        <button class="obsession-step s4" type="button" data-obs-step="3" aria-pressed="false"><small>04 / QUESTION</small><b>理解できない</b></button>
-      </div>
-      <div class="obsession-right reveal">
-        <div class="obsession-label">WHY WE KEEP COMING BACK</div>
-        <h3>「好き」より先に、<br><em>「気になる」が終わらない。</em></h3>
-        <p style="font-size:14px;color:#bfc0ce;line-height:2">嫌な奴だと思った直後に笑わされ、ようやく見切ったところで圧倒される。感情の振幅が大きいほど、ひとつの印象に回収しにくい。だから、次の登場場面が<strong style="color:#f1e1f2">判断を更新するための機会</strong>になる。</p>
-        <div class="obsession-focus" aria-live="polite"><span id="obsStepNum">01 / REJECT</span><h4 id="obsFocusTitle">嫌いになる理由がある。</h4><p id="obsFocusCopy">まず「最低な奴だ」という反感が生まれる。これが単純な好人物では得られない緊張になる。</p></div>
-        <div class="obsession-chain" aria-label="執着へ至る概念的な流れ"><span>感情の反転</span><i>→</i><span>評価の保留</span><i>→</i><span>解釈の蓄積</span><i>→</i><span>次を待つ</span></div>
-        <p class="obsession-thesis"><b>カルト的な執着</b>とは、単に「大好き」な状態ではなく、<strong>自分の中でそのキャラの解釈を更新し続け、その続きを確かめたくなる状態</strong>なのかもしれない。</p>
-        <p class="obsession-caveat">※ ここでの「カルト的」は熱心なファン心理の比喩であり、心理学上の確立した因果法則を示すものではありません。揺さぶればよいわけでもなく、不快さだけが続けば離脱につながる。ときどき見せる「本物の有能さ」など、納得できる報いがあることが重要です。</p>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="final-section"><div class="container final-quote reveal"><div class="eyebrow">THE FINAL PARADOX</div><blockquote><span>見下せるのに、<span style="color:#a13f51">かなわない。</span></span><span>助けたいのに、<span style="color:#b48920">助けられる。</span></span><span>尊敬できるのに、<span style="color:#2b7aaf">尊敬したくない。</span></span></blockquote><p class="closing">「こいつ最低だ」と思った直後に笑わされ、さらに直後に圧倒される。<br><strong>評価の往復運動が続くほど、「このキャラをもっと理解したい」という思いが育っていく。</strong></p></div></section>
-</main>
-<footer class="footer"><div class="container"><a href="../../">← discoNeko works</a><span>Character Study / カス × ポンコツ × 有能</span><span>※ 心理・創作に関するひとつの解釈です。</span></div></footer>
-<script>
-(() => {
-  const data = {
-    all:{eyebrow:'THREE TRAITS / THE PARADOX',title:'嫌いなのに、<br>好きになってしまう。',desc:'カスだから軽蔑する。ポンコツだから笑う。有能だから尊敬する。評価を一つに決められないから、目が離せない。',center:'感情が<br>定まらない',sub:'軽蔑 × 親愛 × 尊敬',tag:'ALL THREE TRAITS',foot:'3つあるからこそ、<strong>魅力が単純な評価に回収されない。</strong>',scene:'sceneAll',caption:'THREE-WAY TENSION'},
-    p:{eyebrow:'WITHOUT PONKOTSU / TOO DANGEROUS',title:'本当に危険な人。',desc:'人間性がカスで、しかも有能。悪意を実現する力があるのに、失敗して笑われる隙がない。恐ろしく、時に怪物めいて見える。',center:'本当に<br>危険な人',sub:'カス × 有能',tag:'ONE TRAIT MISSING',foot:'<strong>ポンコツを抜くと、怖すぎる。</strong>',scene:'sceneDanger',caption:'NO SAFETY VALVE'},
-    y:{eyebrow:'WITHOUT SKILL / TOO PITIFUL',title:'安全なクズ。',desc:'性格は悪いけれど、悪だくみはだいたい自爆する。笑える小悪党にはなるが、思いがけず尊敬する瞬間がなくなる。',center:'安全な<br>クズ',sub:'カス × ポンコツ',tag:'ONE TRAIT MISSING',foot:'<strong>有能を抜くと、情けなさすぎる。</strong>',scene:'sceneFool',caption:'NO SURPRISE REVERSAL'},
-    k:{eyebrow:'WITHOUT CRUELTY / TOO LOVABLE',title:'愛すべき天才。',desc:'普段はポンコツ、ここぞという場面だけ天才。好感を持ちやすいキャラになる一方、背徳感や緊張を生む毒は薄くなる。',center:'愛すべき<br>天才',sub:'ポンコツ × 有能',tag:'ONE TRAIT MISSING',foot:'<strong>カスを抜くと、好ましすぎて刺激がない。</strong>',scene:'sceneGenius',caption:'NO MORAL TENSION'}
-  };
-  const choices=[...document.querySelectorAll('[data-mode]')];
-  const nodes=[...document.querySelectorAll('[data-remove]')];
-  let mode='all';
-  function setMode(next){
-    mode=next;
-    const d=data[next];
-    document.getElementById('resultEyebrow').textContent=d.eyebrow;
-    document.getElementById('resultTitle').innerHTML=d.title;
-    document.getElementById('resultDesc').textContent=d.desc;
-    document.getElementById('centerTag').textContent=d.tag;
-    document.getElementById('centerTitle').innerHTML=d.center;
-    document.getElementById('centerSub').textContent=d.sub;
-    document.getElementById('resultFoot').innerHTML=d.foot;
-    document.getElementById('sceneCaption').textContent=d.caption;
-    ['sceneAll','sceneDanger','sceneFool','sceneGenius'].forEach(id=>document.getElementById(id).style.display=id===d.scene?'':'none');
-    choices.forEach(c=>{let selected=c.dataset.mode===next;c.classList.toggle('active',selected);c.setAttribute('aria-pressed',selected?'true':'false')});
-    nodes.forEach(n=>{let removed=n.dataset.remove===next;n.classList.toggle('is-missing',removed);n.setAttribute('aria-pressed',removed?'true':'false')});
-  }
-  choices.forEach(c=>c.addEventListener('click',()=>setMode(c.dataset.mode)));
-  nodes.forEach(n=>n.addEventListener('click',()=>setMode(mode===n.dataset.remove?'all':n.dataset.remove)));
+    <figcaption>三方向から同時に見ることになるから、<strong>評価が一つに決まらない。</strong></figcaption>
+</figure>
+        <div class="ingredients three">
+          <div class="ingredient"><span class="index">01</span><b>「たまに有能」が異様に輝く</b><p>いつも有能な人の成功は「まあ、そうだよね」で終わる。日頃の低評価が背景になると、決定的な場面の判断が実力以上に輝き、「本当は全部分かっていたのか」という反転が起きる。</p></div>
+          <div class="ingredient"><span class="index">02</span><b>ポンコツが安全装置になる</b><p>悪事が自分に跳ね返り、偉そうなのに失敗する。規範違反が本当は危険でないと感じると笑いが生まれる(良性違反理論)。カスさが違反で、ポンコツさが安全装置。</p></div>
+          <div class="ingredient"><span class="index">03</span><b>自分だけが本質を知っている</b><p>周囲は「ただのクズ」と見ているのに、視聴者だけは過去も内面も能力も知っている。秘密を共有するような親密さが生まれ、物語の中なら安全に理解者になれる。</p></div>
+        </div>
+        <p class="note" style="margin-top:17px">※人を見るときの大きな軸は「温かさ(信頼できるか)」と「能力」。このタイプは温かさが低いのに、能力の評価が場面ごとに激しく上下する。</p>
+      </section>
 
-  // Narrative model: the selected phase changes the explanation, not an empirical score.
-  const obsessionSteps = [
-    ['01 / REJECT','嫌いになる理由がある。','まず「最低な奴だ」という反感が生まれる。これが単純な好人物では得られない緊張になる。'],
-    ['02 / LAUGH','拒絶しきれなくなる。','情けない失敗に思わず笑う。さっきの反感が薄れ、「なんだか放っておけない」が割り込む。'],
-    ['03 / ADMIRE','評価がひっくり返る。','決定的な場面で本物の力を見せつけられる。見下していたはずの相手を、いきなり尊敬する。'],
-    ['04 / QUESTION','それでも結論が出ない。','尊敬した直後にまた最低なことをする。「本当はどういう奴なんだ？」という問いが残り、次の場面を待ちたくなる。']
-  ];
-  const obsessionButtons=[...document.querySelectorAll('[data-obs-step]')];
-  obsessionButtons.forEach(btn=>btn.addEventListener('click',()=>{
-    const i=Number(btn.dataset.obsStep), d=obsessionSteps[i];
-    document.getElementById('obsStepNum').textContent=d[0];
-    document.getElementById('obsFocusTitle').textContent=d[1];
-    document.getElementById('obsFocusCopy').textContent=d[2];
-    obsessionButtons.forEach(b=>{const active=b===btn;b.classList.toggle('active',active);b.setAttribute('aria-pressed',active?'true':'false')});
-  }));
-  if('IntersectionObserver' in window){const obs=new IntersectionObserver(items=>{items.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target)}})},{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));}else{document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'))}
-})();
-</script>
-</body></html>
+      <section id="lab">
+        <div class="section-top"><span class="secno">02 / EXPERIMENT</span><span class="line"></span></div>
+        <h2>どれか1つを抜くと、<br>印象が激変する。</h2>
+        <p class="section-intro">3つの要素は、それぞれ別の役割を持っている。1つを取り除くと、残った2つが生む感情だけになり、キャラクターの印象がまるで変わる。</p>
+        <div class="scenario">
+          <div class="scenario-head"><div><small class="eyebrow">TRY IT / REMOVE ONE TRAIT</small><h3>どの要素を抜いてみる？</h3><p class="scenario-desc">ボタンを押すと、三角形からその要素が外れ、残った組み合わせの印象に切り替わる。</p></div><span class="stat">↯ ☺ ✦ &nbsp; 3 TRAITS</span></div>
+          <div class="choices four" role="group" aria-label="取り除く要素を選択">
+            <button type="button" class="choice selected" data-mode="all" aria-pressed="true"><b>● 全部入り</b><span>カス × ポンコツ × 有能</span></button>
+            <button type="button" class="choice" data-mode="p" aria-pressed="false"><b>− ポンコツ</b><span>カス × 有能</span></button>
+            <button type="button" class="choice" data-mode="y" aria-pressed="false"><b>− 有能</b><span>カス × ポンコツ</span></button>
+            <button type="button" class="choice" data-mode="k" aria-pressed="false"><b>− カス</b><span>ポンコツ × 有能</span></button>
+          </div>
+<div class="scenario-visual">
+  <svg viewBox="0 0 450 310" class="scenario-picture tri" role="img" aria-label="カス・ポンコツ・有能を頂点に置いた三角形。選んだ要素が外れ、残った辺の組み合わせが強調される">
+    <rect width="450" height="310" rx="15" fill="#151a26"/>
+    <g fill="none" stroke="#5f5a78" stroke-width="4" stroke-linecap="round">
+      <line data-e="kp" x1="225" y1="52" x2="82" y2="245"/>
+      <line data-e="ky" x1="225" y1="52" x2="368" y2="245"/>
+      <line data-e="py" x1="82" y1="245" x2="368" y2="245"/>
+    </g>
+    <text class="elabel" data-l="kp" x="140" y="146" text-anchor="end">安全なクズ</text>
+    <text class="elabel" data-l="ky" x="310" y="146">本当に危険な人</text>
+    <text class="elabel" data-l="py" x="225" y="234" text-anchor="middle">愛すべき天才</text>
+    <text id="triGlyph" x="225" y="186" text-anchor="middle" font-size="40" font-weight="800" fill="#ecc0ef">?!</text>
+    <g data-v="k" transform="translate(225 52)"><circle r="30" fill="#2b1820" stroke="#ff7285" stroke-width="3"/><text y="9" text-anchor="middle" font-size="25" font-weight="800" fill="#ff7285">↯</text><text x="42" y="6" font-size="15" font-weight="800" fill="#ffb3bd">カス</text></g>
+    <g data-v="p" transform="translate(82 245)"><circle r="30" fill="#2e2817" stroke="#f9c65b" stroke-width="3"/><text y="9" text-anchor="middle" font-size="24" font-weight="800" fill="#f9c65b">☺</text><text y="52" text-anchor="middle" font-size="15" font-weight="800" fill="#ffe0a0">ポンコツ</text></g>
+    <g data-v="y" transform="translate(368 245)"><circle r="30" fill="#162636" stroke="#75c6fb" stroke-width="3"/><text y="9" text-anchor="middle" font-size="24" font-weight="800" fill="#75c6fb">✦</text><text y="52" text-anchor="middle" font-size="15" font-weight="800" fill="#bfe4ff">有能</text></g>
+  </svg>
+  <div class="scenario-readout"><small id="labTag">THREE TRAITS / THE PARADOX</small><strong id="labTitle">嫌いなのに、好きになってしまう。</strong><p id="labDesc">カスだから軽蔑する。ポンコツだから笑う。有能だから尊敬する。評価を一つに決められないから、目が離せない。</p><div class="choice-meters"><div><span>反感・緊張</span><div class="meter"><i id="mK" style="width:70%;background:var(--kasu)"></i></div></div><div><span>笑い・親しみ</span><div class="meter"><i id="mP" style="width:65%;background:var(--pon)"></i></div></div><div><span>尊敬・期待</span><div class="meter"><i id="mY" style="width:70%;background:var(--yu)"></i></div></div></div><p class="note">※バーの値は考え方を伝える模式表現で、測定値ではありません。</p></div>
+</div>
+          <div class="result" aria-live="polite"><div class="benefit"><em>残るもの / REMAINS</em><p id="labKeep">軽蔑・親愛・尊敬が同居する。どの感情にも落ち着かない。</p></div><div class="cost"><em>失われるもの / LOST</em><p id="labLose">なし。3つそろうから、魅力が単純な評価に回収されない。</p></div></div>
+        </div>
+      </section>
+
+      <section id="pairs">
+        <div class="section-top"><span class="secno">03 / PAIRS</span><span class="line"></span></div>
+        <h2>2つだけなら、<br>こんなキャラになる。</h2>
+        <p class="section-intro">単に「属性を足す」話ではない。欠けた1つが、そのキャラクターの印象を決定的に変えてしまう。</p>
+        <div class="pattern-grid three">
+          <div class="pattern"><svg class="pattern-illus" viewBox="0 0 136 94" role="img" aria-label="カスと有能の円が重なり、ポンコツが欠けている"><circle cx="52" cy="50" r="30" fill="#ff728526" stroke="#ff7285" stroke-width="3"/><circle cx="86" cy="50" r="30" fill="#75c6fb26" stroke="#75c6fb" stroke-width="3"/><circle cx="118" cy="16" r="11" fill="none" stroke="#f9c65b" stroke-width="2" stroke-dasharray="3 4"/><text x="69" y="57" text-anchor="middle" font-size="19" font-weight="800" fill="#f1dcf3">!!</text></svg><small class="pair-token">カス ＋ 有能</small><b>本当に危険な人</b><p>性格が悪いうえに、悪意を実現する能力まである。失敗して笑われることも少ないので、面白いより恐ろしい・格好いい・憎らしいに寄る。無能な独裁者は滑稽だが、極めて有能な独裁者は恐怖の対象。</p><small>欠けているもの：<span class="p">ポンコツ</span>という安全装置</small></div>
+          <div class="pattern"><svg class="pattern-illus" viewBox="0 0 136 94" role="img" aria-label="カスとポンコツの円が重なり、有能が欠けている"><circle cx="52" cy="50" r="30" fill="#ff728526" stroke="#ff7285" stroke-width="3"/><circle cx="86" cy="50" r="30" fill="#f9c65b26" stroke="#f9c65b" stroke-width="3"/><circle cx="118" cy="16" r="11" fill="none" stroke="#75c6fb" stroke-width="2" stroke-dasharray="3 4"/><text x="69" y="57" text-anchor="middle" font-size="19" font-weight="800" fill="#f1dcf3">…</text></svg><small class="pair-token">カス ＋ ポンコツ</small><b>安全なクズ</b><p>ずるいことを考えては失敗し、他人を陥れようとして自爆する。憎めない小悪党になりやすいが、「実はすごいのでは？」という反転は起きない。長く見ると、ただの迷惑な人になりやすい。</p><small>欠けているもの：<span class="y">有能</span>による尊敬と逆転</small></div>
+          <div class="pattern"><svg class="pattern-illus" viewBox="0 0 136 94" role="img" aria-label="ポンコツと有能の円が重なり、カスが欠けている"><circle cx="52" cy="50" r="30" fill="#f9c65b26" stroke="#f9c65b" stroke-width="3"/><circle cx="86" cy="50" r="30" fill="#75c6fb26" stroke="#75c6fb" stroke-width="3"/><circle cx="118" cy="16" r="11" fill="none" stroke="#ff7285" stroke-width="2" stroke-dasharray="3 4"/><text x="69" y="57" text-anchor="middle" font-size="19" font-weight="800" fill="#f1dcf3">♡</text></svg><small class="pair-token">ポンコツ ＋ 有能</small><b>愛すべき天才</b><p>日常生活は壊滅的だが仕事は天才。素直に好かれるタイプで、有能な人の失敗が人間味になるプラットフォール効果とも重なる。ただ、何をしでかすか分からない緊張感や背徳感は消える。</p><small>欠けているもの：<span class="k">カス</span>による毒と緊張</small></div>
+        </div>
+        <p class="note" style="margin-top:18px">※プラットフォール効果は、もともと有能だと認識されていることが前提。失敗を続けるだけでは魅力にならない。</p>
+      </section>
+
+      <section id="balance">
+        <div class="section-top"><span class="secno">04 / BALANCE</span><span class="line"></span></div>
+        <h2>3つの欠点は、<br>互いの欠点を救っている。</h2>
+        <p class="section-intro">「カス」「ポンコツ」「有能」は、キャラクターを壊す要素でありながら、別の要素の弱点を補ってもいる。3つは絶妙な三すくみになっている。</p>
+        <div class="cycle-figure">
+          <svg viewBox="0 0 360 310" role="img" aria-label="カスが有能に、有能がポンコツに、ポンコツがカスに作用する三すくみの図">
+            <defs>
+              <marker id="cy-ak" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 8 4 0 8z" fill="#ff7285"/></marker>
+              <marker id="cy-ap" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 8 4 0 8z" fill="#f9c65b"/></marker>
+              <marker id="cy-ay" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 8 4 0 8z" fill="#75c6fb"/></marker>
+            </defs>
+            <rect width="360" height="310" rx="15" fill="#151a26"/>
+            <path d="M212 66Q292 104 302 190" fill="none" stroke="#ff7285" stroke-width="4" stroke-linecap="round" marker-end="url(#cy-ak)"/>
+            <path d="M270 262Q180 296 92 262" fill="none" stroke="#75c6fb" stroke-width="4" stroke-linecap="round" marker-end="url(#cy-ay)"/>
+            <path d="M58 190Q68 104 148 66" fill="none" stroke="#f9c65b" stroke-width="4" stroke-linecap="round" marker-end="url(#cy-ap)"/>
+            <g font-size="13" font-weight="800" text-anchor="middle"><circle cx="286" cy="112" r="13" fill="#3a1d26"/><text x="286" y="117" fill="#ffb3bd">1</text><circle cx="74" cy="112" r="13" fill="#3a3120"/><text x="74" y="117" fill="#ffe0a0">2</text><circle cx="180" cy="284" r="13" fill="#162636"/><text x="180" y="289" fill="#bfe4ff">3</text></g>
+            <g transform="translate(180 48)"><circle r="31" fill="#2b1820" stroke="#ff7285" stroke-width="3"/><text y="6" text-anchor="middle" font-size="15" font-weight="800" fill="#ffb3bd">カス</text></g>
+            <g transform="translate(56 236)"><circle r="31" fill="#2e2817" stroke="#f9c65b" stroke-width="3"/><text y="5" text-anchor="middle" font-size="12" font-weight="800" fill="#ffe0a0">ポンコツ</text></g>
+            <g transform="translate(304 236)"><circle r="31" fill="#162636" stroke="#75c6fb" stroke-width="3"/><text y="6" text-anchor="middle" font-size="15" font-weight="800" fill="#bfe4ff">有能</text></g>
+            <text x="180" y="166" text-anchor="middle" font-size="20" font-weight="800" fill="#ecc0ef">三すくみ</text>
+            <text x="180" y="188" text-anchor="middle" font-size="11" fill="#a9a3bd">どれも欠かせない</text>
+          </svg>
+          <div class="cycle-list">
+            <div class="card ck"><small>01 / ANTI-BORING</small><h3><span class="k">カス</span>が、有能を優等生で終わらせない。</h3><p>有能なだけなら、優秀で終わる。嫌な一面があることで、尊敬したくないのに尊敬してしまう矛盾が生まれる。</p></div>
+            <div class="card cp"><small>02 / SAFETY VALVE</small><h3><span class="p">ポンコツ</span>が、カスを本物の脅威にしすぎない。</h3><p>カスなだけなら、怖い。失敗して自爆する隙があることで、脅威を「笑える存在」に変える。</p></div>
+            <div class="card cy"><small>03 / REDEMPTION</small><h3><span class="y">有能</span>が、ポンコツを役立たずで終わらせない。</h3><p>ポンコツなだけなら、頼りない。決定的な瞬間に能力を見せることで、評価が鮮やかにひっくり返る。</p></div>
+          </div>
+        </div>
+        <div class="quote"><span class="p">ポンコツ</span>を抜くと、怖すぎる。<br><span class="y">有能</span>を抜くと、情けなさすぎる。<br><span class="k">カス</span>を抜くと、好ましすぎて刺激がない。</div>
+      </section>
+
+      <section id="whiplash">
+        <div class="section-top"><span class="secno">05 / WHIPLASH</span><span class="line"></span></div>
+        <h2>感情が、忙しすぎる。</h2>
+        <p class="section-intro">魅力の正体は、属性を3つ持っていることそのものではなく、見る側の評価が何度も反転することなのかもしれない。</p>
+        <figure class="emotion-figure" aria-label="軽蔑、笑い、尊敬、また軽蔑と、評価が上下し続ける曲線">
+          <div class="anatomy-header"><span class="eyebrow">HOW THE AUDIENCE FEELS / 感情のジェットコースター</span><strong>評価は、上がっては落ちる</strong></div>
+          <svg viewBox="0 0 1040 230" aria-hidden="true">
+            <path d="M60 30v170M60 200h960" stroke="#3a3d50" stroke-width="2"/>
+            <text x="48" y="40" text-anchor="end" font-size="13" fill="#8f8aa6">高</text><text x="48" y="200" text-anchor="end" font-size="13" fill="#8f8aa6">低</text>
+            <text x="20" y="124" font-size="13" fill="#8f8aa6" transform="rotate(-90 20 124)" text-anchor="middle">評価</text>
+            <path d="M70 110C120 110 120 175 170 175S340 112 400 112 590 40 650 40 840 168 900 168" fill="none" stroke="#ecc0ef" stroke-width="5" stroke-linecap="round"/>
+            <path d="M900 168C950 168 970 110 1010 100" fill="none" stroke="#ecc0ef" stroke-width="4" stroke-dasharray="6 9" stroke-linecap="round"/>
+            <g font-weight="800" text-anchor="middle">
+              <circle cx="170" cy="175" r="9" fill="#ff7285"/><text x="170" y="155" font-size="15" fill="#ffb3bd">軽蔑</text>
+              <circle cx="400" cy="112" r="9" fill="#f9c65b"/><text x="400" y="92" font-size="15" fill="#ffe0a0">笑い</text>
+              <circle cx="650" cy="40" r="9" fill="#75c6fb"/><text x="650" y="72" font-size="15" fill="#bfe4ff">尊敬</text>
+              <circle cx="900" cy="168" r="9" fill="#ff7285"/><text x="900" y="148" font-size="15" fill="#ffb3bd">また軽蔑</text>
+              <text x="1010" y="86" font-size="20" fill="#ecc0ef">?</text>
+            </g>
+          </svg>
+        </figure>
+        <div class="chain">
+          <div class="step"><small>STEP 01</small><b class="k">軽蔑する</b><p>人として最低。関わりたくない。</p></div>
+          <div class="step"><small>STEP 02</small><b class="p">笑ってしまう</b><p>なのに、しょうもない失敗をする。</p></div>
+          <div class="step"><small>STEP 03</small><b class="y">圧倒される</b><p>決定的な局面で、誰より正しい判断をする。</p></div>
+          <div class="step"><small>STEP 04</small><b>また揺さぶられる</b><p>評価が定まりかけた瞬間、裏切られる。</p></div>
+        </div>
+        <div class="card"><small>KEY INSIGHT</small><h3>軽蔑・親愛・尊敬のどれにも、感情を固定できない。</h3><p>「こいつ最低だな」と思った直後に笑わされ、さらに直後に圧倒される。その評価の往復運動そのものが、キャラクターへの執着を生んでいる。</p></div>
+      </section>
+
+      <section id="obsession">
+        <div class="section-top"><span class="secno">06 / OBSESSION</span><span class="line"></span></div>
+        <h2>揺さぶられるほど、<br>忘れられなくなる。</h2>
+        <p class="section-intro">キャラにただ好感を持つことと、何度も考えずにはいられないことは違う。感情の反転が繰り返され、評価が決着しないことが、強い執着につながる。</p>
+        <div class="scenario">
+          <div class="scenario-head"><div><small class="eyebrow">TRY IT / CLICK EACH PHASE</small><h3>評価が決着しないループ</h3><p class="scenario-desc">各段階を押すと、そのとき見る側の中で何が起きているかが切り替わる。</p></div><span class="stat">↻ UNRESOLVED</span></div>
+          <div class="choices four" role="group" aria-label="ループの段階を選択">
+            <button type="button" class="choice selected" data-obs="0" aria-pressed="true"><b>01 軽蔑する</b><span>REJECT</span></button>
+            <button type="button" class="choice" data-obs="1" aria-pressed="false"><b>02 笑ってしまう</b><span>LAUGH</span></button>
+            <button type="button" class="choice" data-obs="2" aria-pressed="false"><b>03 尊敬する</b><span>ADMIRE</span></button>
+            <button type="button" class="choice" data-obs="3" aria-pressed="false"><b>04 理解できない</b><span>QUESTION</span></button>
+          </div>
+<div class="scenario-visual">
+  <svg viewBox="0 0 300 230" class="scenario-picture loop" role="img" aria-label="軽蔑、笑い、尊敬、疑問の4段階が円を描いて繰り返すループ">
+    <defs><marker id="lp-a" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 8 4 0 8z" fill="#8a84a3"/></marker></defs>
+    <rect width="300" height="230" rx="15" fill="#151a26"/>
+    <g fill="none" stroke="#8a84a3" stroke-width="2.5" marker-end="url(#lp-a)">
+      <path d="M170 31A84 84 0 0 1 228 89"/><path d="M228 141A84 84 0 0 1 170 199"/><path d="M130 199A84 84 0 0 1 72 141"/><path d="M72 89A84 84 0 0 1 130 31"/>
+    </g>
+    <text x="150" y="110" text-anchor="middle" font-size="13" font-weight="800" fill="#f1dcf3">どう評価すれば</text>
+    <text x="150" y="130" text-anchor="middle" font-size="13" font-weight="800" fill="#f1dcf3">いいんだ？</text>
+    <g data-dot="0" transform="translate(150 31)"><circle r="20" stroke="#ff7285"/><text y="5" text-anchor="middle" font-size="14" font-weight="800" fill="#ffb3bd">蔑</text></g>
+    <g data-dot="1" transform="translate(234 115)"><circle r="20" stroke="#f9c65b"/><text y="5" text-anchor="middle" font-size="14" font-weight="800" fill="#ffe0a0">笑</text></g>
+    <g data-dot="2" transform="translate(150 199)"><circle r="20" stroke="#75c6fb"/><text y="5" text-anchor="middle" font-size="14" font-weight="800" fill="#bfe4ff">尊</text></g>
+    <g data-dot="3" transform="translate(66 115)"><circle r="20" stroke="#ecc0ef"/><text y="5" text-anchor="middle" font-size="15" font-weight="800" fill="#f1dcf3">？</text></g>
+  </svg>
+  <div class="scenario-readout" aria-live="polite"><small id="obsNum">01 / REJECT</small><strong id="obsTitle">嫌いになる理由がある。</strong><p id="obsCopy">まず「最低な奴だ」という反感が生まれる。これが単純な好人物では得られない緊張になる。</p><div class="flowline"><span>感情の反転</span><i>→</i><span>評価の保留</span><i>→</i><span>解釈の蓄積</span><i>→</i><span>次を待つ</span></div></div>
+</div>
+          <p class="note" style="margin:16px 0 0">※ここでの「執着」は熱心なファン心理の比喩で、心理学上の確立した因果法則を示すものではありません。不快さだけが続けば離脱につながり、ときどき見せる本物の有能さのような、納得できる報いが要る。</p>
+        </div>
+        <div class="quote">執着とは、単に「大好き」な状態ではなく、<br><span class="accent">そのキャラの解釈を更新し続け、続きを確かめたくなる状態</span>なのかもしれない。</div>
+      </section>
+
+      <section id="test">
+        <div class="section-top"><span class="secno">07 / CHECK</span><span class="line"></span></div>
+        <h2>このキャラは、刺さるか？</h2>
+        <p class="section-intro">ここまでの話を、キャラクターを作る・読むときの確認項目にまとめた。合計点で良し悪しを決めるためではなく、欠けている要素を見つけるためのチェック。</p>
+        <div class="checkboard">
+          <div class="check-head"><h3>三すくみキャラの5つの条件</h3><div class="check-total" id="checkCount">0 / 5</div></div>
+          <div id="checks">
+            <label class="checkitem"><input type="checkbox" data-check="1"><span><b>反感を生む欠点があるか</b><small>「最低だ」と思わせる言動があり、好きになってよいのか迷わせるか。</small></span></label>
+            <label class="checkitem"><input type="checkbox" data-check="2"><span><b>欠点が失敗や自爆で回収されるか</b><small>悪だくみが自分に跳ね返り、脅威が「笑える」に変わる安全装置があるか。</small></span></label>
+            <label class="checkitem"><input type="checkbox" data-check="3"><span><b>有能さが前もって示されているか</b><small>失敗が人間味になるのは、有能だと認識されているから。失敗続きだけでは魅力にならない。</small></span></label>
+            <label class="checkitem"><input type="checkbox" data-check="4"><span><b>決定的な場面で評価が反転するか</b><small>日頃の低評価を背景に「本当は全部分かっていたのか」と思わせる瞬間があるか。</small></span></label>
+            <label class="checkitem"><input type="checkbox" data-check="5"><span><b>評価が一つに決まりきらないか</b><small>尊敬した直後にまた最低なことをするなど、解釈を更新し続けたくなるか。</small></span></label>
+          </div>
+          <div class="check-feedback" id="checkFeedback" aria-live="polite">好きなキャラ、または作っているキャラを一人思い浮かべて、当てはまる項目を選んでください。</div>
+        </div>
+        <div class="ending"><small>THE FINAL PARADOX</small><p>見下せるのに、<span class="k">かなわない。</span><br>助けたいのに、<span class="p">助けられる。</span><br>尊敬できるのに、<span class="y">尊敬したくない。</span></p><p style="font-size:13px;font-weight:400;color:var(--soft);margin-top:13px">「こいつ最低だ」と思った直後に笑わされ、さらに直後に圧倒される。評価の往復運動が続くほど、「このキャラをもっと理解したい」という思いが育っていく。</p></div>
+      </section>
+      <footer>CHARACTER PARADOX — カス × ポンコツ × 有能 図解ノート。※ 心理・創作に関するひとつの解釈です。 &nbsp; <button type="button" class="btn ghost" style="padding:5px 11px;margin-top:8px" onclick="window.print()">印刷 / PDF化</button></footer>
+    </main>
+  </div>
+  <script>
+    (function(){
+      const $ = id => document.getElementById(id);
+      // 1つ抜く実験。メーターは考え方を伝える模式値
+      const lab={
+        all:{tag:'THREE TRAITS / THE PARADOX',title:'嫌いなのに、好きになってしまう。',desc:'カスだから軽蔑する。ポンコツだから笑う。有能だから尊敬する。評価を一つに決められないから、目が離せない。',keep:'軽蔑・親愛・尊敬が同居する。どの感情にも落ち着かない。',lose:'なし。3つそろうから、魅力が単純な評価に回収されない。',glyph:'?!',m:[70,65,70]},
+        p:{tag:'WITHOUT PONKOTSU / TOO DANGEROUS',title:'本当に危険な人。',desc:'人間性がカスで、しかも有能。悪意を実現する力があるのに、失敗して笑われる隙がない。恐ろしく、時に怪物めいて見える。',keep:'反感と尊敬。恐ろしく、格好よく、憎らしい悪役になる。',lose:'「どうせ失敗する」という安全装置。最低だし、本当にこちらを破滅させられる人になる。',glyph:'!!',m:[95,10,80]},
+        y:{tag:'WITHOUT SKILL / TOO PITIFUL',title:'安全なクズ。',desc:'性格は悪いけれど、悪だくみはだいたい自爆する。笑える小悪党にはなるが、思いがけず尊敬する瞬間がなくなる。',keep:'反感と笑い。憎めない小悪党、情けない三枚目になる。',lose:'「実はすごいのでは？」という反転。長く見ると、ただの迷惑な人になりやすい。',glyph:'…',m:[60,70,5]},
+        k:{tag:'WITHOUT CRUELTY / TOO LOVABLE',title:'愛すべき天才。',desc:'普段はポンコツ、ここぞという場面だけ天才。好感を持ちやすいキャラになる一方、背徳感や緊張を生む毒は薄くなる。',keep:'親しみと尊敬。残念な達人として、素直に好かれる。',lose:'毒と背徳感。好きになってよいのかという葛藤と、何をしでかすか分からない緊張が消える。',glyph:'♡',m:[5,90,85]}
+      };
+      const labButtons=[...document.querySelectorAll('[data-mode]')];
+      labButtons.forEach(btn=>btn.addEventListener('click',()=>{
+        const mode=btn.dataset.mode, d=lab[mode];
+        labButtons.forEach(x=>{x.classList.toggle('selected',x===btn);x.setAttribute('aria-pressed',String(x===btn));});
+        $('labTag').textContent=d.tag;$('labTitle').textContent=d.title;$('labDesc').textContent=d.desc;
+        $('labKeep').textContent=d.keep;$('labLose').textContent=d.lose;$('triGlyph').textContent=d.glyph;
+        ['mK','mP','mY'].forEach((id,i)=>$(id).style.width=d.m[i]+'%');
+        document.querySelectorAll('.tri [data-v]').forEach(v=>v.classList.toggle('off',v.dataset.v===mode));
+        document.querySelectorAll('.tri [data-e],.tri [data-l]').forEach(e=>{
+          const pair=e.dataset.e||e.dataset.l, inPair=pair.includes(mode);
+          e.classList.toggle('off',mode!=='all'&&inPair);
+          e.classList.toggle('on',mode!=='all'&&!inPair);
+        });
+      }));
+      // 執着のループ。段階ごとに説明を切り替える(実証的なスコアではない)
+      const obs=[
+        ['01 / REJECT','嫌いになる理由がある。','まず「最低な奴だ」という反感が生まれる。これが単純な好人物では得られない緊張になる。'],
+        ['02 / LAUGH','拒絶しきれなくなる。','情けない失敗に思わず笑う。さっきの反感が薄れ、「なんだか放っておけない」が割り込む。'],
+        ['03 / ADMIRE','評価がひっくり返る。','決定的な場面で本物の力を見せつけられる。見下していたはずの相手を、いきなり尊敬する。'],
+        ['04 / QUESTION','それでも結論が出ない。','尊敬した直後にまた最低なことをする。「本当はどういう奴なんだ？」という問いが残り、次の場面を待ちたくなる。']
+      ];
+      const obsButtons=[...document.querySelectorAll('[data-obs]')];
+      function setObs(i){
+        $('obsNum').textContent=obs[i][0];$('obsTitle').textContent=obs[i][1];$('obsCopy').textContent=obs[i][2];
+        obsButtons.forEach((b,j)=>{b.classList.toggle('selected',j===i);b.setAttribute('aria-pressed',String(j===i));});
+        document.querySelectorAll('.loop [data-dot]').forEach(g=>g.classList.toggle('active',Number(g.dataset.dot)===i));
+      }
+      obsButtons.forEach(b=>b.addEventListener('click',()=>setObs(Number(b.dataset.obs))));
+      setObs(0);
+      // チェックリスト(このブラウザ内に保存)
+      function safeSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+      function safeGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+      const checkboxes=[...document.querySelectorAll('[data-check]')];
+      function updateChecks(){const n=checkboxes.filter(x=>x.checked).length;$('checkCount').textContent=n+' / 5';$('checkFeedback').textContent=n===0?'好きなキャラ、または作っているキャラを一人思い浮かべて、当てはまる項目を選んでください。':n===5?'5項目すべてを満たしています。軽蔑・笑い・尊敬の往復が、何度も起きるキャラです。':n>=3?'骨格はできています。満たしていない項目が、キャラの印象を単純にしている部分かもしれません。':'まずは「反感を生む欠点」と「それを笑いに変える失敗」の組み合わせから考えてみましょう。';}
+      try{const c=JSON.parse(safeGet('kasu_ponkotsu_checks_v1')||'[]');checkboxes.forEach((x,i)=>x.checked=!!c[i]);}catch(e){}
+      checkboxes.forEach(x=>x.addEventListener('change',()=>{updateChecks();safeSet('kasu_ponkotsu_checks_v1',JSON.stringify(checkboxes.map(c=>c.checked)));}));
+      updateChecks();
+      // 目次の現在地
+      const nav=[...document.querySelectorAll('.sidebar nav a')];
+      function syncScroll(){let chosen='';for(const s of document.querySelectorAll('main section')){if(s.getBoundingClientRect().top<innerHeight*.43)chosen='#'+s.id;}nav.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===chosen));}
+      addEventListener('scroll',syncScroll,{passive:true});addEventListener('resize',syncScroll);syncScroll();
+    })();
+  </script>
+  <script src="../talkbar.js"></script>
+</body>
+</html>
