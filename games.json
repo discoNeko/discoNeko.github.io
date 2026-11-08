@@ -1,0 +1,278 @@
+{
+  "$comment": "ダッシュボードの台帳。access: hub=このリポジトリ内 / pages=外部の公開ページ / repo=ソースのみ公開 / private=非公開(パネルのみ・遷移不可)。status: playable / wip / prototype / archived。notes: true なら notes/<slug>.md を詳細パネルに表示。",
+  "items": [
+    {
+      "slug": "goji-jukugo",
+      "title": "誤字熟語",
+      "category": "game",
+      "access": "hub",
+      "status": "playable",
+      "summary": "説明文だけを頼りに、一字違いの“誤字熟語”を当てるクイズ。",
+      "tags": [
+        "ことば",
+        "クイズ"
+      ],
+      "url": "games/goji-jukugo/",
+      "created": "2026-11-01",
+      "updated": "2026-11-02",
+      "notes": true
+    },
+    {
+      "slug": "sfx-workbench",
+      "title": "SFX Workbench",
+      "category": "tool",
+      "access": "hub",
+      "status": "playable",
+      "summary": "スライダーを触りながらゲーム用の効果音を手続き合成し、WAV で書き出すツール。",
+      "tags": [
+        "サウンド",
+        "効果音"
+      ],
+      "url": "tools/sfx-workbench/",
+      "created": "2026-10-29",
+      "updated": "2026-10-30"
+    },
+    {
+      "slug": "atelier",
+      "title": "atelier",
+      "category": "game",
+      "access": "private",
+      "status": "archived",
+      "summary": "「素材集め × 就活」がテーマの RPG。素材を集めて成果物を錬成し、内定を目指す。",
+      "tags": [
+        "RPG",
+        "素材集め"
+      ],
+      "created": "2016-02-15",
+      "updated": "2026-11-03"
+    },
+    {
+      "slug": "nyaomageddon",
+      "title": "ニャオマゲドン",
+      "category": "game",
+      "access": "private",
+      "status": "playable",
+      "summary": "魔導 × サイバーパンクの対戦カードゲーム。CPU 戦と、サーバーなしの通信対戦に対応。",
+      "tags": [
+        "カードゲーム",
+        "対戦"
+      ],
+      "created": "2026-10-18",
+      "updated": "2026-10-20"
+    },
+    {
+      "slug": "megastructure",
+      "title": "第七縦穴",
+      "category": "game",
+      "access": "private",
+      "status": "wip",
+      "summary": "巨大構造物を探索するゲームの本編。",
+      "tags": [
+        "探索"
+      ],
+      "created": "2026-10-26",
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "megastructure-mock",
+      "title": "第七縦穴 プレイアブルモック",
+      "category": "game",
+      "access": "pages",
+      "status": "prototype",
+      "summary": "巨大構造物を探索するプレイアブルモック。",
+      "tags": [
+        "探索"
+      ],
+      "url": "https://disconeko.github.io/megastructure-mock/playable-mock.html",
+      "repo": "discoNeko/megastructure-mock",
+      "featured": true,
+      "thumb": "thumbs/megastructure-mock.jpg",
+      "created": "2026-10-28",
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "karaoke-tools",
+      "title": "karaoke-tools",
+      "category": "tool",
+      "access": "pages",
+      "status": "playable",
+      "summary": "個人用のカラオケ楽曲管理ツール。",
+      "tags": [
+        "音楽",
+        "管理"
+      ],
+      "url": "https://disconeko.github.io/karaoke-tools/",
+      "repo": "discoNeko/karaoke-tools",
+      "created": "2026-09-24",
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "takken-2weeks",
+      "title": "爆速2週間宅建",
+      "category": "tool",
+      "access": "pages",
+      "status": "playable",
+      "summary": "2 週間で宅建合格を目指すための学習ツール。",
+      "tags": [
+        "学習",
+        "資格"
+      ],
+      "url": "https://disconeko.github.io/takken-2weeks/",
+      "repo": "discoNeko/takken-2weeks",
+      "created": "2026-10-12",
+      "updated": "2026-10-12"
+    },
+    {
+      "slug": "genshin-tools",
+      "title": "原神 育成管理",
+      "category": "tool",
+      "access": "private",
+      "status": "playable",
+      "summary": "原神の育成管理ツール(ローカル HTML + IndexedDB)。",
+      "tags": [
+        "原神",
+        "育成管理"
+      ],
+      "created": "2026-09-13",
+      "updated": "2026-10-12"
+    },
+    {
+      "slug": "BFLangMaker",
+      "title": "BFLangMaker",
+      "category": "tool",
+      "access": "pages",
+      "status": "archived",
+      "summary": "任意の単語でプログラミング言語を生成するウェブサービス。",
+      "tags": [
+        "ネタ",
+        "プログラミング言語"
+      ],
+      "url": "https://disconeko.github.io/BFLangMaker/",
+      "repo": "discoNeko/BFLangMaker",
+      "created": "2017-02-18",
+      "updated": "2017-02-18"
+    },
+    {
+      "slug": "shadowverse_counting",
+      "title": "Shadowverse カウンティング",
+      "category": "tool",
+      "access": "pages",
+      "status": "archived",
+      "summary": "Shadowverse の対戦用カウンティング Web アプリ。",
+      "tags": [
+        "Shadowverse"
+      ],
+      "url": "https://disconeko.github.io/shadowverse_counting/",
+      "repo": "discoNeko/shadowverse_counting",
+      "created": "2016-10-01",
+      "updated": "2016-10-01"
+    },
+    {
+      "slug": "OneNightRogue",
+      "title": "OneNightRogue",
+      "category": "game",
+      "access": "pages",
+      "status": "archived",
+      "summary": "24 時間ローグライク作成ハッカソンで作ったローグライク。",
+      "tags": [
+        "ローグライク",
+        "ハッカソン"
+      ],
+      "url": "https://disconeko.github.io/OneNightRogue/",
+      "repo": "discoNeko/OneNightRogue",
+      "created": "2016-07-12",
+      "updated": "2016-09-01"
+    },
+    {
+      "slug": "Neu",
+      "title": "Neu",
+      "category": "game",
+      "access": "pages",
+      "status": "archived",
+      "summary": "カードゲーム。",
+      "tags": [
+        "カードゲーム"
+      ],
+      "url": "https://disconeko.github.io/Neu/",
+      "repo": "discoNeko/Neu",
+      "created": "2016-08-28",
+      "updated": "2016-08-28"
+    },
+    {
+      "slug": "shoooting",
+      "title": "shoooting",
+      "category": "game",
+      "access": "pages",
+      "status": "archived",
+      "summary": "シューティングゲーム。",
+      "tags": [
+        "シューティング"
+      ],
+      "url": "https://disconeko.github.io/shoooting/",
+      "repo": "discoNeko/shoooting",
+      "created": "2016-06-18",
+      "updated": "2016-06-18"
+    },
+    {
+      "slug": "voronoi",
+      "title": "voronoi",
+      "category": "tool",
+      "access": "pages",
+      "status": "archived",
+      "summary": "ボロノイ領域のインタラクティブデモ。",
+      "tags": [
+        "デモ"
+      ],
+      "url": "https://disconeko.github.io/voronoi/",
+      "repo": "discoNeko/voronoi",
+      "created": "2016-05-26",
+      "updated": "2016-05-29"
+    },
+    {
+      "slug": "Coup",
+      "title": "Coup",
+      "category": "game",
+      "access": "pages",
+      "status": "archived",
+      "summary": "ボードゲーム。",
+      "tags": [
+        "ボードゲーム"
+      ],
+      "url": "https://disconeko.github.io/Coup/",
+      "repo": "discoNeko/Coup",
+      "created": "2016-04-03",
+      "updated": "2016-04-30"
+    },
+    {
+      "slug": "Brainf-ck-Interpreter",
+      "title": "Brainf*ck Interpreter",
+      "category": "tool",
+      "access": "pages",
+      "status": "archived",
+      "summary": "Brainf*ck のインタプリタ。",
+      "tags": [
+        "プログラミング言語"
+      ],
+      "url": "https://disconeko.github.io/Brainf-ck-Interpreter/",
+      "repo": "discoNeko/Brainf-ck-Interpreter",
+      "created": "2016-04-18",
+      "updated": "2016-04-18"
+    },
+    {
+      "slug": "othello",
+      "title": "オセロ",
+      "category": "game",
+      "access": "pages",
+      "status": "archived",
+      "summary": "1 手読み〜NegaMax 法 8 手読みの CPU と対戦できるオセロ。",
+      "tags": [
+        "ボードゲーム",
+        "AI"
+      ],
+      "url": "https://disconeko.github.io/othello/",
+      "repo": "discoNeko/othello",
+      "created": "2016-03-24",
+      "updated": "2016-03-28"
+    }
+  ]
+}

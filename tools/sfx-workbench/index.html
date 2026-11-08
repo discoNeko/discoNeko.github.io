@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SFX Workbench</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">SFX Workbench</div>
+    <label class="field">レシピ <select id="recipeSelect"></select></label>
+    <label class="field">プリセット <select id="presetSelect"></select></label>
+    <button id="savePresetBtn" title="現在の設定をユーザープリセットとして保存">保存</button>
+    <button id="deletePresetBtn" title="選択中のユーザープリセットを削除">削除</button>
+    <span class="spacer"></span>
+    <button id="exportJsonBtn" title="パラメータとシードを JSON で保存">JSON書き出し</button>
+    <label class="btn" title="JSON からパラメータを復元">JSON読み込み<input type="file" id="importJsonInput" accept=".json,application/json" hidden></label>
+  </header>
+
+  <section class="transport">
+    <button id="playBtn" class="primary">▶ 再生<kbd>Space</kbd></button>
+    <button id="stopBtn" title="停止 (Esc)">■</button>
+    <label class="check"><input type="checkbox" id="autoPlay" checked> 変更したら自動再生</label>
+    <div class="group">
+      <label class="field">シード <input type="number" id="seedInput" min="0" max="999999999"></label>
+      <button id="newTakeBtn" title="パラメータはそのまま、ランダム要素だけ変える (N)">🎲 別テイク</button>
+    </div>
+    <div class="group">
+      <button id="undoBtn" title="元に戻す (⌘Z)">↶</button>
+      <button id="redoBtn" title="やり直す (⇧⌘Z)">↷</button>
+    </div>
+    <div class="group">
+      <label class="field">変化量 <input type="range" id="randAmount" min="0.02" max="0.6" step="0.01" value="0.12"><span id="randAmountVal" class="num"></span></label>
+      <button id="mutateBtn" title="現在値から少しずらす(ロック中のグループは除く)">ゆらす</button>
+      <button id="randomBtn" title="初期値を中心にランダム化(ロック中のグループは除く)">ランダム</button>
+    </div>
+    <div class="group" id="slots"></div>
+  </section>
+
+  <section class="viz">
+    <div class="viz-head">
+      <span id="info">準備中…</span>
+      <span class="hint">波形をクリックでその位置から再生</span>
+    </div>
+    <div class="viz-stack" id="vizStack">
+      <canvas id="timelineCanvas"></canvas>
+      <canvas id="waveCanvas"></canvas>
+      <canvas id="specCanvas"></canvas>
+      <canvas id="overlayCanvas"></canvas>
+    </div>
+    <div class="export">
+      <label class="field">ファイル名 <input type="text" id="fileName" size="14"></label>
+      <label class="field">形式
+        <select id="bitsSelect">
+          <option value="16">16bit PCM</option>
+          <option value="24">24bit PCM</option>
+          <option value="32">32bit float</option>
+        </select>
+      </label>
+      <label class="field">サンプルレート
+        <select id="srSelect">
+          <option value="48000">48kHz</option>
+          <option value="44100">44.1kHz</option>
+        </select>
+      </label>
+      <label class="field">チャンネル
+        <select id="chSelect">
+          <option value="mono">モノラル</option>
+          <option value="stereo">ステレオ</option>
+        </select>
+      </label>
+      <button id="downloadBtn" class="primary">⬇ WAV書き出し</button>
+      <div class="group">
+        <label class="field">シード違いを <input type="number" id="varCount" min="2" max="20" value="5"> 本</label>
+        <button id="downloadVarsBtn" title="現在のシードから連番で複数テイクを書き出す">⬇ 一括書き出し</button>
+      </div>
+    </div>
+  </section>
+
+  <main id="panels" class="panels"></main>
+
+  <script src="js/core/sfx.js"></script>
+  <script src="js/core/rng.js"></script>
+  <script src="js/core/dsp.js"></script>
+  <script src="js/core/engine.js"></script>
+  <script src="js/recipes/rope-tear.js"></script>
+  <script src="js/ui/controls.js"></script>
+  <script src="js/ui/viz.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>discoNeko works</title>
+<meta name="description" content="discoNeko が作ったゲームとツールの置き場">
+<meta name="theme-color" content="#0e0f17">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <h1>discoNeko <span>works</span></h1>
+    <p>作ったゲームとツールの置き場。鍵マークのものは非公開で、存在だけ載せています。</p>
+  </div>
+  <dl class="stats" id="stats"></dl>
+</header>
+
+<section class="controls" aria-label="絞り込み">
+  <div class="row">
+    <label class="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" id="q" placeholder="タイトル・説明・タグで検索" autocomplete="off">
+    </label>
+    <label class="sort">
+      <span>並び順</span>
+      <select id="sort">
+        <option value="updated">更新が新しい順</option>
+        <option value="created">作成が新しい順</option>
+        <option value="title">名前順</option>
+      </select>
+    </label>
+  </div>
+  <div class="row filters">
+    <div class="chips" id="f-category" role="group" aria-label="カテゴリ"></div>
+    <div class="chips" id="f-access" role="group" aria-label="公開状態"></div>
+    <div class="chips" id="f-status" role="group" aria-label="状態"></div>
+  </div>
+  <div class="chips tags-filter" id="f-tag" role="group" aria-label="タグ"></div>
+</section>
+
+<main>
+  <p class="result-count" id="count" aria-live="polite"></p>
+  <div class="grid-wrap" id="grid-wrap">
+    <div class="grid" id="grid"></div>
+  </div>
+  <div class="more" id="more" hidden>
+    <button type="button" class="btn more-btn" id="more-btn" aria-controls="grid-wrap" aria-expanded="false"></button>
+  </div>
+  <p class="empty" id="empty" hidden>条件に合う作品がありません。</p>
+</main>
+
+<dialog id="detail" aria-labelledby="d-title">
+  <div class="d-inner">
+    <button class="d-close" id="d-close" aria-label="閉じる">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="d-thumb" id="d-thumb"></div>
+    <div class="d-body">
+      <h2 id="d-title"></h2>
+      <p class="d-summary" id="d-summary"></p>
+      <div class="d-actions" id="d-actions"></div>
+      <dl class="d-meta" id="d-meta"></dl>
+      <section class="d-notes" id="d-notes" hidden>
+        <h3>メモ</h3>
+        <div class="md" id="d-notes-body"></div>
+      </section>
+    </div>
+  </div>
+</dialog>
+
+<footer class="site-footer">
+  <span>台帳: <a href="games.json">games.json</a></span>
+  <a href="https://github.com/discoNeko" target="_blank" rel="noopener">GitHub @discoNeko</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" defer></script>
+<script src="assets/app.js" defer></script>
+</body>
+</html>
