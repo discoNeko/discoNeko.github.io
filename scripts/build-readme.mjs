@@ -166,19 +166,7 @@ ${recent.map((g) => `<td width="33%" valign="top">
 </td>`).join("\n")}
 </tr></table>
 
-<details>
-<summary><b>すべての作品を見る(あと ${rest.length} 件)</b></summary>
-<br>
-
-<table>
-${rest.map((g) => `<tr>
-<td width="96"><img src="${thumb(g)}" width="96" alt=""></td>
-<td>${title(g)}<br><sub>${esc(g.summary)}</sub></td>
-<td nowrap><sub>${CAT[g.category].emoji} ${CAT[g.category].label}<br>${STATUS[g.status]}</sub></td>
-</tr>`).join("\n")}
-</table>
-
-</details>
+<p align="center"><a href="${SITE}"><b>すべての作品を見る(あと ${rest.length} 件)</b></a></p>
 `;
 writeFileSync(join(OUT, "profile.md"), md);
 console.log(`readme/: banner + ${items.length} thumbs, profile.md (featured ${featured.length} / recent ${recent.length} / rest ${rest.length})`);
