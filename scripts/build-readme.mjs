@@ -57,8 +57,10 @@ function thumbSVG(g) {
   <g clip-path="url(#c)">
   ${placeholder(g, { w: 320, h: 180, glyphSize: 76, id: "t" })}
   ${lock}
-  <rect x="12" y="12" width="${label.length * 9 + 18}" height="22" rx="6" fill="#0a0a10" fill-opacity=".72"/>
-  <text x="21" y="27.5" font-family="${EN}" font-size="11" font-weight="700" letter-spacing="1.5" fill="${color}">${label}</text>
+  <!-- 文字の幅は閲覧者の端末のフォントで変わるので、箱は固定幅(ラベルはどれも 4 文字)にして文字を中央に置く。
+       letter-spacing は最後の文字の後ろにも付くので、その半分だけ右にずらして見た目の中心を合わせる -->
+  <rect x="12" y="12" width="60" height="22" rx="6" fill="#0a0a10" fill-opacity=".72"/>
+  <text x="${12 + 30 + 0.75}" y="27.5" text-anchor="middle" font-family="${EN}" font-size="11" font-weight="700" letter-spacing="1.5" fill="${color}">${label}</text>
   </g>
 </svg>
 `;
