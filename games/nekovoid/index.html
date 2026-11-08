@@ -1,0 +1,1048 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NEKOVOID — 猫の腹は宇宙 / Prototype 05.8</title><style>
+:root{color-scheme:dark;--ink:#edf6fc;--muted:#98adbb;--cyan:#80ffe1;--pink:#ffa1df}*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#172932;color:var(--ink);font-family:system-ui,'Hiragino Kaku Gothic ProN',Meiryo,sans-serif;user-select:none}canvas{display:block;width:100vw;height:100vh;cursor:crosshair}button{cursor:pointer;font:inherit}.hud{pointer-events:none;position:absolute;inset:0}.top{position:absolute;top:22px;left:25px;display:flex;gap:12px;align-items:flex-start}.panel{background:rgba(8,20,29,.79);backdrop-filter:blur(13px);border:1px solid #8dfade34;border-radius:15px;padding:13px 17px;box-shadow:0 12px 40px #0005}.brand{font-size:19px;font-weight:1000;letter-spacing:3px;color:#e1fff5}.tiny{font-size:10px;font-weight:700;color:#8cb9b4;letter-spacing:2px}.stats{font-size:11px;color:#b8cfdb;line-height:1.9}.big{font-size:24px;font-weight:900;color:#f3fff7}.bar{height:7px;width:210px;background:#264047;border-radius:99px;overflow:hidden;margin-top:4px}.fill{height:100%;background:linear-gradient(90deg,#3cbbba,#ccffab);width:0%;transition:width .2s}.right{position:absolute;right:25px;top:22px;min-width:210px}.board{display:flex;justify-content:space-between;gap:15px;margin-top:9px;font-size:12px;color:#cee2e4}.board.me{color:#90ffda;font-weight:bold}.bottom{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:9px;background:rgba(7,20,31,.86);border:1px solid #8dfade36;border-radius:16px;padding:11px 17px;white-space:nowrap;color:#c6dade;font-size:12px}.key{display:inline-block;border:1px solid #7d9ba7;border-bottom-width:3px;border-radius:6px;padding:3px 7px;margin-right:5px;color:#f0ffff;font-weight:900}.meter{position:absolute;bottom:95px;left:50%;transform:translateX(-50%);text-align:center;color:#e9fff6;font-size:13px;font-weight:850;text-shadow:0 2px 9px #001}.meter .track{width:220px;height:10px;border-radius:99px;background:#091a1dba;border:1px solid #9affd352;margin:6px auto;overflow:hidden}.meter .track>div{height:100%;background:linear-gradient(90deg,#52cbbb,#f6e099);width:0%}.overlay{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,#17303bdd,#06131bea 80%);display:flex;align-items:center;justify-content:center;pointer-events:auto}.modal{width:min(650px,92vw);text-align:center;border:1px solid #c6fff244;border-radius:25px;background:linear-gradient(145deg,#172f3be8,#0b1a26ec);padding:35px;box-shadow:0 20px 90px #000a}.tag{color:#91ffdc;letter-spacing:4px;font-size:12px;font-weight:800}.modal h1{font-size:clamp(35px,5.2vw,64px);letter-spacing:6px;margin:10px 0 1px;font-weight:1000}.modal h2{font-size:28px}.modal p{color:#b8cdd5;line-height:1.8;font-size:14px}.cta{background:#a7ffdc;border:0;border-radius:12px;color:#0a2224;font-weight:1000;padding:14px 35px;margin-top:13px;box-shadow:0 6px 25px #5effbe2d}.cta:hover{background:#e1ffef}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:22px 0}.option{border:1px solid #7cffcb55;background:#233644;text-align:left;color:#e5fdf4;border-radius:15px;padding:17px;min-height:154px}.option:hover{border-color:#a7ffdd;background:#314d53;transform:translateY(-2px)}.option .glyph{font-size:30px}.option b{display:block;font-size:17px;margin:12px 0 6px}.option span{font-size:12px;color:#b9d3cf;line-height:1.5}.sound{pointer-events:auto;position:absolute;right:25px;bottom:22px;background:#061821d8;border:1px solid #8dfade53;border-radius:12px;color:#b5e4d6;padding:11px 13px;font-weight:800;font-size:12px}.sound{right:220px}.sound:hover{color:#fff;border-color:#b9ffea}.event-pill{position:absolute;left:25px;bottom:23px;background:#12252bdc;color:#c8eadd;border:1px solid #b8ffe34b;border-radius:12px;padding:11px 15px;letter-spacing:1px;font-size:11px;min-height:38px}.tutorial{position:absolute;left:50%;top:25%;transform:translateX(-50%);color:#e5ffdb;font-size:19px;letter-spacing:2px;font-weight:900;opacity:0;transition:opacity .5s;text-shadow:0 4px 10px #000;pointer-events:none}.toast{position:absolute;top:17%;left:50%;transform:translateX(-50%);font-size:27px;font-weight:1000;color:#fff9d5;text-shadow:0 3px 14px #000;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}.hidden{display:none!important}@media(max-width:800px){.sound{right:25px}}@media(max-width:680px){.right{display:none}.top{top:9px;left:9px}.panel{padding:9px}.bottom{font-size:10px;bottom:7px;gap:2px}.bottom span:nth-child(3){display:none}.cards{grid-template-columns:1fr}.option{min-height:100px}}
+
+.actionhint{position:absolute;left:50%;bottom:151px;transform:translateX(-50%);background:#0b2228e9;border:1px solid #73fbd06b;border-radius:12px;color:#e3fff4;padding:9px 17px;text-align:center;font-size:13px;font-weight:900;min-width:275px;max-width:480px;transition:border-color .12s;box-shadow:0 5px 28px #0017;letter-spacing:.3px}
+.actionhint.danger{border-color:#ffa8c5;color:#ffe6ef;background:#2b1626ed}.actionhint.neutral{border-color:#a3c2c05e;color:#b7d9d6}.legend{font-size:11px;color:#a3dad2;margin-top:4px;font-weight:650;letter-spacing:0}.legend b{color:#b0ffe6}
+@media(max-width:680px){.actionhint{bottom:60px;font-size:11px;min-width:200px;max-width:85vw;padding:7px}.legend{font-size:9px}.meter{bottom:120px}}
+
+.upgrade-dock{position:absolute;top:178px;right:25px;width:min(292px,calc(100vw - 34px));pointer-events:none;z-index:3;filter:drop-shadow(0 12px 28px #0009)}
+.upgrade-inner{pointer-events:none;background:#091c26e9;border:1px solid #a1ffe5a8;border-radius:17px;padding:13px 12px 10px;backdrop-filter:blur(15px)}
+.upgrade-head{color:#b0ffe0;font-size:13px;font-weight:900;letter-spacing:1px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.upgrade-head small{color:#ffd696;font-size:10px;letter-spacing:0}
+.upgrade-sub{font-size:10px;color:#c7d8d3;margin:6px 0 9px}
+.upgrade-choice{pointer-events:auto;display:flex;align-items:center;gap:9px;border:1px solid #75a89f6e;border-radius:11px;background:#1a3540f2;color:#edfff6;width:100%;text-align:left;padding:9px 10px;margin:6px 0;font:inherit;cursor:pointer}
+.upgrade-choice:hover,.upgrade-choice:focus-visible{background:#2b5557;border-color:#a8ffe0;outline:none}
+.upgrade-choice .num{color:#f8e29a;font-size:11px;font-weight:900;border:1px solid #efda9780;border-radius:5px;padding:4px}
+.upgrade-choice .glyph{font-size:22px}
+.upgrade-choice b{display:block;font-size:12px;margin-bottom:2px}
+.upgrade-choice em{display:block;font-style:normal;color:#c0d5d1;font-size:10px;line-height:1.35}
+@media(max-width:850px){.upgrade-dock{top:146px;right:10px;width:255px}.upgrade-inner{padding:9px}.upgrade-choice{padding:7px}}
+
+/* Choice stays visible without pausing the match: bottom center, well above controls */
+.upgrade-dock{top:auto!important;right:auto!important;left:50%;bottom:106px;width:min(670px,calc(100vw - 28px));transform:translateX(-50%);z-index:6}
+.upgrade-inner{background:#091b26f4;border:2px solid #b6ffe9b2;box-shadow:0 10px 50px #000b;padding:12px 13px 14px}
+#upgradeChoices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.upgrade-choice{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin:0;padding:12px;min-height:112px}
+.upgrade-choice .glyph{font-size:25px}.upgrade-choice b{font-size:13px}
+.upgrade-head{font-size:16px}.upgrade-sub{font-size:12px}
+.upgrade-dock .upgrade-inner{pointer-events:none}
+.upgrade-dock button{pointer-events:auto}
+.chooser{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:18px 0 7px}
+.char-card{min-width:0;background:#152c38;border:2px solid #ffffff25;border-radius:15px;color:#ebf6ee;padding:14px 7px;cursor:pointer;text-align:center;transition:background .13s,border-color .13s}
+.char-card:hover{background:#2b4450}.char-card.selected{border-color:#9cfbd8;background:#245049;box-shadow:0 0 22px #52e9ac30}
+.char-face{font-size:34px;display:block}.char-name{font-weight:900;font-size:13px;display:block;margin:6px 0}.char-desc{font-size:11px;color:#cbdcdd;line-height:1.5;display:block}
+.start-modal{width:min(860px,94vw);padding:24px 30px}.start-modal h1{font-size:45px}
+.start-modal p{line-height:1.55;margin:8px 0;font-size:13px}
+.result-modal{width:min(1030px,95vw);max-height:94vh;overflow:auto;text-align:left;padding:24px 28px}
+.result-modal h1{font-size:38px;margin:4px 0 7px}
+.chart-wrap{background:#091922;border:1px solid #9cdcc548;border-radius:12px;padding:10px;margin:14px 0 10px}
+#resultChart{display:block;width:100%;height:270px}
+.legend-line{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#d3e7e1;justify-content:center}
+.legend-line i{display:inline-block;width:12px;height:4px;border-radius:4px;margin-right:4px;vertical-align:middle}
+.result-board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.result-tile{border:1px solid #ffffff26;border-radius:10px;background:#162937;padding:10px 12px;font-size:12px}
+.result-tile b{font-size:17px}.result-buttons{display:flex;gap:10px;justify-content:center}
+.result-buttons .cta{padding:12px 22px;margin-top:10px}
+@media(max-width:720px){.chooser{grid-template-columns:repeat(2,1fr)}.start-modal{padding:14px}.start-modal h1{font-size:34px}.upgrade-dock{bottom:77px}.upgrade-choice{padding:7px;min-height:112px}.upgrade-choice em{font-size:9px}.result-modal{padding:13px}.result-board{grid-template-columns:repeat(2,1fr)}#resultChart{height:220px}}
+
+.char-card.locked{opacity:.76;border-style:dashed;border-color:#a7b5c05b}
+.char-card.locked.selected{opacity:1;border-color:#edc991;background:#3c3746}
+.char-card.locked .char-face{filter:grayscale(.7);opacity:.75}
+.character-detail{border:1px solid #8ce9c459;border-radius:12px;background:#0b212bdc;min-height:77px;padding:11px 15px;text-align:left;display:flex;flex-direction:column;gap:4px}
+.character-detail strong{font-size:15px}.character-detail span{font-size:12px;color:#d1e3e2;line-height:1.45}
+.character-detail .detail-status{color:#ffe0a2;font-weight:850}
+button.cta:disabled{cursor:not-allowed;opacity:.52;background:#b8c8ca;box-shadow:none}
+.save-note{font-size:10px;color:#a6bfbe;margin-top:9px}
+.unlock-announcement{border:1px solid #d3d58b6e;background:#38402d;border-radius:12px;text-align:center;color:#ecffd3;font-weight:800;padding:12px;margin:13px 0 2px;font-size:16px}
+.opponent-selector{margin:12px 0 5px;display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}.opponent-selector strong{font-size:12px;margin-right:5px;color:#bfe9d8}.mode-btn{border:1px solid #8aaca9;background:#142937;color:#b8ced0;border-radius:9px;padding:8px 12px;font-size:12px;font-weight:850}.mode-btn.active{background:#27574e;border-color:#98f8d0;color:#edfff3}.mode-caption{font-size:11px;color:#b1c7be;min-height:15px}
+</style></head><body><canvas id="game"></canvas><div class="hud"><div class="top"><div class="panel"><div class="tiny">SHADOW DEVOURER</div><div class="brand">NEKOVOID <span style="font-size:10px;color:#70adab">PROTOTYPE 05.9</span></div><div class="stats">ねこの大きさ <strong id="score" class="big">0.5m</strong>　成長 <b id="stage">Ⅰ</b></div><div class="stats" id="nexttext">次のサイズまで</div><div class="bar"><div class="fill" id="growth"></div></div><div class="stats" id="frontier" style="font-size:11px;color:#ffe5af;margin-top:7px">３つの出口から道を選べ</div><div class="stats" id="goalStat" style="font-size:11px;color:#a7f4ea;margin-top:5px">Q：狙う獲物を選択</div><div class="stats" id="clearStat" style="font-size:11px;color:#bceec0">街の開通 0・大物 0</div><div class="stats" id="impactStat" style="font-size:11px;color:#ffc2c1">💥 体当たり吹き飛ばし 195px</div></div><div class="panel"><div class="tiny">REMAINING</div><div class="big" id="clock">05:00</div><div class="stats" id="phase">街の目覚め</div></div></div><div class="panel right"><div class="tiny">CAT SIZE RANKING</div><div id="ranking"></div></div><div class="actionhint neutral" id="actionHint">◈ ３つの出口を選ぼう：青=速攻、金=暴食、赤=強襲</div><div class="meter hidden" id="capture"><div id="captureLabel">吸い込んでいる…</div><div class="track"><div id="captureFill"></div></div></div><div class="bottom"><span><span class="key">WASD</span>移動</span><span><span class="key">左クリック / E</span>吸引</span><span><span class="key">SPACE</span>吹き飛ばし</span><span><span class="key">Q</span>目標切替</span></div><div id="upgradePanel" class="upgrade-dock hidden" aria-live="polite"><div class="upgrade-inner"><div class="upgrade-head">✦ 進化を選択 <small id="upgradeCount">ゲーム進行中</small></div><div class="upgrade-sub">時間は止まらない！形態で能力が変わる / 数字 1〜3 で選択</div><div id="upgradeChoices"></div></div></div><div class="toast" id="toast"></div><div class="event-pill" id="event">◈ 猫のお腹は、底なし。</div><div class="tutorial" id="tutorial">３つの出口から、食べて進みたい道を選ぼう</div><button class="sound" id="sound">♪ SOUND ON</button></div><div class="overlay" id="overlay"><div class="modal start-modal" id="modal"></div></div><script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id),canvas=$('game'),ctx=canvas.getContext('2d');let sw=0,sh=0,dpr=1;function resize(){dpr=Math.min(devicePixelRatio||1,2);sw=innerWidth;sh=innerHeight;canvas.width=sw*dpr;canvas.height=sh*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}window.addEventListener('resize',resize);resize();
+const W=3600,H=2600,PI=Math.PI,TAU=2*PI,TEAM=['#99ffe2','#ffadcb','#f8dc8e','#b7a9ff'];let seed=821312;function rand(){seed=(Math.imul(1664525,seed)+1013904223)>>>0;return seed/4294967296}function rnd(a,b){return a+(b-a)*rand()}function choice(a){return a[Math.floor(rand()*a.length)]}function clamp(x,a,b){return Math.max(a,Math.min(b,x))}function lerp(a,b,t){return a+(b-a)*t}function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}function rounded(x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r)}
+const defs=[{name:'カリカリ',tier:0,r:8,val:2,kind:'kibble'},{name:'ちゅ〜る',tier:0,r:10,val:3,kind:'churu'},{name:'猫缶',tier:0,r:12,val:4,kind:'can'},{name:'爪とぎ',tier:1,r:20,val:8,kind:'lamp'},{name:'自転車',tier:1,r:21,val:9,kind:'bike'},{name:'キャットタワー',tier:1,r:27,val:10,kind:'tree'},{name:'車',tier:2,r:37,val:18,kind:'car'},{name:'トラック',tier:2,r:48,val:22,kind:'car'},{name:'屋台',tier:3,r:57,val:32,kind:'building'},{name:'一軒家',tier:3,r:73,val:41,kind:'building'},{name:'店舗',tier:4,r:166,val:92,kind:'building'},{name:'マンション',tier:5,r:264,val:175,kind:'building'},{name:'世界の星',tier:6,r:435,val:230,kind:'core'}];
+const meterSteps=[{xp:0,m:0.5},{xp:32,m:1},{xp:105,m:2},{xp:240,m:5},{xp:500,m:10},{xp:920,m:25},{xp:1540,m:66},{xp:2900,m:200},{xp:5700,m:666}];
+const tierCaps=[0,32,105,240,500,920,1540];
+function meters(m){if(m>=meterSteps[meterSteps.length-1].xp)return 666;for(let i=1;i<meterSteps.length;i++){let a=meterSteps[i-1],b=meterSteps[i];if(m<b.xp)return a.m+(b.m-a.m)*(m-a.xp)/(b.xp-a.xp)}return 666}
+function sizeText(m){return (m<10?(Math.floor(m*10)/10).toFixed(1):m<100?(Math.floor(m*10)/10).toFixed(1).replace(/\.0$/,''):Math.floor(m).toString())+'m'}
+const CHARACTERS=[
+ {id:'balanced',name:'まる',icon:'🐈‍⬛',color:'#9dffe1',title:'連鎖捕食',desc:'大物を食べると周囲の小物を広く巻き込む。移動も捕食も安定した最初の一匹。',speed:1.03,digest:1.05,range:0,impact:0,oversize:0,dashMax:1,cascade:1.45,startingMass:0},
+ {id:'glutton',name:'もち',icon:'🐱',color:'#ffdb9c',title:'強胃・大口',desc:'1段階上の獲物を早食いできるが、格上の獲物は栄養効率が落ちる。鈍足の突破特化型。',speed:.72,digest:1.36,range:42,impact:0,oversize:1,dashMax:1.25,cascade:1,startingMass:0},
+ {id:'bash',name:'とら',icon:'🐈',color:'#ffb88c',title:'疾風・強襲',desc:'俊足と短いダッシュ再使用時間を両立。最初から強化体当たりで壁スタン可能。捕食は苦手。',speed:1.19,digest:.81,range:-8,impact:1,oversize:0,dashMax:.63,cascade:.9,startingMass:0},
+ {id:'boss',name:'ドン・ニャルゴ',icon:'😼',color:'#c6a5ff',title:'早熟・重量級',desc:'最初から2m・進化を1回選べる。序盤は圧倒的だが、その後の移動と吸引効率が低い。',speed:.78,digest:.85,range:-13,impact:0,oversize:0,dashMax:1.15,cascade:1,startingMass:105}
+];
+// Persistent unlocks: one new character after each COMPLETED game.
+const UNLOCK_KEY='nekovoid_v56_games';
+let gamesCompleted=0,storageAvailable=true;
+try{gamesCompleted=clamp(parseInt(localStorage.getItem(UNLOCK_KEY)||'0',10)||0,0,999)}catch(e){storageAvailable=false}
+function unlockedCount(){return clamp(1+gamesCompleted,1,CHARACTERS.length)}
+function canSelectCharacter(i){return i<unlockedCount()}
+function recordCompletedMatch(){
+ const was=unlockedCount();gamesCompleted=Math.min(999,gamesCompleted+1);
+ try{localStorage.setItem(UNLOCK_KEY,String(gamesCompleted))}catch(e){storageAvailable=false}
+ const now=unlockedCount();return now>was?CHARACTERS[now-1]:null;
+}
+function visualRadius(mass){return Math.min(265,24+27*Math.log2(1+meters(mass)/2))}
+function collisionRadius(c){return Math.min(42,c.r*.70)}function sizePace(c){return 1+Math.min(.48,.11*Math.log2(1+meters(c.mass)/5))}
+let selectedCharacter=0,history=[],nextSample=0,matchWinner=null;
+const OPPONENT_KEY='nekovoid_opponent_mode_v59';
+let opponentMode='unique';
+try{opponentMode=localStorage.getItem(OPPONENT_KEY)==='random'?'random':'unique'}catch(e){}
+const STAR_OPEN_AT=120,FEAST_BEGIN=93,FEAST_EVERY=24;
+let feastWave=0,nextFeast=FEAST_BEGIN,matchAiTypes=[];
+const BASE_KNOCK=195,SLAM_DURATION=2.8,MAX_KNOCK=385;let slamMarks=[];let goalTarget=null,matchSeed=0,swallowTrails=[],pendingUpgrades=0,upgradeOptions=[],things=[],cats=[],drones=[],particles=[],rings=[],floats=[],scars=[],keys={},mouseDown=false,mouseValid=false,mouseX=0,mouseY=0,playing=false,paused=true,elapsed=0,timeLimit=300,shake=0,toastTimer=0,player,cam={x:0,y:0},viewScale=1,zoom=1,starOpened=false,gameOver=false,upgrades=[],currentCapt=null,clock=0,freeze=0,audioContext=null,soundOn=true,activeEvent="",eventTimer=0;
+function addThing(def,x,y){let o={...def,x,y,rotation:rnd(-.4,.4),p:0,owner:-1,guard:0,contested:false,dead:false,phase:rnd(0,TAU),color:choice(['#5c9c9d','#d18e93','#d2ac74','#7e8dac','#99a98b'])};things.push(o);return o}
+const HOMES=[{x:0,y:0,sx:1,sy:1},{x:W,y:0,sx:-1,sy:1},{x:W,y:H,sx:-1,sy:-1},{x:0,y:H,sx:1,sy:-1}];
+let outerGates=[],districtGates=[],centerGates=[],barrierObjects=[],solidThings=[],leftHome=false,enteredCenter=false,openedRoutes=0;
+function spotFree(x,y,r=10){return things.every(o=>o.dead||!o.solid||Math.hypot(o.x-x,o.y-y)>o.r*.76+r+6)}
+function homeDist(x,y,i){return Math.hypot(x-HOMES[i].x,y-HOMES[i].y)}
+function isInsideHome(c){return homeDist(c.x,c.y,c.homeIndex)<620}
+function reset(){
+ const explicitSeed=Number(new URLSearchParams(location.search).get('seed'));seed=(explicitSeed||Math.floor(Math.random()*4294967295))>>>0;matchSeed=seed;goalTarget=null;swallowTrails=[];slamMarks=[];things=[];cats=[];drones=[];particles=[];rings=[];floats=[];scars=[];
+ outerGates=[];districtGates=[[],[],[],[]];centerGates=[];barrierObjects=[];openedRoutes=0;elapsed=0;feastWave=0;nextFeast=FEAST_BEGIN;shake=0;toastTimer=0;freeze=0;eventTimer=0;
+ activeEvent='';starOpened=false;gameOver=false;upgrades=[];history=[];nextSample=0;matchWinner=null;pendingUpgrades=0;upgradeOptions=[];$('upgradePanel').classList.add('hidden');leftHome=false;enteredCenter=false;
+  // Each quadrant has three contrasting doors, all physical and edible.
+  // The fast path opens early, the feast path has a food reward,
+  // and the bash path permanently improves knockback in that match.
+  const exitSpecs={2:{name:'速攻の路地',tier:1,r:76,val:12,route:'fast',kind:'bus',captureMultiplier:.78},5:{name:'暴食の市場',tier:1,r:81,val:26,route:'feast',kind:'bus',captureMultiplier:2.5},8:{name:'強襲の車庫',tier:1,r:81,val:16,route:'bash',kind:'bus',captureMultiplier:1.8}};
+  HOMES.forEach((h,hi)=>{
+   for(let k=0;k<=10;k++){
+     let a=k/10*PI/2,rad=645,x=h.x+h.sx*Math.cos(a)*rad,y=h.y+h.sy*Math.sin(a)*rad;
+     let gateOrder=[2,5,8],slotOrder=[2,5,8];let rotate=(matchSeed%3);let sp=exitSpecs[slotOrder[(gateOrder.indexOf(k)+3-rotate)%3]]||null;if(!gateOrder.includes(k))sp=null;let def=sp||{name:'街区の建物',tier:3,r:81,val:42,kind:'building'};
+     let o=addThing(def,x,y);o.solid=true;o.role=sp?'outerGate':'outerWall';o.district=hi;
+     o.rotation=sp?h.sx*h.sy*(-PI/4):h.sx*h.sy*.1;
+     barrierObjects.push(o);
+     if(sp){districtGates[hi].push(o);outerGates.push(o)}
+   }
+  });
+ // Inner downtown perimeter. The massive central target is a true destination, not merely a score pickup.
+ for(let k=0;k<24;k++){
+   let a=k*TAU/24,x=W/2+Math.cos(a)*755,y=H/2+Math.sin(a)*755;
+   let gate=k%6===0,def=gate?{name:'中央検問ビル',tier:4,r:146,val:110,kind:'building'}:{name:'都心の高層街区',tier:k%3===0?5:4,r:k%3===0?185:143,val:k%3===0?170:105,kind:'building'};
+   let o=addThing(def,x,y);o.solid=true;o.role=gate?'centerGate':'centerWall';o.rotation=a*.35;
+   barrierObjects.push(o);if(gate)centerGates.push(o);
+ }
+ // Four unique, non-respawning contested landmarks. Eating one opens an important route
+ // AND grants a different power, so large prey are choices rather than generic XP.
+ const LANDMARKS=[
+  {x:W/2,y:235,name:'吸引研究所',bonus:'range',reward:'吸引範囲 +40px',color:'#63f1dd'},
+  {x:W-235,y:H/2,name:'衝撃車庫',bonus:'impact',reward:'吹き飛ばし +45px',color:'#ff8eaa'},
+  {x:W/2,y:H-235,name:'満腹デパート',bonus:'mass',reward:'成長 +65',color:'#f0d67e'},
+  {x:235,y:H/2,name:'影走り駅',bonus:'speed',reward:'移動速度 +12%',color:'#9ca9ff'},
+ ];
+ for(let v of LANDMARKS){let o=addThing({name:v.name,kind:'building',tier:3,r:150,val:80},v.x,v.y);
+  o.role='landmark';o.solid=true;o.bonus=v.bonus;o.reward=v.reward;o.color=v.color;barrierObjects.push(o)}
+ let core=addThing(defs[12],W/2,H/2);core.solid=true;core.role='core';core.color='#f9d789';
+ // Huge endgame landmarks: recognizable even after the cats themselves become enormous.
+ for(let k=0;k<4;k++){
+  const a=PI/4+k*PI/2,rr=1130;
+  const x=W/2+Math.cos(a)*rr,y=H/2+Math.sin(a)*rr;
+  let o=addThing({name:['巨大ちゅ〜る工場','月見タワー','世界猫缶倉庫','超巨大観覧車'][k],kind:'building',tier:5,r:255,val:220},x,y);
+  o.solid=true;o.role='colossus';o.color=['#a6b7e8','#c9a1e9','#d9b078','#85c2bc'][k];barrierObjects.push(o);
+ }
+ // Identical resources in all four opening quadrants. Symmetry is deliberate, not RNG luck.
+ let blueprint=[];
+ for(let tier of [0,1,2,3])for(let k=0,tries=0;k<[56,18,12,2][tier]&&tries<900;k++,tries++){
+   let d=choice(defs.filter(v=>v.tier===tier));let x=rnd(70,500),y=rnd(70,500);
+   if(Math.hypot(x,y)>535||Math.hypot(x-215,y-340)<(tier>=3?155:70)){k--;continue}
+   // Don't spawn near the main gate or under already-blocking houses.
+   if(!spotFree(x,y,d.r*.5)){k--;continue}
+   blueprint.push({d,x,y});
+ }
+ HOMES.forEach((h,hi)=>{
+  for(let b of blueprint){let x=h.x+h.sx*b.x,y=h.y+h.sy*b.y;
+   if(spotFree(x,y,b.d.r*.55)){let o=addThing(b.d,x,y);o.solid=b.d.tier>=3;o.district=hi;}
+  }
+ });
+ // Contested commons: high-value resources appear past each neighborhood breach.
+ for(let tier of [0,1,2,3,4,5])for(let k=0,tries=0;k<[250,100,72,32,13,6][tier]&&tries<1800;k++,tries++){
+    let d=choice(defs.filter(v=>v.tier===tier));let x=rnd(75,W-75),y=rnd(75,H-75);
+    if(HOMES.some((h,i)=>homeDist(x,y,i)<685)||Math.hypot(x-W/2,y-H/2)<1000||!spotFree(x,y,d.r*.65)){k--;continue}
+    let o=addThing(d,x,y);o.solid=tier>=3;
+ }
+ // Keep props outside the footprints of later-generated solid structures.
+ solidThings=things.filter(o=>o.solid);
+ for(let o of things)if(!o.solid&&solidThings.some(b=>Math.hypot(o.x-b.x,o.y-b.y)<b.r*.72+o.r*.45))o.dead=true;
+ const positions=[[215,340],[W-215,340],[W-215,H-340],[215,H-340]];
+ // A random permutation of *starting corners*, not of the map's resources.
+ // Store corner ownership separately from the cat ID so routing and objectives stay correct.
+ const corners=[0,1,2,3];
+ for(let i=corners.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[corners[i],corners[j]]=[corners[j],corners[i]]}
+ const order=opponentMode==='unique'?[selectedCharacter,...[0,1,2,3].filter(i=>i!==selectedCharacter)]:[selectedCharacter,...Array.from({length:3},()=>Math.floor(rand()*4))];matchAiTypes=order.slice();
+ cats.push(...corners.map((corner,i)=>makeCat((i===0?'あなた・':'CPU'+i+'・')+CHARACTERS[order[i]].name,positions[corner][0],positions[corner][1],i,order[i],corner)));
+ player=cats[0];
+ // The boss receives one evolution choice immediately. Non-player bosses pick a predictable passive.
+ for(let c of cats.slice(1))if(c.type===3)c.range+=32;
+ // Vacuums begin in every district, then sweep outer roads and the central star approaches.
+ drones=[[320,340],[W-320,340],[W-320,H-340],[320,H-340]].map((p,i)=>({x:p[0],y:p[1],hx:p[0],hy:p[1],phase:i*1.5+1,cd:0,targetId:i,retarget:2,hitCount:0,mode:'patrol',chase:0,rest:0,roam:i*1.6}));
+ cam.x=player.x;cam.y=player.y;recordHistory();updateHud();
+}
+function makeCat(name,x,y,id,type,homeIndex){const profile=CHARACTERS[type];return {name,x,y,id,type,homeIndex,accent:profile.color,angle:-PI/2,vx:0,vy:0,r:visualRadius(profile.startingMass),mass:profile.startingMass,score:profile.startingMass,stage:stageOf({mass:profile.startingMass}),cascade:profile.cascade,speed:214*profile.speed,force:1,digest:profile.digest,range:profile.range,shield:0,dash:0,dashCd:0,dashMax:3.1*profile.dashMax,dashHits:0,robberies:0,impactRank:profile.impact,impactBonus:0,impactImmune:0,knockVx:0,knockVy:0,knockBy:-1,knockPrey:null,slamEligible:false,wallSlams:0,robbedUntil:0,stun:0,grip:null,belly:0,oversize:profile.oversize,eatenLarge:0,eaten:0,aiTimer:0,target:null,hunt:null,huntTime:0,aiBoostStage:0,lastDecision:"",routeGoal:null,routeTime:0,route:[],contestTime:0,starCharge:0,combo:0,comboClock:0,stealAlert:0,evolution:null,gravityRank:0,breakerRank:0,raiderRank:0,ramMark:null}}
+function stageOf(c){let tier=0;for(let i=1;i<tierCaps.length;i++)if(c.mass>=tierCaps[i])tier=i;return tier}function canEat(c,o){return o.tier<=c.stage+(c.oversize||0)&&(o.kind!=='core'||starOpened)&&(o.kind!=='core'||c.stage>=5)}function toast(txt){$('toast').textContent=txt;$('toast').style.opacity=1;toastTimer=2.4}
+function beep(tier=0){if(!soundOn||!audioContext)return;try{const now=audioContext.currentTime;let osc=audioContext.createOscillator(),g=audioContext.createGain();osc.type=tier>=3?'sawtooth':'sine';osc.frequency.setValueAtTime(tier>=3?125:480,now);osc.frequency.exponentialRampToValueAtTime(tier>=3?43:140,now+(tier>=3?.27:.11));g.gain.setValueAtTime(.001,now);g.gain.exponentialRampToValueAtTime(tier>=3?.18:.055,now+.016);g.gain.exponentialRampToValueAtTime(.001,now+(tier>=3?.32:.14));osc.connect(g).connect(audioContext.destination);osc.start(now);osc.stop(now+(tier>=3?.35:.17));}catch(e){}}
+function banner(message,seconds=4){activeEvent=message;eventTimer=seconds;$('event').textContent=message}
+function burst(x,y,col,n=10,power=130){for(let i=0;i<n;i++){let a=rnd(0,TAU),s=rnd(power*.25,power);particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:rnd(.35,.9),max:.9,r:rnd(2,6),col})}rings.push({x,y,r:15,vr:power*1.3,life:.6,col})}
+// Late-game nutrition soft cap. Swallowing an enormous building still clears it from
+// the map immediately, but the cat's size grows at a slower, predictable rate.
+// This rate applies to every cat, including CPUs (no hidden handicap for the player).
+function nutritionRate(mass){
+ if(mass<=500)return 1;
+ if(mass<920)return lerp(1,.88,(mass-500)/420);
+ if(mass<1540)return lerp(.88,.78,(mass-920)/620);
+ if(mass<2900)return lerp(.78,.64,(mass-1540)/1360);
+ return .64;
+}
+function nutritionGain(c,o){
+ if(o.kind==='core')return 0;
+ // Eating above your unlocked stage grants the shortcut, not full late-game nutrition.
+ const earlyPrey=o.tier>c.stage?.72:1;
+ return Math.max(.4,Math.round(o.val*nutritionRate(c.mass)*earlyPrey*10)/10);
+}
+function eat(c,o,chain=false){if(o.dead)return;o.dead=true;let oldMeters=meters(c.mass);const nourishment=nutritionGain(c,o);c.mass+=nourishment;c.score=c.mass;c.eaten++;if(o.tier>=3)c.eatenLarge++;c.combo++;c.comboClock=4;c.grip=null;if(o.solid&&(o.tier>=2||o.role==='outerGate')){scars.push({x:o.x,y:o.y,r:o.r,phase:rnd(0,TAU),role:o.role});}if(o.role==='landmark'){
+  if(o.bonus==='range')c.range+=40;
+  else if(o.bonus==='impact')c.impactBonus+=45;
+  else if(o.bonus==='mass')c.mass+=Math.round(65*nutritionRate(c.mass));
+  else if(o.bonus==='speed')c.speed*=1.12;
+  if(c.id===0){banner('✦ 戦略拠点「'+o.name+'」を丸呑み！ '+o.reward,5);toast(o.reward+'！');}
+  else banner('⚠ '+c.name+'が「'+o.name+'」を食べた！',4);
+ }
+ if(o.role==='outerGate'||o.role==='centerGate'){
+ if(o.role==='outerGate'){
+  openedRoutes++;
+  if(o.route==='fast')c.speed*=1.085;
+  if(o.route==='bash')c.impactBonus+=50;
+  if(o.route==='feast')c.mass+=Math.round(22*nutritionRate(c.mass));
+ }
+ if(c.id===0){let reward=o.route==='fast'?'移動速度+8.5%':o.route==='feast'?'追加成長+22':o.route==='bash'?'吹き飛ばし+50px':'';
+  banner(o.role==='outerGate'?'✦ '+o.name+' 開通！ '+reward:'✦ 都心への道が開いた！',5);
+  toast(o.role==='outerGate'?'道を食べた！ '+reward:'都心に侵入できる！');shake=Math.max(shake,22)
+ }else if(o.role==='outerGate')banner('⚠ 他の猫が「'+o.name+'」を突破した！',3);
+}c.score=c.mass;if(o.kind==='core'){c.mass=Math.max(c.mass,meterSteps[meterSteps.length-1].xp);c.score=c.mass;recordHistory();endGame(c,'star');return}if(c.id===0){if(!chain)beep(o.tier);floats.push({x:o.x,y:o.y-25,life:1.2,txt:'+'+Number(nourishment.toFixed(1)),col:o.tier>=3?'#ffe3a1':'#b6ffe1'});if(o.tier>=3&&!chain){freeze=.085;banner('✦ '+o.name+' を丸呑み！',3.2)}burst(o.x,o.y,o.tier>=3?'#fce5aa':'#99ffe0',o.tier>=3?28:6,o.tier>=3?200:90);if(o.tier>=3&&!chain){shake=Math.max(shake,18);toast('丸呑み！ '+o.name+' +'+Number(nourishment.toFixed(1)))}else if(o.tier>=2){shake=Math.max(shake,4)}}else burst(o.x,o.y,TEAM[c.id],o.tier>=3?13:3,70);let newMeters=meters(c.mass);if(c.id===0){for(const step of meterSteps){if(step.m>=1&&oldMeters<step.m&&newMeters>=step.m){emitFloat(c.x,c.y-65,'★ '+step.m+'m 到達','#d9ffe4');if(step.m>=10)banner('✦ 猫が '+step.m+'m に巨大化！ 新しい獲物を探そう',3);}}}if(newMeters>=666){recordHistory();endGame(c,'growth');return}let st=stageOf(c);if(st>c.stage){c.stage=st;c.r=visualRadius(c.mass);if(c.id===0){beep(4);toast(['','大きな口に進化！','車が食べられる！','家が食べられる！','店舗が食べられる！','マンションが食べられる！','すべてを食らえ！'][st]);burst(c.x,c.y,'#dbff97',28,160);let select=[1,2,3,4,5].includes(st);if(select)showUpgrade()}}c.r=visualRadius(c.mass);if(!chain)triggerCascade(c,o)}
+// A big bite vacuums smaller nearby objects as a short reward spectacle.
+// This deliberately rewards choosing a cluster of prey over the nearest single item.
+function triggerCascade(c,big){
+ if(big.tier<3||big.kind==='core')return;
+ const radius=(140+(big.tier-3)*34)*(c.cascade||1);
+ const nearby=things.filter(o=>!o.dead&&o!==big&&o.tier<=(c.evolution==='gravity'&&c.gravityRank>=2?Math.min(2,c.stage-1):1)&&canEat(c,o)&&dist(o,big)<radius)
+  .sort((a,b)=>dist(a,big)-dist(b,big)).slice(0,Math.min(11,Math.round((5+big.tier-3)*(c.cascade||1))));
+ if(!nearby.length)return;
+ for(const o of nearby){
+  swallowTrails.push({sx:o.x,sy:o.y,tx:big.x,ty:big.y,life:.53,max:.53,col:TEAM[c.id]});
+  eat(c,o,true);
+ }
+ if(c.id===0){emitFloat(big.x,big.y-65,'連鎖捕食 ×'+nearby.length,'#d5ffd0');}
+}
+// Beyond 90 seconds the city receives large, edible relief convoys. Late-game hunger
+// can never become a waiting room: these can be eaten to reach 666m WITHOUT the star.
+const FEAST_DEFS=[
+ {name:'特大ちゅ〜る輸送船',kind:'building',tier:5,r:205,val:345},
+ {name:'巨大カリカリサイロ',kind:'building',tier:5,r:195,val:310},
+ {name:'猫缶宇宙船',kind:'building',tier:5,r:225,val:370},
+ {name:'大盛りごはん工場',kind:'building',tier:4,r:160,val:230}
+];
+function spawnFeastWave(){
+ feastWave++;let made=0;
+ const contenders=cats.filter(c=>c.stage>=5).sort((a,b)=>a.mass-b.mass);
+ const near=contenders.length?contenders.slice(0,3):[...cats].sort((a,b)=>a.mass-b.mass);
+ // Alternate between neutral ground and regions near the leading cats.
+ for(let k=0;k<4;k++){
+  let def=FEAST_DEFS[(feastWave+k)%FEAST_DEFS.length],spot=null;
+  for(let tries=0;tries<100;tries++){
+   let base=near[k%near.length],theta=rnd(0,TAU),radius=rnd(440,900),
+       x=tries<65?base.x+Math.cos(theta)*radius:rnd(260,W-260),
+       y=tries<65?base.y+Math.sin(theta)*radius:rnd(260,H-260);
+   if(x<def.r+45||x>W-def.r-45||y<def.r+45||y>H-def.r-45)continue;
+   if(Math.hypot(x-W/2,y-H/2)<870)continue; // don't seal up star entries
+   if(HOMES.some(h=>Math.hypot(x-h.x,y-h.y)<560))continue;
+   if(cats.some(c=>Math.hypot(x-c.x,y-c.y)<def.r+125))continue;
+   if(!spotFree(x,y,def.r*.78))continue;
+   spot={x,y};break;
+  }
+  if(!spot)continue;
+  const o=addThing(def,spot.x,spot.y);o.role='feast';o.solid=true;o.color=['#ffcca6','#a2d4ff','#c7b8ff','#ffdf9a'][k];
+  solidThings.push(o);made++;burst(o.x,o.y,'#ffe6a7',15,125);
+ }
+ if(made){banner('☄ ごちそう襲来！ 大物 '+made+'個が街に落ちた！ Qで狙える',5);if(feastWave===1)toast('☄ 大物のごちそうが出現！ 食べ続けて666mを目指そう');}
+ return made;
+}
+function knockDistance(c){return Math.min(MAX_KNOCK,BASE_KNOCK+55*c.impactRank+c.impactBonus)}
+function empowered(c){return c.impactRank>0||c.impactBonus>0}
+// An evolution changes the RULES of play, rather than giving a percentage-only bonus.
+const evolutionPaths=[
+ {icon:'🪐',name:'重力胃袋',desc:'Eで吸引すると周囲の別の獲物まで同時に食べ始める。集団捕食型。',apply:c=>{c.evolution='gravity';c.gravityRank=1;c.range+=30;}},
+ {icon:'🏗️',name:'破城獣',desc:'ダッシュで建物に突っ込むと建物の捕食ゲージを削る。壁を砕いて進軍。',apply:c=>{c.evolution='breaker';c.breakerRank=1;c.dashMax*=.87;}},
+ {icon:'🩸',name:'略奪猫',desc:'敵への体当たりで相手の成長量を奪う。星の捕食進捗も奪える。',apply:c=>{c.evolution='raider';c.raiderRank=1;c.impactRank=Math.max(1,c.impactRank);}}
+];
+const specializedUpgrades={
+ gravity:[
+  {icon:'🌪️',name:'多重捕食',desc:'同時に吸い込める獲物がさらに3つ増加。捕食範囲も広がる。',apply:c=>{c.gravityRank+=2;c.range+=28;}},
+  {icon:'🧲',name:'磁気嵐',desc:'複数捕食を高速化。遠くの獲物も渦に巻き込む。',apply:c=>{c.gravityRank++;c.range+=45;c.digest*=1.10;}},
+  {icon:'🌌',name:'食物連鎖',desc:'大物の丸呑みで中型の獲物まで連鎖吸収。',apply:c=>{c.gravityRank++;c.cascade*=1.35;}}
+ ],
+ breaker:[
+  {icon:'💣',name:'爆砕ダッシュ',desc:'建物に対する突進の削りを倍増。次々に道を開く。',apply:c=>{c.breakerRank+=2;}},
+  {icon:'⚡',name:'連続突貫',desc:'ダッシュの再使用時間が短縮。破城を繰り返せる。',apply:c=>{c.breakerRank++;c.dashMax*=.67;}},
+  {icon:'🛡️',name:'突撃戦車',desc:'吹き飛ばしを強化し、敵への壁ドンも狙える。',apply:c=>{c.breakerRank++;c.impactRank=Math.min(2,c.impactRank+1);}}
+ ],
+ raider:[
+  {icon:'🩸',name:'暴食強奪',desc:'敵に体当たりしたときに奪う成長量を増幅。',apply:c=>{c.raiderRank+=2;}},
+  {icon:'☄️',name:'星盗み',desc:'敵から星の捕食進捗をさらに奪う。終盤の逆転に特化。',apply:c=>{c.raiderRank+=2;c.dashMax*=.87;}},
+  {icon:'🐾',name:'追撃本能',desc:'奪取成功時にダッシュ再使用時間を大幅に回復。',apply:c=>{c.raiderRank++;c.dashMax*=.76;}}
+ ]
+};
+function upgradeTitle(){return player.evolution==='gravity'?'重力胃袋':player.evolution==='breaker'?'破城獣':player.evolution==='raider'?'略奪猫':'最初の形態を選べ'}
+function showUpgrade(){
+ // Each earned skill is queued. Display it in the HUD, never as a full-screen pause.
+ pendingUpgrades++;if(upgradeOptions.length===0)renderUpgrade();else $('upgradeCount').textContent='残り '+pendingUpgrades+' 回';
+}
+function renderUpgrade(){
+ if(gameOver||pendingUpgrades<=0){upgradeOptions=[];$('upgradePanel').classList.add('hidden');return}
+ upgradeOptions=player.evolution?[...specializedUpgrades[player.evolution]]:[...evolutionPaths];
+ $('upgradePanel').classList.remove('hidden');
+ $('upgradeCount').textContent=pendingUpgrades>1?'残り '+pendingUpgrades+' 回':'ゲーム進行中';
+ $('upgradeChoices').innerHTML=upgradeOptions.map((a,i)=>`<button class="upgrade-choice" type="button" data-up="${i}" aria-label="${i+1}：${a.name}"><span class="num">${i+1}</span><span class="glyph">${a.icon}</span><span><b>${a.name}</b><em>${a.desc}</em></span></button>`).join('');
+ $('upgradePanel').querySelector('.upgrade-head').firstChild.textContent='✦ '+upgradeTitle()+'　';
+ $('upgradeChoices').querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>chooseUpgrade(Number(b.dataset.up)));
+}
+function chooseUpgrade(i){
+ if(!playing||paused||gameOver||pendingUpgrades<=0)return;
+ const a=upgradeOptions[i];if(!a)return;
+ a.apply(player);upgrades.push(a.name);pendingUpgrades--;
+ upgradeOptions=[];toast(a.name+' 獲得！ 戦い方が進化した！');banner('✦ '+a.name+' ：'+a.desc,4);
+ if(pendingUpgrades>0)renderUpgrade();else $('upgradePanel').classList.add('hidden');
+}
+function recordHistory(){if(!cats.length)return;history.push({t:Math.min(timeLimit,elapsed),sizes:cats.map(c=>meters(c.mass))});nextSample=elapsed+1}
+function drawResultChart(){const el=$('resultChart');if(!el)return;const b=el.getBoundingClientRect(),d=Math.min(2,window.devicePixelRatio||1),w=Math.max(350,Math.round(b.width)),h=Math.max(190,Math.round(b.height));el.width=w*d;el.height=h*d;const g=el.getContext('2d');g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,w,h);
+ const L=58,R=16,T=15,B=35,pw=w-L-R,ph=h-T-B,xf=t=>L+clamp(t/Math.max(elapsed,1),0,1)*pw,yf=m=>T+ph-(Math.log(Math.max(.5,m)/.5)/Math.log(666/.5))*ph;
+ g.font='11px sans-serif';g.textAlign='right';for(const m of [.5,1,2,5,10,25,66,200,666]){let yy=yf(m);g.strokeStyle='#91c3bd29';g.beginPath();g.moveTo(L,yy);g.lineTo(w-R,yy);g.stroke();g.fillStyle='#bbd7d3';g.fillText(m+'m',L-8,yy+4)}
+ g.textAlign='center';for(let i=0;i<=5;i++){let tt=elapsed*i/5,x=xf(tt);g.strokeStyle='#80b5ac16';g.beginPath();g.moveTo(x,T);g.lineTo(x,T+ph);g.stroke();g.fillStyle='#bdd8d3';g.fillText(Math.floor(tt/60)+':'+String(Math.floor(tt%60)).padStart(2,'0'),x,h-8)}
+ const sample=history.length?history:[{t:0,sizes:cats.map(c=>meters(c.mass))}];
+ for(const c of cats){g.beginPath();let count=0;for(const rec of sample){let x=xf(rec.t),y=yf(rec.sizes[c.id]);if(count++===0)g.moveTo(x,y);else g.lineTo(x,y)}g.strokeStyle=c.accent;g.lineWidth=c.id===0?3.3:2.3;g.lineJoin='round';g.stroke();let final=sample[sample.length-1];g.fillStyle=c.accent;g.beginPath();g.arc(xf(final.t),yf(final.sizes[c.id]),c.id===0?4.5:3.5,0,Math.PI*2);g.fill()}}
+function endGame(winner=null,reason='time'){if(gameOver)return;recordHistory();matchWinner=winner;gameOver=true;playing=false;paused=true;shake=0;freeze=0;pendingUpgrades=0;upgradeOptions=[];$('upgradePanel').classList.add('hidden');const newlyUnlocked=recordCompletedMatch();let sorted=[...cats].sort((a,b)=>meters(b.mass)-meters(a.mass)),champ=winner||sorted[0],own=winner===player;const won=winner?own:sorted[0]===player;
+ $('overlay').dataset.mode='end';$('overlay').classList.remove('hidden');$('modal').className='modal result-modal';
+ $('modal').innerHTML=`<div class="tag">MATCH COMPLETE • ${elapsed.toFixed(0)} sec</div><h1 style="color:${won?'#bbffe0':'#ffd4c1'}">${won?'VICTORY!':'FINISH!'}</h1><p>${reason==='star'?champ.name+' が世界の星を丸呑み！ 一瞬で666mに到達！':reason==='growth'?champ.name+' が666mに成長して世界を食べ尽くした！':'制限時間終了。大きく育った猫の勝利！'}<br>あなた：<b style="color:#abffe2">${sizeText(meters(player.mass))}</b>　順位 ${sorted.indexOf(player)+1}位 / 4匹　／　丸呑み ${player.eatenLarge}回　壁ドン ${player.wallSlams}回</p>
+ <div class="chart-wrap"><div style="font-weight:900;margin:0 0 7px">猫たちのサイズ推移 <small style="font-weight:500;color:#b8c9c8">（横軸=経過時間 / 縦軸=m・対数目盛）</small></div><canvas id="resultChart"></canvas><div class="legend-line">${cats.map(c=>`<span><i style="background:${c.accent}"></i>${c.name}</span>`).join('')}</div></div>
+ <div class="result-board">${sorted.map((c,i)=>`<div class="result-tile"><span style="color:${c.accent}">${i+1}位 ${c.name}</span><br><b>${sizeText(meters(c.mass))}</b><br><span style="color:#afc6c1">捕食 ${c.eaten} / 大物 ${c.eatenLarge}<br>妨害 ${c.dashHits} / 奪取 ${c.robberies}</span></div>`).join('')}</div>
+ ${newlyUnlocked?`<div class="unlock-announcement">🔓 新しい猫を解放！ <strong>${newlyUnlocked.name}</strong> — 次の試合から選べます</div>`:''}<div class="result-buttons"><button class="cta" id="again">同じ猫でもう一度 ↻</button><button class="cta" id="reselect" style="background:#c9d8e0">猫を選び直す</button></div>`;
+ $('again').onclick=start;$('reselect').onclick=showMenu;requestAnimationFrame(drawResultChart);
+}
+function showMenu(){
+ playing=false;paused=true;gameOver=false;shake=0;freeze=0;
+ $('overlay').dataset.mode='menu';$('overlay').classList.remove('hidden');$('modal').className='modal start-modal';
+ const count=unlockedCount();if(selectedCharacter>=CHARACTERS.length)selectedCharacter=0;
+ $('modal').innerHTML=`<div class="tag">CAT-EAT-WORLD ARENA • PROTOTYPE 05.9</div><h1>NEKO<span style="color:#93ffcb">VOID</span></h1><p>影猫を育てて <b style="color:#ffdfa6">666m</b> へ。星の奪い合いでは、吸い続けた猫が独自に進捗を貯める！<br><b>四隅ランダム出撃・120秒に星解放・遊ぶたび新しい猫が解放：</b>${count}/4匹・試合完走 ${gamesCompleted}回</p>
+ <div class="chooser" id="characterChooser">${CHARACTERS.map((c,i)=>`<button type="button" class="char-card ${selectedCharacter===i?'selected':''} ${canSelectCharacter(i)?'':'locked'}" data-char="${i}" aria-label="${c.name}・${canSelectCharacter(i)?'選択可能':'未解放'}"><span class="char-face">${c.icon}</span><span class="char-name" style="color:${c.color}">${c.name}・${c.title}</span><span class="char-desc">${canSelectCharacter(i)?'選択可能':'🔒 '+i+'試合完走で解放'}</span></button>`).join('')}</div>
+ <div class="character-detail" id="characterDetail"></div>
+ <div class="opponent-selector"><strong>CPU編成</strong><button type="button" class="mode-btn" id="modeUnique">4種類が必ず1匹ずつ</button><button type="button" class="mode-btn" id="modeRandom">全員ランダム（重複あり）</button></div>
+ <div class="mode-caption" id="modeDesc"></div>
+ <p style="margin:12px 0 0;font-size:12px">WASD 移動 / E・左クリック長押し 吸引 / SPACE 吹き飛ばし / Q 目標切替<br>小物は自動吸収。建物を食べて道を作り、中央の巨大な星を奪おう。</p>
+ <button class="cta" id="start">この猫で世界を食べに行く →</button>
+ <div class="save-note">${storageAvailable?'このブラウザに解放状況を保存します。':'保存が制限されています。このページを閉じるまでは進行状況を保持します。'}</div>`;
+ function refresh(){
+  const c=CHARACTERS[selectedCharacter],available=canSelectCharacter(selectedCharacter);
+  [...$('characterChooser').children].forEach((node,i)=>node.classList.toggle('selected',i===selectedCharacter));
+  $('characterDetail').innerHTML=`<strong style="color:${c.color}">${c.icon} ${c.name} — ${c.title}</strong><span>${c.desc}</span><span class="detail-status">${available?'✓ 使用可能':`🔒 あと${Math.max(0,selectedCharacter-gamesCompleted)}試合で解放（${selectedCharacter}試合完走）`}</span>`;
+  $('start').disabled=!available;$('start').textContent=available?'この猫で世界を食べに行く →':'🔒 まだこの猫は選べません';
+ }
+ $('characterChooser').querySelectorAll('[data-char]').forEach(b=>b.onclick=()=>{selectedCharacter=Number(b.dataset.char);refresh()});
+ function refreshMode(){
+  $('modeUnique').classList.toggle('active',opponentMode==='unique');
+  $('modeRandom').classList.toggle('active',opponentMode==='random');
+  $('modeDesc').textContent=opponentMode==='unique'?'自分を含め4種類すべて登場。相手3匹はそれぞれ異なる戦術で戦います。':'あなたの猫はそのまま。CPU3匹だけを4種類からそれぞれ抽選します（同じ種類になることも）。';
+ }
+ $('modeUnique').onclick=()=>{opponentMode='unique';try{localStorage.setItem(OPPONENT_KEY,opponentMode)}catch(e){}refreshMode()};
+ $('modeRandom').onclick=()=>{opponentMode='random';try{localStorage.setItem(OPPONENT_KEY,opponentMode)}catch(e){}refreshMode()};
+ $('start').onclick=()=>{if(canSelectCharacter(selectedCharacter))start()};refresh();refreshMode();
+}
+function start(){if(!audioContext){try{audioContext=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(audioContext?.state==='suspended')audioContext.resume();reset();$('overlay').dataset.mode='play';$('overlay').classList.add('hidden');playing=true;paused=false;if(player.type===3)showUpgrade();banner('◈ '+CHARACTERS[selectedCharacter].name+' 出陣！ '+sizeText(meters(player.mass))+' → 666mを目指せ！',6);$('tutorial').textContent='四隅ランダム出撃！ 93秒から大物補給・120秒に星解放';$('tutorial').style.opacity=1;setTimeout(()=>{$('tutorial').style.opacity=0},2800);clock=performance.now()}
+// Rings are measured to the middle of an object's footprint. The visible circle is the exact base radius.
+function autoRadius(c){return c.r+26}
+function suctionRadius(c){return c.r+53+c.range}
+function inAutoRange(c,o){return dist(c,o)<=autoRadius(c)+o.r*.35}
+function inSuctionRange(c,o){return dist(c,o)<=suctionRadius(c)+o.r*.35}
+function captureSeconds(c,o){return (.65+o.tier*.63)*(o.tier>=3?1.2:1)*(o.tier>c.stage?2.2:1)*(o.captureMultiplier||1)*(o.kind==='core'?1.7:1)}
+function emitFloat(x,y,msg,col='#eaffd9'){floats.push({x,y,life:1.25,txt:msg,col})}
+function visibleFood(c,o){
+ let d=dist(c,o);if(d<suctionRadius(c)+o.r*.2)return true;
+ let steps=Math.ceil(d/65);
+ for(let i=1;i<steps;i++){
+  let t=i/steps;
+  if(hitsBuilding(c.x+(o.x-c.x)*t,c.y+(o.y-c.y)*t,c.r*.5,o))return false;
+ }
+ return true;
+}
+function nearestEdible(c,homeOnly=null){
+ let best=null,bs=-Infinity;
+ for(let o of things){
+  if(c.id>0&&o.role==='outerGate'&&o.district===c.homeIndex&&districtGates[c.homeIndex].some(g=>g.dead))continue;
+  if(o.dead||!canEat(c,o)||(homeOnly!==null&&homeDist(o.x,o.y,homeOnly)>605)||!visibleFood(c,o))continue;
+  const travel=Math.max(0,dist(c,o)-suctionRadius(c)) / Math.max(130,c.speed);
+  const capture=o.tier===0?.45:captureSeconds(c,o)/Math.max(.7,c.digest);
+  let reward=(nutritionGain(c,o) + (o.tier>=3?12:0)) / (.6+travel+capture);
+  if(o.role==='landmark')reward*=1.85;
+  if(o.role==='outerGate'&&isInsideHome(c)){reward*=districtGates[c.homeIndex].some(g=>g.dead)?.12:2.7;}
+  if(o.role==='centerGate'&&c.stage>=4)reward*=1.45;
+  if(o.kind==='core'&&starOpened)reward*=9;
+  if(o.role==='feast')reward*=c.type===1?2.4:1.75;
+  // Character-specific plans: the glutton seeks high-value feeding routes,
+  // the sprinter advances aggressively, and the boss prefers contested wealth.
+  if(c.type===1){if(o.tier>=3)reward*=1.3;if(o.tier===0&&c.stage>=3)reward*=.18;}
+  if(c.type===2){if(o.role==='outerGate'||o.role==='centerGate')reward*=1.5;}
+  if(c.type===3){if(o.owner>=0&&o.owner!==c.id)reward*=2.2;if(o.tier===0&&c.stage>=2)reward*=.34;}
+  if(o.owner>=0&&o.owner!==c.id)reward*=.75;
+  // Competitors develop preferences but never ignore good nearby food entirely.
+  const preference=[1,1,1,1][c.type];reward*=preference;
+  if(reward>bs){bs=reward;best=o}
+ }
+ // No dead time behind destroyed streets: if everything is obstructed, plan a route
+ // to the nearest reachable large food instead of stopping completely.
+ if(!best&&c.stage>=3){
+  best=things.filter(o=>!o.dead&&canEat(c,o)&&(homeOnly===null||homeDist(o.x,o.y,homeOnly)<605)&&o.kind!=='core')
+    .sort((a,b)=>(dist(c,a)-Math.min(a.val,250)*.22)-(dist(c,b)-Math.min(b.val,250)*.22))[0]||null;
+ }
+ return best;
+}
+// Shadows cannot pass THROUGH large buildings, but they can eat those buildings away.
+function hitsBuilding(x,y,r,ignored=null){
+ for(let o of solidThings){if(o.dead||o===ignored)continue;
+  let hit=o.r*(1-.4*o.p)*.68+r;
+  if(Math.abs(o.x-x)<hit&&Math.abs(o.y-y)<hit&&Math.hypot(o.x-x,o.y-y)<hit)return o;
+ }return null;
+}
+function moveSolid(c,dx,dy){
+ let nx=clamp(c.x+dx,20,W-20),ny=clamp(c.y+dy,20,H-20);
+ // Moving one axis at a time produces sliding rather than sticking against a wall.
+ if(!hitsBuilding(nx,c.y,collisionRadius(c)))c.x=nx;
+ if(!hitsBuilding(c.x,ny,collisionRadius(c)))c.y=ny;
+ // Diagonal movement may encounter a clipped footprint; never silently phase through it.
+ let hit=hitsBuilding(c.x,c.y,collisionRadius(c));
+ if(hit){c.x=clamp(c.x-dx,20,W-20);c.y=clamp(c.y-dy,20,H-20);}
+}
+function steerAI(c,dx,dy){
+ if(!hitsBuilding(c.x+dx*60,c.y+dy*60,collisionRadius(c),c.target))return [dx,dy];
+ let angles=[.38,-.38,.75,-.75,1.15,-1.15,1.6,-1.6,PI];
+ for(let a of angles){let vx=dx*Math.cos(a)-dy*Math.sin(a),vy=dx*Math.sin(a)+dy*Math.cos(a);
+  if(!hitsBuilding(c.x+vx*65,c.y+vy*65,collisionRadius(c),c.target))return [vx,vy];
+ }
+ return [dx,dy];
+}
+function controls(c,dt){let dx=0,dy=0;if(keys.KeyW||keys.ArrowUp)dy--;if(keys.KeyS||keys.ArrowDown)dy++;if(keys.KeyA||keys.ArrowLeft)dx--;if(keys.KeyD||keys.ArrowRight)dx++;let len=Math.hypot(dx,dy);if(len){dx/=len;dy/=len;c.angle=Math.atan2(dy,dx)+PI/2}if((keys.Space)&&c.dash<=0&&c.dashCd<=0&&c.stun<=0){c.dash=.22;c.dashCd=c.dashMax;burst(c.x,c.y,'#9bffe5',10,110)}c.dash=Math.max(0,c.dash-dt);c.dashCd=Math.max(0,c.dashCd-dt);let moving=(c.stun>0?0:1)*((c.grip&&c.grip.tier>=1)?(c.grip.tier>=3?.34:.57):1);let speed=c.speed*sizePace(c)*moving*(c.dash>0?3.3:1);c.vx=dx*speed;c.vy=dy*speed;if(c.evolution==='breaker'&&c.dash>0&&len>0){
+  const wall=hitsBuilding(c.x+dx*speed*dt,c.y+dy*speed*dt,collisionRadius(c));
+  if(wall&&!wall.dead&&wall.kind!=='core'&&canEat(c,wall)){
+   wall.owner=c.id;wall.p+=dt*(2.45+.8*(c.breakerRank-1));
+   if(c.ramMark!==wall){c.ramMark=wall;emitFloat(wall.x,wall.y-wall.r*.65,'💥 破城！','#ffe8a0');burst(wall.x,wall.y,'#f7cc94',12,100)}
+   if(wall.p>=1)eat(c,wall);
+  }
+ }else c.ramMark=null;
+ moveSolid(c,c.vx*dt,c.vy*dt);c.belly+=dt*(c.grip?8:2.1);c.stun=Math.max(0,c.stun-dt);return mouseDown||keys.KeyE}
+// Route planning makes an objective meaningful: CPUs must use actual openings, not walk into walls.
+// Recomputed on the relatively rare AI decisions, not on every animation frame.
+function routeTo(c,goal){
+ const cell=67,nx=Math.ceil(W/cell)+1,ny=Math.ceil(H/cell)+1;
+ const index=(x,y)=>y*nx+x,px=x=>clamp(x*cell,24,W-24),py=y=>clamp(y*cell,24,H-24);
+ const sx=clamp(Math.round(c.x/cell),0,nx-1),sy=clamp(Math.round(c.y/cell),0,ny-1);
+ const N=nx*ny,pass=new Int8Array(N),cost=new Float32Array(N),previous=new Int32Array(N),done=new Uint8Array(N);
+ cost.fill(1e10);previous.fill(-1);
+ const valid=(x,y)=>{
+  if(x<0||y<0||x>=nx||y>=ny)return false;
+  let i=index(x,y);if(pass[i]===0){pass[i]=hitsBuilding(px(x),py(y),collisionRadius(c),goal)?-1:1;}
+  return pass[i]>0;
+ };
+ const start=index(sx,sy);cost[start]=0;pass[start]=1;
+ const radius=suctionRadius(c)+goal.r*.35-8;
+ const heap=[];const push=(i,p)=>{heap.push([i,p]);let k=heap.length-1;while(k>0){let parent=(k-1)>>1;if(heap[parent][1]<=p)break;heap[k]=heap[parent];k=parent;}heap[k]=[i,p]};
+ const pop=()=>{let result=heap[0],last=heap.pop();if(heap.length){let j=0;while(true){let a=j*2+1,b=a+1;if(a>=heap.length)break;let best=b<heap.length&&heap[b][1]<heap[a][1]?b:a;if(heap[best][1]>=last[1])break;heap[j]=heap[best];j=best;}heap[j]=last;}return result[0]};
+ const heuristic=(x,y)=>Math.max(0,Math.hypot(px(x)-goal.x,py(y)-goal.y)-radius)/cell;
+ push(start,heuristic(sx,sy));let end=-1,iterations=0;
+ const neighbors=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
+ while(heap.length&&iterations++<4800){
+  const current=pop();if(done[current])continue;done[current]=1;
+  const x=current%nx,y=(current/nx)|0;
+  if(Math.hypot(px(x)-goal.x,py(y)-goal.y)<=radius){end=current;break}
+  for(const [ox,oy] of neighbors){let xx=x+ox,yy=y+oy;if(!valid(xx,yy))continue;
+   if(ox&&oy&&(!valid(x+ox,y)||!valid(x,y+oy)))continue;
+   let v=index(xx,yy),candidate=cost[current]+(ox&&oy?1.4142:1);
+   if(candidate<cost[v]){cost[v]=candidate;previous[v]=current;push(v,candidate+heuristic(xx,yy));}
+  }
+ }
+ if(end<0)return[];
+ let rev=[],step=end;while(step!==start&&step>=0&&rev.length<200){rev.push({x:px(step%nx),y:py((step/nx)|0)});step=previous[step]}
+ rev.reverse();return rev;
+}
+function updateAI(c,dt){
+ c.aiTimer-=dt;
+ c.stun=Math.max(0,c.stun-dt);
+ // AI evolution follows its character identity rather than a generic upgrade.
+ if(!c.evolution&&c.stage>=1){
+  const path=c.type===1?0:c.type===2?1:c.type===3?2:0;
+  evolutionPaths[path].apply(c);
+ }
+ if(c.evolution&&c.stage>c.aiBoostStage){
+  for(let s=Math.max(2,c.aiBoostStage+1);s<=Math.min(5,c.stage);s++){
+   if(c.type===1){c.gravityRank+=1;c.cascade*=1.09;}
+   else if(c.type===2){c.breakerRank+=1;c.dashMax*=.85;c.impactRank=Math.min(2,c.impactRank+1);}
+   else if(c.type===3){c.raiderRank+=1;c.dashMax*=.91;}
+   else {c.gravityRank+=1;c.cascade*=1.08;}
+  }
+  c.aiBoostStage=c.stage;
+ }
+ const gates=districtGates[c.homeIndex]||[],alreadyOpen=gates.some(g=>g.dead);
+ if(alreadyOpen&&c.target?.role==='outerGate'&&c.target?.district===c.homeIndex)c.target=null;
+ const openGate=gates.filter(o=>!o.dead&&canEat(c,o)).sort((a,b)=>dist(a,c)-dist(b,c))[0];
+ // Decision-making is limited to once every 1-2 seconds so movement looks deliberate.
+ if(c.aiTimer<=0||!c.target||c.target.dead||!canEat(c,c.target)||!visibleFood(c,c.target)){
+  c.aiTimer=rnd(1.15,1.9);
+  const contained=isInsideHome(c);
+  if(contained&&c.stage>=1&&!alreadyOpen&&openGate)c.target=choice(gates.filter(o=>!o.dead&&canEat(c,o)));
+  else c.target=nearestEdible(c,contained&&c.stage<1?c.homeIndex:null);
+  const star=things.find(o=>o.kind==='core'&&!o.dead);
+  const unopened=centerGates.every(g=>!g.dead);
+  if(!contained&&c.stage>=4&&unopened&&(starOpened||elapsed>95)){
+   const door=centerGates.filter(g=>!g.dead&&canEat(c,g)).sort((a,b)=>dist(c,a)-dist(c,b))[0];
+   if(door)c.target=door;
+  } else if(starOpened&&star&&canEat(c,star)&&!contained){
+   // Star is the final goal; glutton still weighs a rich nearby supply drop.
+   const supply=c.type===1?things.filter(o=>!o.dead&&o.role==='feast'&&canEat(c,o)&&dist(c,o)<540).sort((a,b)=>dist(c,a)-dist(c,b))[0]:null;
+   c.target=supply&&c.mass<2400&&dist(c,star)>850?supply:star;
+  }
+  if(c.type===3&&!contained&&c.stage>=2&&!starOpened){
+   const contested=things.filter(o=>!o.dead&&canEat(c,o)&&o.owner>=0&&o.owner!==c.id&&o.tier>=2&&dist(c,o)<500).sort((a,b)=>dist(c,a)-dist(c,b))[0];
+   if(contested)c.target=contested;
+  }
+ }
+ // Three different opponent behaviors: Mochi avoids combat to farm, Tora
+ // intercepts rivals with dashes, and Don Nyarugo hunts for stealing opportunities.
+ const canHunt=!isInsideHome(c)&&c.stage>=2&&c.stun<=0;
+ let candidates=canHunt?cats.filter(e=>e!==c&&e.stun<1&&e.stage>=1&&!isInsideHome(e)&&dist(c,e)<(c.type===3?1650:570)):[];
+ c.hunt=null;
+ if(c.type===2&&candidates.length){
+  candidates.sort((a,b)=>(Number(!!b.grip)*240+(b.mass>c.mass?90:0)-dist(c,b)*.5)-(Number(!!a.grip)*240+(a.mass>c.mass?90:0)-dist(c,a)*.5));
+  c.hunt=candidates[0];
+ }else if(c.type===3&&candidates.length){
+  candidates.sort((a,b)=>(Number(!!b.grip)*310+Math.min(b.mass*.09,165)-dist(c,b)*.48)-(Number(!!a.grip)*310+Math.min(a.mass*.09,165)-dist(c,a)*.48));
+  c.hunt=candidates[0];
+ }
+ const star=things.find(o=>o.kind==='core'&&!o.dead);
+ if(starOpened&&star&&canEat(c,star)&&dist(c,star)>620)c.hunt=null; // fight near the goal, not across the map
+ if(c.type!==3&&c.hunt&&c.dashCd>0.55&&dist(c,c.hunt)>300)c.hunt=null;
+ if(c.type===1)c.hunt=null;
+ c.dashCd=Math.max(0,c.dashCd-dt);c.dash=Math.max(0,c.dash-dt);
+ let opponent=c.hunt;
+ const starRival=starOpened&&c.target?.kind==='core'?cats.filter(other=>other!==c&&other.grip===c.target&&other.stun<=0&&dist(c,other)<200).sort((a,b)=>b.starCharge-a.starCharge)[0]:null;
+ const contestTarget=cats.find(other=>other!==c&&other.grip&&other.grip===c.target&&dist(c,other)<205);
+ if(starRival||contestTarget)opponent=starRival||contestTarget;
+ if(c.type===1&&!starRival&&!contestTarget)opponent=null;
+ // Only dash when the enemy is within striking distance. Avoid empty dashes.
+ if(opponent&&dist(c,opponent)<(c.type===3?Math.max(315,c.r+opponent.r+100):Math.max(145,c.r+opponent.r+90))&&c.dashCd<=0&&c.stun<=0){
+  c.dash=c.type===3?.38:.24;c.dashCd=c.dashMax+(c.type===1?1.1:0);
+  burst(c.x,c.y,TEAM[c.id],8,85);
+ }
+ const seekingEnemy=!!(c.hunt&&!starRival&&!contestTarget&&(c.type===3||c.dashCd<.65));
+ let goal=seekingEnemy?c.hunt:c.target;
+ if(!goal){c.vx=c.vy=0;return false;}
+ let dx=goal.x-c.x,dy=goal.y-c.y,len=Math.hypot(dx,dy);
+ if(len>1){dx/=len;dy/=len}else{dx=0;dy=0}
+ const foodGoal=!seekingEnemy&&c.target;
+ const within=foodGoal&&inSuctionRange(c,c.target);
+ let speed=c.speed*sizePace(c)*.91*(within&&foodGoal.tier>0?.27:1)*(c.stun>0?0:1);
+ if(c.dash>0&&opponent){let dd=Math.max(1,dist(c,opponent));dx=(opponent.x-c.x)/dd;dy=(opponent.y-c.y)/dd;speed=c.speed*sizePace(c)*3.1;}
+ if(!within&&!(c.dash>0&&opponent)){
+  c.routeTime-=dt;
+  if(goal&&(c.routeGoal!==goal||c.routeTime<=0)){
+   c.route=routeTo(c,goal);c.routeGoal=goal;c.routeTime=seekingEnemy?1.1:2.0;
+  }
+  while(c.route.length&&Math.hypot(c.x-c.route[0].x,c.y-c.route[0].y)<37)c.route.shift();
+  if(c.route.length){const wp=c.route[0],di=Math.hypot(wp.x-c.x,wp.y-c.y)||1;dx=(wp.x-c.x)/di;dy=(wp.y-c.y)/di;}
+  [dx,dy]=steerAI(c,dx,dy);
+ }
+ c.angle=Math.atan2(dy,dx)+PI/2;c.vx=dx*speed;c.vy=dy*speed;
+ moveSolid(c,c.vx*dt,c.vy*dt);
+ c.belly+=dt*(within?7:2);
+ return !!within&&c.stun<=0;
+}
+function aimedObject(c){
+ if(c.id!==0||!mouseDown||!mouseValid)return null;
+ let worldX=cam.x+(mouseX-sw/2)/viewScale;
+ let worldY=cam.y+(mouseY-sh/2)/viewScale;
+ // Select the object under the pointer. Do not call aimedObject recursively.
+ let best=null,bestScore=Infinity;
+ for(let o of things){if(o.dead||o.tier===0||!canEat(c,o)||!inSuctionRange(c,o))continue;
+  let targetDist=Math.hypot(worldX-o.x,worldY-o.y),limit=Math.max(32,o.r*.8);
+  if(targetDist<limit&&targetDist/limit<bestScore){best=o;bestScore=targetDist/limit}
+ }return best;
+}
+function tryCapture(c,dt,holding,contenders){
+ let prev=c.grip,nearSmall=null,smallDist=Infinity;
+ for(let o of things){if(o.dead||o.tier!==0||!canEat(c,o)||!inAutoRange(c,o))continue;
+   let d=dist(c,o);if(d<smallDist){smallDist=d;nearSmall=o}}
+ if(nearSmall&&c.stun<=0){
+   if(nearSmall.autoOwner!==c.id&&nearSmall.lastAutoAt!==undefined&&elapsed-nearSmall.lastAutoAt>.22)nearSmall.p=0;
+   nearSmall.autoOwner=c.id;nearSmall.owner=c.id;nearSmall.lastAutoAt=elapsed;
+   nearSmall.p+=dt*3.25;if(nearSmall.p>=1)eat(c,nearSmall);
+ }
+ c.grip=null;
+ if(!holding||c.stun>0)return;
+ let best=aimedObject(c),bestScore=best?-999:Infinity;let desired=c.id===0&&!mouseDown?selectedGoal():null;if(!best&&desired&&!desired.dead&&canEat(c,desired)&&inSuctionRange(c,desired)){best=desired;bestScore=-999;}
+ for(let o of things){if(o.dead||o.tier===0||!canEat(c,o)||!inSuctionRange(c,o))continue;
+  let reach=suctionRadius(c)+o.r*.35,d=dist(c,o);
+  // Retain the current catch; prioritize substantially developed, stealable prey.
+  let score=d/reach - (o===prev?.48:0) - (o.owner===c.id&&o.p>.02?.14:0) - (o.owner>=0&&o.owner!==c.id&&o.p>.05?.13:0) - (c.id===0&&['outerGate','centerGate','landmark'].includes(o.role)?0.72:0);
+  if(score<bestScore){bestScore=score;best=o}
+ }
+ if(best){c.grip=best;let group=contenders.get(best)||[];group.push(c);contenders.set(best,group)}
+}
+function claimObject(o,newOwner){
+ let old=o.owner;o.owner=newOwner.id;o.p=0;o.guard=old>=0&&old!==newOwner.id?2.4:0;
+ if(old>=0&&old!==newOwner.id){
+  emitFloat(o.x,o.y-o.r*.4,newOwner.id===0?'横取り成功！':'奪われた！',newOwner.id===0?'#a0ffe1':'#ffb5c8');
+  burst(o.x,o.y,TEAM[newOwner.id],14,100);
+  if(newOwner.id===0){toast('横取り成功！ そのままEで食べよう');banner('◈ 敵の獲物を奪い取った！',2.5)}
+  else if(old===0){toast('獲物を奪われた！ 奪い返そう');banner('⚠ 敵猫が獲物を横取り！',2.5)}
+ }
+}
+function updateCaptures(dt,holds){
+ let contenders=new Map();
+ for(let o of things){o.contested=false;o.guard=Math.max(0,o.guard-dt)}
+ // Charge leaks only while you are NOT actively swallowing the star.
+ const star=things.find(o=>o.kind==='core'&&!o.dead);
+ for(const c of cats)if(star&&!(holds.get(c)&&inSuctionRange(c,star)&&canEat(c,star)&&c.stun<=0))c.starCharge=Math.max(0,c.starCharge-dt*.105);
+ for(let c of cats)tryCapture(c,dt,holds.get(c),contenders);
+ for(let [o,group] of contenders){if(o.dead)continue;
+  if(o.kind==='core'){
+   // STAR SHOWDOWN: simultaneous capture NEVER makes progress freeze or travel backwards.
+   // Every rival accumulates a private charge and can overtake the current leader.
+   const contested=group.length>1;o.contested=contested;
+   for(const c of group){c.starCharge=clamp(c.starCharge+dt*(c.digest/captureSeconds(c,o))*(contested?.73:1.0),0,1)}
+   // Raider evolution steals the rival's STAR charge during direct competition.
+   // Unlike a dash, this is small, continuous pressure that requires staying close.
+   if(contested)for(const raider of group.filter(c=>c.evolution==='raider')){
+    const victim=group.filter(c=>c!==raider).sort((a,b)=>b.starCharge-a.starCharge)[0];
+    if(!victim)continue;
+    const stolen=Math.min(victim.starCharge,dt*(.007+.006*raider.raiderRank));
+    victim.starCharge-=stolen;raider.starCharge=clamp(raider.starCharge+stolen,0,1);
+   }
+   let leader=[...group].sort((a,b)=>b.starCharge-a.starCharge)[0];
+   o.owner=leader.id;o.p=leader.starCharge;
+   if(contested){
+    o.conflictAge=(o.conflictAge||0)+dt;
+    if(o.conflictAge>4.6&&!o.pulseWarned){o.pulseWarned=true;emitFloat(o.x,o.y-o.r-22,'★ 星の反発が近い！','#ffeab5');}
+    if(o.conflictAge>=6.5){
+     o.conflictAge=0;o.pulseWarned=false;
+     leader.starCharge*=.68; // The frontrunner gets knocked off their comfortable lead.
+     leader.stun=Math.max(leader.stun,.72);
+     let a=Math.atan2(leader.y-o.y,leader.x-o.x);
+     moveSolid(leader,Math.cos(a)*86,Math.sin(a)*86);
+     burst(o.x,o.y,'#ffe0a0',35,205);
+     emitFloat(leader.x,leader.y-leader.r-30,'星の反発！','#ffd3a2');
+     if(leader.id===0)toast('星に弾かれた！ ダッシュで復帰、ライバルを妨害しよう');
+    }
+   }else{o.conflictAge=0;o.pulseWarned=false}
+   if(group.some(c=>c.starCharge>=1)){const champ=group.filter(c=>c.starCharge>=1).sort((a,b)=>b.starCharge-a.starCharge)[0];eat(champ,o)}
+   continue;
+  }
+  let owner=group.find(c=>c.id===o.owner),challengers=group.filter(c=>c.id!==o.owner);
+  if(o.owner<0){claimObject(o,group[0]);owner=group[0];challengers=group.slice(1)}
+  if(!owner){
+   // The old captor has walked away: unwind its progress before taking possession.
+   o.p=Math.max(0,o.p-dt*(.82+challengers.reduce((n,c)=>n+c.digest*.12,0)));
+   if(o.p<=0){claimObject(o,group[0]);owner=group[0];challengers=group.slice(1)}
+  } else if(challengers.length){
+   o.contested=true;
+   let attackerPower=o.guard>0?0:challengers.reduce((n,c)=>n+(c.digest/ captureSeconds(c,o)),0);
+   let defense=owner.digest/captureSeconds(owner,o);
+   // Holding the same prey is a real tug-of-war, not an instant ownership change.
+   o.p=clamp(o.p+dt*(defense*(o.guard>0?1.5:.30)-attackerPower*.95),0,1);
+   if(o.p<=0){claimObject(o,challengers[0]);owner=challengers[0]}
+  }else o.p+=dt*owner.digest/captureSeconds(owner,o);
+  if(o.p>=1&&owner)eat(owner,o);
+ }
+ // Gravity evolution: a separate, concurrent capture stream around the owner.
+ for(const c of cats){if(c.evolution!=='gravity'||!holds.get(c)||c.stun>0)continue;
+  const limit=2+Math.round(c.gravityRank*1.8);
+  const extra=things.filter(o=>!o.dead&&o.tier>=1&&o.tier<=Math.max(1,c.stage-1)&&o.kind!=='core'&&o!==c.grip&&(o.owner<0||o.owner===c.id)&&!contenders.has(o)&&dist(c,o)<suctionRadius(c)*.82+o.r*.26)
+      .sort((a,b)=>dist(a,c)-dist(b,c)).slice(0,limit);
+  for(const o of extra){o.owner=c.id;o.gravityAt=elapsed;o.gravityOwner=c.id;
+   o.p+=dt*(.62+Math.min(.5,c.gravityRank*.09))*c.digest/captureSeconds(c,o);
+   if(o.p>=1)eat(c,o);
+  }
+ }
+ for(let o of things){if(o.dead||contenders.has(o)||o.p<=0)continue;o.p=Math.max(0,o.p-dt*.055)}
+}
+function wallInKnockPath(c,nx,ny,maxDist){
+ if(!Number.isFinite(nx)||!Number.isFinite(ny))return null;
+ for(let d=13;d<=maxDist;d+=13){let x=c.x+nx*d,y=c.y+ny*d;
+  if(x<20||x>W-20||y<20||y>H-20||hitsBuilding(x,y,collisionRadius(c)))return {x:clamp(x,20,W-20),y:clamp(y,20,H-20),distance:d};
+ }
+ return null;
+}
+function wallSlam(victim){
+ const attacker=cats[victim.knockBy];
+ const duration=SLAM_DURATION*Math.max(.66,1-victim.shield*.40);
+ victim.stun=Math.max(victim.stun,duration);victim.impactImmune=duration+0.95;
+ const prey=victim.knockPrey;
+ if(prey&&!prey.dead){prey.p=Math.max(0,prey.p-.20);prey.guard=0}
+ victim.knockPrey=null;victim.slamEligible=false;
+ if(attacker)attacker.wallSlams++;
+ slamMarks.push({x:victim.x,y:victim.y,life:.7,max:.7});
+ burst(victim.x,victim.y,'#ffb96e',29,225);burst(victim.x,victim.y,'#ff668d',18,150);
+ emitFloat(victim.x,victim.y-62,'壁ドン！ '+duration.toFixed(1)+'秒スタン','#ffdc8c');
+ if(attacker?.id===0){toast('壁ドン！ 敵が'+duration.toFixed(1)+'秒スタン！ 今が横取りの好機！');banner('✦ 壁際へ吹き飛ばし成功！ 捕食のチャンス',3.3);beep(5)}
+ else if(victim.id===0){toast('壁に激突！ '+duration.toFixed(1)+'秒スタン！');banner('⚠ 壁ドンされた！ 街の壁際は危険',3.3);beep(3)}
+ else if(dist(victim,player)<390)banner('⚔ '+attacker?.name+'が'+victim.name+'を壁に叩きつけた！',2.5);
+ shake=Math.max(shake,victim.id===0||attacker?.id===0?23:10);
+}
+function dashHit(attacker,victim){
+ if(victim.stun>.1||victim.impactImmune>0)return;
+ attacker.dashHits++;
+ const len=dist(attacker,victim)||1;
+ // Knockback is powerful even at level zero; upgrades unlock wall stun. 
+ const nx=(victim.x-attacker.x)/len,ny=(victim.y-attacker.y)/len;
+ const distance=knockDistance(attacker);
+ victim.knockVx=nx*distance*7.5;victim.knockVy=ny*distance*7.5;
+ victim.knockBy=attacker.id;victim.knockPrey=victim.grip;victim.slamEligible=empowered(attacker);
+ victim.impactImmune=1.1;victim.stun=Math.max(victim.stun,.85*(1-victim.shield*.7));
+ let prey=victim.grip;
+ if(prey&&!prey.dead){prey.p=Math.max(0,prey.p-.27);emitFloat(victim.x,victim.y-45,'捕食中断！','#ffdda1');
+   if(attacker.id===0){toast('吹き飛ばし '+distance+'px！ Eで獲物を横取り！');banner('✦ 強襲成功！ 捕食を中断',2.3)}
+   else if(victim.id===0){toast('吹き飛ばされた！ 捕食が中断！');banner('⚠ 敵の体当たりを受けた',2.3)}
+ }else emitFloat(victim.x,victim.y-45,'ぶっとばし '+distance+'px','#ffdda1');
+ if(attacker.evolution==='raider'){
+  // Successful robbery matters, but cannot repeatedly reset the same cat to level 0.
+  // Keep the current prey tier, and give 7 seconds of protection against re-robbery.
+  const available=Math.max(0,victim.mass-(tierCaps[victim.stage]+.5));
+  const stolen=elapsed>=victim.robbedUntil?Math.min(available,victim.mass*.035,18+attacker.raiderRank*6):0;
+  if(stolen>0){attacker.robberies++;victim.robbedUntil=elapsed+7;victim.mass-=stolen;attacker.mass+=stolen;victim.score=victim.mass;attacker.score=attacker.mass;
+   victim.stage=stageOf(victim);victim.r=visualRadius(victim.mass);
+   const nextStage=stageOf(attacker);if(nextStage>attacker.stage){attacker.stage=nextStage;if(attacker.id===0)showUpgrade()}
+   attacker.r=visualRadius(attacker.mass);
+   emitFloat(victim.x,victim.y-70,'−'+Math.ceil(stolen)+' 食量','#ffabbb');emitFloat(attacker.x,attacker.y-70,'+'+Math.ceil(stolen)+' 強奪','#baffdc');
+  }
+  if(starOpened){const steal=Math.min(victim.starCharge,.06+.055*attacker.raiderRank);victim.starCharge-=steal;attacker.starCharge=clamp(attacker.starCharge+steal,0,.96)}
+  attacker.dashCd=Math.max(.35,attacker.dashCd-.25*attacker.raiderRank);
+  if(attacker.id===0)toast('略奪成功！ 敵の成長を吸い取った！');
+ }
+ victim.grip=null;attacker.dash=0;shake=Math.max(shake,attacker.id===0||victim.id===0?12:4);
+ burst(victim.x,victim.y,'#ffe3a1',18,150);
+}
+function updateKnockback(dt){
+ for(let c of cats){
+  c.impactImmune=Math.max(0,c.impactImmune-dt);
+  let vx=c.knockVx||0,vy=c.knockVy||0;
+  if(Math.hypot(vx,vy)<1){c.slamEligible=false;continue}
+  // Substeps make hitting narrow buildings reliable at lower FPS.
+  let dx=vx*dt,dy=vy*dt,steps=Math.ceil(Math.hypot(dx,dy)/12),crashed=false;
+  for(let i=0;i<steps;i++){
+   let ox=c.x,oy=c.y;moveSolid(c,dx/steps,dy/steps);
+   let moved=Math.hypot(c.x-ox,c.y-oy),desired=Math.hypot(dx,dy)/steps;
+   if(moved<desired*.55){crashed=true;break}
+  }
+  if(crashed){
+   c.knockVx=0;c.knockVy=0;
+   if(c.slamEligible)wallSlam(c);
+   else{c.stun=Math.max(c.stun,.5);emitFloat(c.x,c.y-40,'壁に激突！','#ffb1b9');burst(c.x,c.y,'#ffb1b9',12,80)}
+   c.slamEligible=false;c.knockPrey=null;
+  }else{
+   let decay=Math.exp(-7.5*dt);c.knockVx*=decay;c.knockVy*=decay;
+   if(Math.hypot(c.knockVx,c.knockVy)<5){c.knockVx=0;c.knockVy=0;c.slamEligible=false;c.knockPrey=null}
+  }
+ }
+}
+function update(dt){if(!playing||paused)return;if(freeze>0){freeze-=dt;return}elapsed+=dt;if(elapsed>=timeLimit){endGame();return}if(elapsed>=nextFeast){spawnFeastWave();nextFeast+=FEAST_EVERY;}if(!starOpened&&elapsed>=STAR_OPEN_AT){starOpened=true;toast('中央の星解放！ 巨大な星を奪い合おう！');banner('★ 中央の星 解放！ 食べれば即666m！',8);beep(5);burst(W/2,H/2,'#ffed9b',80,280)}if(elapsed-dt<=90&&elapsed>90){let g=things.filter(o=>o.role==='landmark'&&!o.dead).sort((a,b)=>dist(a,player)-dist(b,player))[0];if(g){banner('★ 争奪拠点「'+g.name+'」の捕食が勝負を動かす！ Qで目標変更',6)}}if(elapsed-dt<=55&&elapsed>55){toast('巡回掃除機が出現！ ダッシュで撃退可能');banner('⚠ 掃除機は短距離しか追えない。距離を取って振り切ろう！',6)}let holding=controls(player,dt);let holds=new Map([[player,holding]]);
+for(let c of cats.slice(1))holds.set(c,updateAI(c,dt));
+updateCaptures(dt,holds);updateDrones(dt);updateKnockback(dt);
+ if(!leftHome&&districtGates[player.homeIndex].some(o=>o.dead)&&homeDist(player.x,player.y,player.homeIndex)>700){leftHome=true;banner('✦ 新たな街へ侵入！ 敵猫と獲物を奪い合おう',5);toast('新しい街に到達！')}
+ if(!enteredCenter&&Math.hypot(player.x-W/2,player.y-H/2)<265){enteredCenter=true;banner('★ 都心に到達！ 世界の核を狙え',6);toast('世界の中心に到達！')}
+for(let i=0;i<cats.length;i++)for(let j=i+1;j<cats.length;j++){let a=cats[i],b=cats[j],d=dist(a,b),min=(a.r+b.r)*.75;if(d<min&&d>.01){let nx=(b.x-a.x)/d,ny=(b.y-a.y)/d,amt=(min-d)*.5;a.x-=nx*amt;b.x+=nx*amt;a.y-=ny*amt;b.y+=ny*amt;if(a.dash>0&&a.stun<=0)dashHit(a,b);else if(b.dash>0&&b.stun<=0)dashHit(b,a)}}for(let o of things)if(!o.dead&&o.p>0){o.p=Math.max(0,o.p-dt*.025)}if(elapsed>=nextSample)recordHistory();if(Math.floor(elapsed/14)!==Math.floor((elapsed-dt)/14)){for(let i=0;i<2;i++){let x=rnd(40,W-40),y=rnd(40,H-40);if(spotFree(x,y,12))addThing(choice(defs.slice(0,3)),x,y)}}slamMarks=slamMarks.filter(m=>(m.life-=dt,m.life>0));swallowTrails=swallowTrails.filter(q=>(q.life-=dt,q.life>0));particles=particles.filter(p=>(p.x+=p.vx*dt,p.y+=p.vy*dt,p.vx*=Math.exp(-3*dt),p.vy*=Math.exp(-3*dt),p.life-=dt,p.life>0));rings=rings.filter(r=>(r.r+=r.vr*dt,r.life-=dt,r.life>0));floats=floats.filter(f=>(f.y-=dt*37,f.life-=dt,f.life>0));if(eventTimer>0){eventTimer-=dt;if(eventTimer<=0)$('event').textContent='◈ 影の猫たちが、獲物を争う';}shake*=Math.exp(-8*dt);let halfW=sw/(2*viewScale),halfH=sh/(2*viewScale);
+cam.x=lerp(cam.x,player.x,clamp(dt*11,0,1));
+cam.y=lerp(cam.y,player.y,clamp(dt*11,0,1));if(toastTimer>0){toastTimer-=dt;if(toastTimer<=0)$('toast').style.opacity=0}updateHud()}
+function updateHud(){if(!player)return;let s=player.stage;$('score').textContent=sizeText(meters(player.mass));$('stage').textContent=['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ','Ⅶ'][s];let next=tierCaps[s+1];let step=meterSteps.find(v=>v.xp>player.mass);let idx=step?meterSteps.indexOf(step):meterSteps.length-1;let prevStep=meterSteps[Math.max(0,idx-1)];$('growth').style.width=step?(clamp((player.mass-prevStep.xp)/(step.xp-prevStep.xp),0,1)*100)+'%':'100%';$('nexttext').textContent=step?'次の大きさ '+step.m+'m まで あと'+Math.ceil(step.xp-player.mass)+'食量'+(player.mass>=920?' / 巨大化で消化効率↓':''): '666m 到達！';let rem=Math.max(0,timeLimit-elapsed);$('clock').textContent=String(Math.floor(rem/60)).padStart(2,'0')+':'+String(Math.floor(rem%60)).padStart(2,'0');$('phase').textContent=!starOpened?'中央の星解放まで '+Math.max(0,Math.ceil(STAR_OPEN_AT-elapsed))+'秒':'★ 星を食べれば即666m！';let ownGate=districtGates[player.homeIndex].find(o=>!o.dead);$('frontier').textContent=isInsideHome(player)&&districtGates[player.homeIndex].some(o=>!o.dead)?'出口を選べ：全て成長Ⅱ / Qで切替':centerGates.every(o=>!o.dead)?'都心封鎖：成長Ⅴで突破':'✦ 建物を食べて世界を変えよう';let goal=selectedGoal();$('goalStat').textContent=goal?'◆ 目標：'+goal.name+' ・ 約'+Math.round(dist(player,goal))+' [Q切替 / E優先]':'◆ 93秒から大物補給 / 星は120秒に解放';$('clearStat').textContent='進化：'+upgradeTitle()+' ・ 街の開通 '+outerGates.filter(o=>o.dead).length+' ・ 大物捕食 '+player.eatenLarge+'回';$('impactStat').textContent='💥 '+knockDistance(player)+'px / '+(empowered(player)?'壁ドン '+SLAM_DURATION+'秒スタン':'強化で壁ドン解禁')+' / 成功 '+player.wallSlams+'回';$('ranking').innerHTML=[...cats].sort((a,b)=>b.score-a.score).map((c,i)=>`<div class="board ${c.id===0?'me':''}"><span>${i+1}. ${c.name}</span><b>${sizeText(meters(c.mass))}</b></div>`).join('');$('capture').classList.toggle('hidden',!player.grip);if(player.grip){$('captureLabel').textContent=player.grip.kind==='core'?'★ 星の捕食 '+Math.round(player.starCharge*100)+'%（個別進捗・反発に注意）':player.grip.contested?'⚔ 奪い合い！ 相手より長く吸い続けろ':(player.grip.owner!==0?'◈ 敵の獲物を引き戻し中…':player.grip.name+' を丸呑みにする…');$('captureFill').style.width=clamp((player.grip.kind==='core'?player.starCharge:player.grip.p)*100,0,100)+'%'}
+let hint=$('actionHint'),msg='',danger=false;
+let enemyCatch=cats.slice(1).filter(c=>c.grip&&c.grip.tier>=1&&!c.grip.dead).sort((a,b)=>dist(player,a.grip)-dist(player,b.grip))[0];
+let closeEnemy=enemyCatch&&dist(player,enemyCatch.grip)<suctionRadius(player)+enemyCatch.grip.r+105;
+let blocked=things.filter(o=>!o.dead&&o.solid&&!canEat(player,o)&&o.tier>player.stage&&dist(player,o)<suctionRadius(player)+o.r*.35+50).sort((a,b)=>dist(player,a)-dist(player,b))[0];
+if(player.stun>0){msg=(player.stun>1.25?'💫 壁ドン！':'⚡ よろけ中！')+' '+player.stun.toFixed(1)+'秒で復帰';danger=true}
+else if(empowered(player)&&player.dashCd<=.05&&cats.slice(1).some(e=>e.stun<=0&&dist(player,e)<210&&wallInKnockPath(e,(e.x-player.x)/dist(player,e),(e.y-player.y)/dist(player,e),knockDistance(player)))){msg='💥 壁ドンのチャンス！ 敵を壁へ向けてSPACEで吹き飛ばせ';danger=true}
+else if(player.grip?.kind==='core'){msg='★ 星の捕食 '+Math.floor(player.starCharge*100)+'% / 敵猫をSPACEで押しのけろ！';danger=true}
+else if(player.grip?.contested){msg=player.grip.owner===0&&player.grip.guard>0?'✦ 横取り成功！ 今のうちに飲み込もう':'⚔ 争奪中！ Eで引き合う / SPACEで相手へ体当たり';danger=true}
+else if(player.grip&&player.grip.owner!==0){msg='↔ 引き戻し中！ Eを押し続けて獲物を奪う';danger=true}
+else if(player.grip){msg='⤵ '+player.grip.name+' を捕食中！ 移動速度が低下'}
+else if(ownGate&&isInsideHome(player)){let g=selectedGoal()||districtGates[player.homeIndex].filter(o=>!o.dead).sort((a,b)=>dist(player,a)-dist(player,b))[0];msg=canEat(player,g)?'🚪 '+g.name+' をEで丸呑み！ '+(g.route==='bash'?'吹き飛ばし強化':g.route==='feast'?'成長ボーナス':'移動速度UP'):'３つとも成長Ⅱで解禁：Qで目標切替 / 青=速攻 金=成長 赤=強襲'}
+else if(closeEnemy){msg='⚔ '+enemyCatch.name+'が捕食中！ Eで横取り / SPACEで体当たり';danger=true}
+else if(blocked){msg='🔒 '+blocked.name+' は成長 '+['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ','Ⅶ'][Math.min(6,blocked.tier)]+' で解禁'}
+else{msg='◉ 外側の輪＝Eで吸引　·　内側の点線＝自動捕食'}
+hint.textContent=msg;hint.className='actionhint '+(danger?'danger':player.grip?'':'neutral');} 
+function updateDrones(dt){
+ if(elapsed<55)return;
+ const phase=clamp((elapsed-55)/Math.max(1,timeLimit-110),0,1);
+ for(const [i,d] of drones.entries()){
+  d.cd=Math.max(0,d.cd-dt);d.rest=Math.max(0,d.rest-dt);d.roam+=dt;
+  // Once the map opens, each vacuum sweeps a different road across the world.
+  // Last 150 seconds they orbit the central district (without permanently camping the star).
+  const theta=i*TAU/4+Math.sin(d.roam*.15+d.phase)*.75;
+  const midX=W/2+Math.cos(theta)*890,midY=H/2+Math.sin(theta)*740;
+  const wander=Math.max(80,165*(1-phase)+100);
+  const anchorX=lerp(d.hx,midX,phase),anchorY=lerp(d.hy,midY,phase);
+  let roamX=clamp(anchorX+Math.sin(d.roam*.35+d.phase)*wander,55,W-55);
+  let roamY=clamp(anchorY+Math.cos(d.roam*.29+d.phase*1.8)*wander,55,H-55);
+  let target=cats[d.targetId];
+  if(d.mode==='chase'){
+   d.chase-=dt;
+   if(!target||d.chase<=0||dist(d,target)>260||Math.hypot(d.x-roamX,d.y-roamY)>490){d.mode='return';d.rest=11}
+  }
+  if(d.mode!=='chase'&&d.rest<=0){
+   const eligible=cats.filter(c=>dist(c,d)<215&&c.stun<=.1).sort((a,b)=>dist(a,d)-dist(b,d));
+   if(eligible.length){target=eligible[0];d.targetId=target.id;d.mode='chase';d.chase=3.7}
+  }
+  let tx=d.mode==='chase'&&target?target.x:roamX;
+  let ty=d.mode==='chase'&&target?target.y:roamY;
+  let l=Math.hypot(tx-d.x,ty-d.y)||1,sp=d.mode==='chase'?107:112;
+  d.x=clamp(d.x+(tx-d.x)/l*dt*Math.min(sp,l/dt),15,W-15);
+  d.y=clamp(d.y+(ty-d.y)/l*dt*Math.min(sp,l/dt),15,H-15);
+  if(d.mode==='return'&&Math.hypot(d.x-tx,d.y-ty)<35)d.mode='patrol';
+  for(const cat of cats){if(cat.dash>0&&dist(cat,d)<58){
+    d.mode='return';d.rest=12;d.cd=10;let l=dist(cat,d)||1;
+    d.x=clamp(d.x+(d.x-cat.x)/l*90,15,W-15);
+    d.y=clamp(d.y+(d.y-cat.y)/l*90,15,H-15);
+    burst(d.x,d.y,'#9cffe5',9,75);
+    if(cat.id===0)emitFloat(d.x,d.y-45,'掃除機を撃退！','#acffe5');break;
+  }}
+  if(d.mode==='chase'&&target&&dist(d,target)<40&&d.cd<=0){
+    d.cd=11;d.mode='return';d.rest=14;d.chase=0;d.hitCount++;
+    target.stun=Math.max(target.stun,.29*(1-target.shield));
+    let prey=target.grip;if(prey&&!prey.dead)prey.p=Math.max(0,prey.p-.06);
+    target.grip=null;
+    let l=dist(d,target)||1;moveSolid(target,(target.x-d.x)/l*43,(target.y-d.y)/l*43);
+    emitFloat(target.x,target.y-35,'掃除機！','#ffe39b');burst(target.x,target.y,'#fbdf9f',9,70);
+    if(target.id===0){shake=4;toast('掃除機を回避しよう！ ダッシュで追い払える')}
+  }
+ }
+}
+function drawPlayerRanges(){
+ if(!player)return;
+ const x=player.x,y=player.y,ar=autoRadius(player),sr=suctionRadius(player),active=(mouseDown||keys.KeyE)&&player.stun<=0;
+ ctx.save();
+ // Always-visible two circles: short dotted = automatic pickups; large cyan = hold-to-suck.
+ let grad=ctx.createRadialGradient(x,y,ar*.4,x,y,sr);
+ grad.addColorStop(0,'#73ffd000');grad.addColorStop(.7,active?'#64f6d819':'#64f6d809');grad.addColorStop(1,active?'#64f6d829':'#64f6d40c');
+ ctx.fillStyle=grad;ctx.beginPath();ctx.arc(x,y,sr,0,TAU);ctx.fill();
+ ctx.strokeStyle=active?'#adffe9':'#77f6d5ad';ctx.lineWidth=active?3.4:2.2;
+ ctx.shadowColor='#6ffff1';ctx.shadowBlur=active?18:5;
+ ctx.beginPath();ctx.arc(x,y,sr,0,TAU);ctx.stroke();ctx.shadowBlur=0;
+ ctx.strokeStyle='#dbfff6b0';ctx.lineWidth=1.8;ctx.setLineDash([4,6]);ctx.beginPath();ctx.arc(x,y,ar,0,TAU);ctx.stroke();ctx.setLineDash([]);
+ // Subtle orbiting guides make the radius legible while in motion.
+ ctx.strokeStyle=active?'#eefff8':'#a3f3e484';ctx.lineWidth=active?3:1.5;
+ for(let j=0;j<4;j++){let a=elapsed*.8+j*TAU/4;ctx.beginPath();ctx.arc(x,y,sr,a,a+.29);ctx.stroke()}
+ ctx.font='700 11px sans-serif';ctx.textAlign='center';ctx.fillStyle='#ddfff6';
+ ctx.shadowColor='#07191e';ctx.shadowBlur=5;ctx.fillText(active?'吸引中':'E / CLICK',x,y-sr-12);ctx.shadowBlur=0;
+ ctx.restore();
+}
+function drawPreyIndicators(){
+ // Restore V1's progress ring. A full circular ring belongs to the OBJECT,
+ // not the player; the bright arc fills clockwise as it is swallowed.
+ // Only current targets (yours/the enemies') get full rings to keep the map readable.
+ const held=player.grip;
+ const rivals=new Set(cats.slice(1).filter(c=>c.grip&&!c.grip.dead).map(c=>c.grip));
+ let closestBlocked=null,bd=Infinity;
+ for(let o of things){if(o.dead||canEat(player,o)||o.tier<1)continue;
+  let d=dist(player,o);if(d<185&&d<bd){closestBlocked=o;bd=d}}
+ for(let o of things){if(o.dead)continue;
+  const autoActive=o.tier===0&&o.lastAutoAt!==undefined&&elapsed-o.lastAutoAt<.17&&o.p>0;
+  if(o.tier===0&&!autoActive)continue;
+  const selected=o===held,enemyActive=rivals.has(o),gravityActive=o.gravityAt!==undefined&&elapsed-o.gravityAt<.2,blocked=o===closestBlocked&&!selected&&!enemyActive&&!gravityActive;
+  if(!selected&&!enemyActive&&!blocked&&!autoActive&&!gravityActive)continue;
+  if(blocked&&dist(player,o)>175)continue;
+  let owner=cats[o.owner];
+  let contested=o.contested,base=contested?'#ffe08e':selected?'#98ffe0':gravityActive?'#acacff':enemyActive?'#ff9dbf':'#b3c7cc';
+  let radius=autoActive?Math.max(17,o.r*1.1+7):Math.max(25,o.r*.82+10);
+  ctx.save();
+  // The outline stays put at the original world position while prey sinks and shrinks.
+  ctx.lineCap='round';ctx.lineWidth=autoActive?3:blocked?2:6;
+  ctx.strokeStyle=blocked?'#bed0d58a':'#061c24d9';
+  ctx.beginPath();ctx.arc(o.x,o.y,radius,0,TAU);ctx.stroke();
+  ctx.lineWidth=autoActive?1.5:blocked?2:3;ctx.strokeStyle=base;ctx.globalAlpha=blocked?.63:.36;
+  ctx.setLineDash(blocked?[6,5]:[]);ctx.beginPath();ctx.arc(o.x,o.y,radius,0,TAU);ctx.stroke();ctx.setLineDash([]);
+  ctx.globalAlpha=1;
+  if(!blocked){
+   let angle=-PI/2,progress=clamp(o.p,0,1),fill=contested?'#ffe08e':TEAM[o.owner]||base;
+   ctx.lineWidth=autoActive?4.2:7;ctx.strokeStyle=fill;ctx.shadowColor=fill;ctx.shadowBlur=autoActive?5:11;
+   ctx.beginPath();ctx.arc(o.x,o.y,radius,angle,angle+Math.max(.014,progress*TAU));ctx.stroke();ctx.shadowBlur=0;
+   // Tiny advancing dot makes progress legible at a glance even on small cars.
+   if(o.kind==='core'&&contested){
+    for(let c of cats){if(c.starCharge<=.01)continue;
+      ctx.beginPath();ctx.strokeStyle=c.accent;ctx.lineWidth=3;
+      ctx.arc(o.x,o.y,radius+8+c.id*4,angle,angle+c.starCharge*TAU);ctx.stroke();
+    }
+   }
+   const marker=angle+progress*TAU;
+   ctx.fillStyle='#f7fff8';ctx.beginPath();ctx.arc(o.x+Math.cos(marker)*radius,o.y+Math.sin(marker)*radius,autoActive?2.5:4.1,0,TAU);ctx.fill();
+  }
+  if(autoActive){ctx.restore();continue} // No labels on the many tiny pickups.
+  let label=blocked?'🔒 成長'+['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ','Ⅶ'][Math.min(o.tier,6)]+'で解禁':
+   contested?'⚔ '+Math.round(o.p*100)+'% 奪い合い':
+   selected&&o.owner!==player.id?'↔ 奪取 '+Math.round(o.p*100)+'%':
+   enemyActive&&!selected?'⚠ '+(owner?.name||'敵')+' '+Math.round(o.p*100)+'%':
+   gravityActive?'🪐 並列 '+Math.round(o.p*100)+'%':o.name+' '+Math.round(o.p*100)+'%';
+  let width=clamp(label.length*11+22,102,190),y=o.y-radius-22;
+  ctx.fillStyle='#071c24eb';rounded(o.x-width/2,y-15,width,25,7);ctx.fill();
+  ctx.textAlign='center';ctx.font='bold 12px sans-serif';ctx.fillStyle=base;ctx.fillText(label,o.x,y+2);
+  if(enemyActive&&!selected&&dist(player,o)<suctionRadius(player)+o.r*.35+30){
+   ctx.fillStyle='#ffe3aa';ctx.font='bold 10px sans-serif';ctx.fillText('E で横取り',o.x,y-25);
+  }
+  ctx.restore();
+ }
+}
+function drawDrones(){
+ if(elapsed<55)return;
+ for(let d of drones){
+  const target=cats[d.targetId],close=d.mode==='chase'&&target&&dist(d,target)<240;
+  ctx.save();
+  if(close){
+   ctx.strokeStyle='#ffad766a';ctx.lineWidth=1.5;ctx.setLineDash([5,9]);
+   ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(target.x,target.y);ctx.stroke();ctx.setLineDash([]);
+  }
+  ctx.translate(d.x,d.y);
+  ctx.strokeStyle=d.mode==='chase'?'#ffb58fa9':'#6d98a284';ctx.lineWidth=2;ctx.setLineDash([9,8]);
+  ctx.beginPath();ctx.arc(0,0,42+Math.sin(elapsed*8)*2,0,TAU);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='#07151bb3';ctx.beginPath();ctx.ellipse(5,12,31,19,0,0,TAU);ctx.fill();
+  ctx.fillStyle='#dbe1af';rounded(-25,-20,50,40,10);ctx.fill();
+  ctx.fillStyle='#263f43';rounded(-18,-14,36,27,5);ctx.fill();
+  ctx.fillStyle='#ff7e76';ctx.beginPath();ctx.arc(0,-22,6,0,TAU);ctx.fill();
+  ctx.save();ctx.rotate(elapsed*12);ctx.strokeStyle='#94dbd1';ctx.lineWidth=4;
+  for(let i=0;i<4;i++){let a=i*TAU/4;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(a)*13,Math.sin(a)*13);ctx.stroke()}
+  ctx.restore();ctx.restore();
+  ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillStyle='#ffe7bb';
+  ctx.fillText(d.mode==='chase'&&target?'追跡 '+target.name:d.mode==='return'?'退却中':'巡回掃除機',d.x,d.y-45);
+ }
+}
+function drawSwallowTrails(){
+ for(const t of swallowTrails){let u=1-t.life/t.max;
+  ctx.save();ctx.globalAlpha=1-u;ctx.strokeStyle=t.col;ctx.lineWidth=2.5+(1-u)*3;ctx.shadowColor=t.col;ctx.shadowBlur=15;
+  ctx.beginPath();ctx.moveTo(t.sx,t.sy);ctx.quadraticCurveTo((t.sx+t.tx)/2-35,(t.sy+t.ty)/2-50,t.tx,t.ty);ctx.stroke();
+  const k=1-(1-u)*(1-u);const x=(1-k)*(1-k)*t.sx+2*(1-k)*k*((t.sx+t.tx)/2-35)+k*k*t.tx;
+  const y=(1-k)*(1-k)*t.sy+2*(1-k)*k*((t.sy+t.ty)/2-50)+k*k*t.ty;
+  ctx.beginPath();ctx.fillStyle='#effff0';ctx.arc(x,y,4.5*(1-u)+1,0,TAU);ctx.fill();ctx.restore();
+ }
+}
+function drawGravityTethers(){
+ for(const o of things){if(o.dead||o.gravityAt===undefined||elapsed-o.gravityAt>.18)continue;
+  const c=cats[o.gravityOwner];if(!c)continue;
+  ctx.save();ctx.strokeStyle='#b6a8ffb9';ctx.lineWidth=3;ctx.setLineDash([6,8]);ctx.beginPath();ctx.moveTo(c.x,c.y);ctx.quadraticCurveTo((c.x+o.x)/2,(c.y+o.y)/2-24,o.x,o.y);ctx.stroke();ctx.setLineDash([]);ctx.restore();
+ }
+}
+function drawTethers(){for(let c of cats){let o=c.grip;if(!o||o.dead||o.p===0)continue;let distance=dist(c,o),phase=elapsed*8+c.id,alpha=clamp((distance+10)/180,.22,.7);ctx.save();ctx.globalAlpha=alpha;ctx.strokeStyle=TEAM[c.id];for(let i=-1;i<=1;i++){ctx.lineWidth=i===0?3:1.5;ctx.beginPath();ctx.moveTo(o.x,o.y);ctx.quadraticCurveTo((o.x+c.x)/2+Math.sin(phase+i*2)*20,(o.y+c.y)/2+Math.cos(phase+i*2)*20,c.x,c.y);ctx.stroke()}for(let k=0;k<6;k++){let t=(elapsed*1.4+k/6)%1,x=lerp(o.x,c.x,t),y=lerp(o.y,c.y,t);ctx.fillStyle=TEAM[c.id];ctx.beginPath();ctx.arc(x+Math.sin(phase+k)*6,y+Math.cos(phase+k)*6,(1-t)*4+1,0,TAU);ctx.fill()}ctx.restore()}}
+function building(o){let r=o.r;let height=o.tier>=5?175:o.tier===4?98:o.tier===3?43:20,xx=r*.85,yy=r*.6;ctx.fillStyle='#070f16aa';ctx.fillRect(-xx+12,-yy+height*.4,xx*2,yy*2);ctx.fillStyle=o.color;rounded(-xx,-yy-height*.3,xx*2,yy*2,5);ctx.fill();ctx.fillStyle='#162b35';rounded(-xx+4,-yy-height*.3-5,xx*2-8,yy*1.5,5);ctx.fill();ctx.fillStyle='#bde2d9';for(let i=-xx+13;i<xx-7;i+=20){ctx.fillRect(i,-yy-height*.3+9,10,7)}ctx.fillStyle='#ffffff18';ctx.fillRect(-xx+7,-yy-height*.3,xx*1.2,5);ctx.fillStyle='#071c2a';ctx.fillRect(-xx+12,yy*.2,12,yy*.7)}
+function drawObject(o){if(o.dead)return;let dis=dist(o,cam);if(dis>Math.max(sw,sh)/Math.max(.5,viewScale)+o.r*2+140)return;let scale=1-o.p*.79;ctx.save();let owner=cats[o.owner],sucking=owner&&owner.grip===o;let pull=sucking?Math.pow(o.p,1.7)*.55:0;ctx.translate(lerp(o.x,sucking?owner.x:o.x,pull),lerp(o.y,sucking?owner.y:o.y,pull));ctx.rotate(o.rotation+o.p*(o.tier>=2?1.1:.3)+Math.sin(elapsed*19+o.phase)*o.p*.09);ctx.scale(scale*(1+Math.sin(o.p*PI)*.11),scale*(1-Math.sin(o.p*PI)*.17));ctx.globalAlpha=1-o.p*.2;let r=o.r,tt=elapsed+o.phase;if(o.kind==='bus'){
+ ctx.fillStyle='#071923b0';rounded(-r*.86+7,-r*.54+9,r*1.72,r*1.08,13);ctx.fill();
+  ctx.fillStyle=o.route==='fast'?'#5fdaeb':o.route==='bash'?'#ed829a':'#f4c768';rounded(-r*.86,-r*.54,r*1.72,r*1.08,12);ctx.fill();
+ ctx.fillStyle='#33475e';rounded(-r*.72,-r*.37,r*1.41,r*.48,6);ctx.fill();
+ ctx.fillStyle='#d3f9ed';for(let i=0;i<5;i++){ctx.fillRect(-r*.59+i*r*.26,-r*.30,r*.18,r*.25)}
+ ctx.fillStyle='#fdf6d1';ctx.fillRect(-r*.67,r*.18,r*1.3,r*.09);
+ ctx.fillStyle='#1d3941';for(let a of [-.60,.60]){ctx.fillRect(r*a-r*.18,-r*.6,r*.36,r*.13);ctx.fillRect(r*a-r*.18,r*.47,r*.36,r*.16)}
+ ctx.fillStyle='#162b37';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText(o.route==='fast'?'FAST':o.route==='bash'?'BASH':'FOOD',0,r*.33)
+ }else if(o.kind==='core'){
+   ctx.save();ctx.rotate(elapsed*.22);ctx.shadowBlur=30;ctx.shadowColor=starOpened?'#fff0a0':'#bbaeff';ctx.fillStyle=starOpened?'#fff0b8':'#8d80bc';ctx.beginPath();for(let i=0;i<16;i++){let a=i*TAU/16,r2=i%2?r*.45:r*.83;ctx.lineTo(Math.cos(a)*r2,Math.sin(a)*r2)}ctx.closePath();ctx.fill();ctx.shadowBlur=0;ctx.restore();ctx.fillStyle='#fff8d8';ctx.font='bold '+Math.round(r*.105)+'px sans-serif';ctx.textAlign='center';ctx.fillText(starOpened?'★ 666m':'★ LOCK',0,r*.04);
+ }else if(o.kind==='kibble'){ctx.fillStyle='#bd8a4c';for(let i=0;i<4;i++){ctx.beginPath();ctx.ellipse(Math.sin(i*2.1)*r*.5,Math.cos(i*2.1)*r*.35,3,2.5,i,0,TAU);ctx.fill()}}
+ else if(o.kind==='churu'){ctx.fillStyle='#ffac83';rounded(-r*.38,-r*.88,r*.76,r*1.7,2);ctx.fill();ctx.fillStyle='#ffe5bd';ctx.fillRect(-r*.31,-r*.43,r*.62,r*.4)}
+ else if(o.kind==='can'){ctx.fillStyle='#80c7c6';ctx.beginPath();ctx.ellipse(0,0,r*.7,r*.45,0,0,TAU);ctx.fill();ctx.strokeStyle='#f4ecca';ctx.lineWidth=2;ctx.stroke();}
+ else if(o.kind==='building')building(o);else if(o.kind==='car'){ctx.fillStyle='#06111e77';rounded(-r*.8+6,-r*.4+9,r*1.7,r*.9,7);ctx.fill();ctx.fillStyle=o.color;rounded(-r*.9,-r*.45,r*1.8,r*.9,9);ctx.fill();ctx.fillStyle='#243e51';rounded(-r*.32,-r*.39,r*.68,r*.78,5);ctx.fill();ctx.fillStyle='#dffaf1';ctx.fillRect(-r*.78,-r*.27,7,8);ctx.fillRect(r*.65,-r*.27,7,8)}else if(o.kind==='tree'){ctx.fillStyle='#122d2b';ctx.fillRect(-3,-4,7,r*.95);ctx.fillStyle='#477f66';ctx.beginPath();ctx.arc(0,-r*.23,r*.72,0,TAU);ctx.fill();ctx.fillStyle='#6caa83';ctx.beginPath();ctx.arc(-r*.23,-r*.48,r*.42,0,TAU);ctx.fill()}else if(o.kind==='bike'){ctx.strokeStyle='#a6c8bd';ctx.lineWidth=3;for(let v of [-r*.55,r*.55]){ctx.beginPath();ctx.arc(v,r*.2,r*.32,0,TAU);ctx.stroke()}ctx.beginPath();ctx.moveTo(-r*.55,r*.2);ctx.lineTo(-r*.12,-r*.25);ctx.lineTo(r*.55,r*.2);ctx.lineTo(-r*.55,r*.2);ctx.stroke()}else if(o.kind==='lamp'){ctx.strokeStyle='#243743';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(0,-r*.8);ctx.stroke();ctx.fillStyle='#ffebae';ctx.beginPath();ctx.arc(0,-r*.8,7,0,TAU);ctx.fill()}else{ctx.fillStyle=o.color;rounded(-r*.75,-r*.6,r*1.5,r*1.2,3);ctx.fill();ctx.fillStyle='#e1f8e5';ctx.fillRect(-r*.4,-r*.4,r*.6,3)}ctx.restore()}
+function drawWallCombo(){
+ if(!player||!empowered(player)||player.dashCd>.05||player.stun>0)return;
+ for(let enemy of cats.slice(1)){
+  let d=dist(player,enemy);if(d<35||d>210||enemy.stun>0||enemy.impactImmune>0)continue;
+  let nx=(enemy.x-player.x)/d,ny=(enemy.y-player.y)/d;
+  let wall=wallInKnockPath(enemy,nx,ny,knockDistance(player));if(!wall)continue;
+  let alpha=.40+.30*(.5+.5*Math.sin(elapsed*7));
+  ctx.save();ctx.globalAlpha=alpha;ctx.strokeStyle='#ffae91';ctx.lineWidth=3;ctx.setLineDash([6,7]);
+  ctx.beginPath();ctx.moveTo(enemy.x,enemy.y);ctx.lineTo(wall.x,wall.y);ctx.stroke();ctx.setLineDash([]);
+  ctx.strokeStyle='#fff0b1';ctx.lineWidth=3;ctx.beginPath();ctx.arc(wall.x,wall.y,12,0,TAU);ctx.stroke();
+  ctx.fillStyle='#fff0b1';ctx.font='900 13px sans-serif';ctx.textAlign='center';ctx.fillText('壁ドン可',wall.x,wall.y-19);ctx.restore();
+ }
+}
+function drawSlamMarks(){
+ for(let m of slamMarks){let k=1-m.life/m.max;
+  ctx.save();ctx.globalAlpha=m.life/m.max;ctx.strokeStyle='#ffc178';ctx.lineWidth=(1-k)*7+1;
+  ctx.beginPath();ctx.arc(m.x,m.y,25+115*k,0,TAU);ctx.stroke();
+  ctx.translate(m.x,m.y);ctx.rotate(k*1.8);
+  for(let i=0;i<10;i++){let a=i*TAU/10;ctx.beginPath();ctx.moveTo(Math.cos(a)*(28+k*15),Math.sin(a)*(28+k*15));ctx.lineTo(Math.cos(a)*(55+k*90),Math.sin(a)*(55+k*90));ctx.stroke()}
+  ctx.restore();
+ }
+}
+function catDraw(c){if(c.dash>0){ctx.save();ctx.strokeStyle=c.id===0?'#caffec':'#ffdbca';ctx.globalAlpha=.32;ctx.lineWidth=8+3*c.impactRank;ctx.beginPath();ctx.arc(c.x,c.y,c.r+35+c.impactRank*12,0,TAU);ctx.stroke();ctx.restore()}ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.angle);let r=c.r;let pulse=Math.sin(c.belly*1.3)*1.5,active=!!c.grip;ctx.shadowBlur=active?30:16;ctx.shadowColor=c.accent;ctx.fillStyle='#101321bb';ctx.beginPath();ctx.ellipse(3,7,r*.95,r*1.22,0,0,TAU);ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle='#141525';ctx.lineWidth=r*.3;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(0,r*.4);ctx.bezierCurveTo(-r*.75,r*1.5,-r*1.6,r*.85,-r*1.25,r*.08+Math.sin(elapsed*4+c.id)*3);ctx.stroke();ctx.fillStyle='#13182c';ctx.strokeStyle=c.accent;ctx.lineWidth=2.6;ctx.beginPath();ctx.ellipse(0,0,r*.73,r*.96,0,0,TAU);ctx.fill();ctx.stroke();ctx.fillStyle='#161829';for(let dir of [-1,1]){ctx.beginPath();ctx.ellipse(dir*r*.74,r*.45,r*.21,r*.34,0,0,TAU);ctx.fill();ctx.beginPath();ctx.ellipse(dir*r*.7,-r*.54,r*.21,r*.33,0,0,TAU);ctx.fill()}ctx.beginPath();ctx.moveTo(-r*.62,-r*.68);ctx.lineTo(-r*.65,-r*1.33);ctx.lineTo(-r*.2,-r*.98);ctx.lineTo(r*.2,-r*.98);ctx.lineTo(r*.65,-r*1.33);ctx.lineTo(r*.62,-r*.68);ctx.closePath();ctx.fillStyle='#171b30';ctx.fill();ctx.stroke();if(c.type===2){ctx.strokeStyle='#e9b086';ctx.lineWidth=3;for(let n=-1;n<=1;n++){ctx.beginPath();ctx.moveTo(n*8,-r*.38);ctx.lineTo(n*10,-r*.1);ctx.stroke()}}else if(c.type===1){ctx.fillStyle='#e6cc9a';ctx.beginPath();ctx.arc(0,-r*.25,r*.18,0,TAU);ctx.fill()}else if(c.type===3){ctx.strokeStyle='#bba5ff';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(-r*.45,-r*.23);ctx.lineTo(0,-r*.5);ctx.lineTo(r*.45,-r*.23);ctx.stroke();ctx.fillStyle='#c6a5ff';ctx.beginPath();ctx.arc(0,-r*.49,r*.14,0,TAU);ctx.fill()}ctx.fillStyle=c.accent;for(let x of [-.25,.25]){ctx.beginPath();ctx.ellipse(r*x,-r*.92,r*.068,r*.1,0,0,TAU);ctx.fill()}let rad=r*.47+pulse*.05;ctx.save();ctx.translate(0,r*.13);ctx.shadowColor=TEAM[c.id];ctx.shadowBlur=active?27:12;ctx.fillStyle='#03060f';ctx.beginPath();ctx.arc(0,0,rad,0,TAU);ctx.fill();ctx.strokeStyle=TEAM[c.id];ctx.lineWidth=active?3:1.5;ctx.beginPath();ctx.arc(0,0,rad,0,TAU);ctx.stroke();ctx.rotate(c.belly);for(let j=0;j<3;j++){ctx.beginPath();for(let t=0;t<25;t++){let a=t*.25+j*TAU/3,rr=rad*(.12+.75*t/25);if(!t)ctx.moveTo(Math.cos(a)*rr,Math.sin(a)*rr);else ctx.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}ctx.strokeStyle=TEAM[c.id];ctx.lineWidth=1.6;ctx.globalAlpha=.5;ctx.stroke()}ctx.restore();if(c.stun>0){
+ ctx.strokeStyle=c.stun>1.25?'#ff8b9a':'#ffe0a2';ctx.lineWidth=3;
+ ctx.beginPath();ctx.arc(0,0,r*1.5,0,TAU);ctx.stroke();
+ ctx.lineWidth=5;ctx.strokeStyle='#ffe8a4';ctx.beginPath();ctx.arc(0,0,r*1.5,-PI/2,-PI/2+TAU*clamp(c.stun/SLAM_DURATION,0,1));ctx.stroke();
+ for(let k=0;k<3;k++){let a=elapsed*2.4+k*TAU/3;ctx.fillStyle='#ffe1a3';ctx.beginPath();ctx.arc(Math.cos(a)*r*1.78,Math.sin(a)*r*1.78,4,0,TAU);ctx.fill()}
+ }ctx.restore();ctx.textAlign='center';ctx.font=(c.r>90?'bold 14px sans-serif':'bold 12px sans-serif');ctx.fillStyle=c.id===0?'#aaffdf':'#fff5ea';ctx.shadowColor='#061820';ctx.shadowBlur=6;ctx.fillText(c.name+'  '+sizeText(meters(c.mass)),c.x,c.y-c.r*1.75);if(c.stun>0){ctx.font='900 12px sans-serif';ctx.fillStyle=c.stun>1.2?'#ffb18d':'#ffe2a6';ctx.fillText('STUN '+c.stun.toFixed(1)+'s',c.x,c.y-c.r*1.75-18)}ctx.shadowBlur=0}
+function drawScars(){
+ for(let sc of scars){ctx.save();ctx.translate(sc.x,sc.y);ctx.rotate(sc.phase);ctx.fillStyle='#153f3d';
+ ctx.beginPath();ctx.ellipse(0,0,sc.r*.78,sc.r*.66,0,0,TAU);ctx.fill();ctx.strokeStyle='#93ffbc46';ctx.lineWidth=3;ctx.setLineDash([9,15]);ctx.stroke();ctx.setLineDash([]);
+ ctx.strokeStyle='#537e796d';ctx.lineWidth=3;
+ for(let i=0;i<5;i++){let a=i*TAU/5;ctx.beginPath();ctx.moveTo(Math.cos(a)*sc.r*.20,Math.sin(a)*sc.r*.20);ctx.lineTo(Math.cos(a+.4)*sc.r*.65,Math.sin(a+.4)*sc.r*.54);ctx.stroke()}
+ if(sc.role==='outerGate'||sc.role==='centerGate'||sc.role==='landmark'){
+  ctx.fillStyle='#a3ffbf';ctx.textAlign='center';ctx.font='900 15px sans-serif';ctx.fillText('開 通',0,4);
+ }
+ ctx.restore()}
+}
+function possibleGoals(){
+ if(!player)return[];
+ if(isInsideHome(player)){let local=districtGates[player.homeIndex].filter(o=>!o.dead);if(local.length)return local;}
+ if(starOpened&&canEat(player,things.find(o=>o.kind==='core'))){
+  let core=things.find(o=>o.kind==='core');
+  if(core&&!core.dead){let gates=centerGates.filter(o=>!o.dead&&canEat(player,o));
+   if(gates.length&&centerGates.every(o=>!o.dead))return[...gates,core,...things.filter(o=>o.role==='feast'&&!o.dead)];
+   return[core,...things.filter(o=>(o.role==='landmark'||o.role==='feast')&&!o.dead)];}
+ }
+ let marks=things.filter(o=>(o.role==='landmark'||o.role==='feast')&&!o.dead);
+ if(marks.length)return marks;
+ let centers=centerGates.filter(o=>!o.dead);if(centers.length)return centers;
+ return things.filter(o=>o.kind==='core'&&!o.dead);
+}
+function selectedGoal(){
+ let list=possibleGoals();if(!list.length)return null;
+ if(!goalTarget||goalTarget.dead||!list.includes(goalTarget))goalTarget=list.slice().sort((a,b)=>dist(player,a)-dist(player,b))[0];
+ return goalTarget;
+}
+function cycleGoal(){
+ if(!playing||paused)return;
+ let list=possibleGoals();if(!list.length)return;
+ let g=selectedGoal();goalTarget=list[(list.indexOf(g)+1)%list.length];
+ toast('狙いを変更：'+goalTarget.name);
+}
+function oGoalCost(o){return o.tier*300+dist(player,o)}
+function drawRouteHint(){
+  if(!player||gameOver||!playing)return;
+  let target=selectedGoal();
+  if(!target)return;
+  let d=Math.max(1,dist(player,target)),dx=(target.x-player.x)/d,dy=(target.y-player.y)/d;
+  if(d<65)return;
+  ctx.save();ctx.translate(player.x+dx*105,player.y+dy*105);ctx.rotate(Math.atan2(dy,dx));
+  let can=canEat(player,target);ctx.strokeStyle=target.route==='fast'?'#79e8f4c9':target.route==='bash'?'#ff9fb4c9':can?'#fff0a3bb':'#ffad8c7f';ctx.lineWidth=3;ctx.setLineDash([5,7]);
+  ctx.beginPath();ctx.moveTo(-13,0);ctx.lineTo(5,0);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle=can?'#fdf19e':'#efaa89';ctx.beginPath();ctx.moveTo(19,0);ctx.lineTo(3,-9);ctx.lineTo(3,9);ctx.closePath();ctx.fill();ctx.restore();
+}
+function drawGoalBeacon(){
+ let o=selectedGoal();if(!o)return;
+ ctx.save();ctx.translate(o.x,o.y);ctx.strokeStyle='#faffc4';ctx.lineWidth=3;
+ let rr=o.r+22+Math.sin(elapsed*3)*5;ctx.setLineDash([10,8]);ctx.beginPath();ctx.arc(0,0,rr,0,TAU);ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle='#e9ffe7';ctx.font='900 12px sans-serif';ctx.textAlign='center';ctx.fillText('◆ TARGET',0,-o.r-67);ctx.restore();
+}
+function drawGateLabels(){
+ for(let o of [...outerGates,...centerGates,...things.filter(t=>t.role==='landmark'||t.role==='feast')]){if(o.dead)continue;
+  let d=dist(player,o);if(Math.abs(o.x-cam.x)>sw/viewScale*.7||Math.abs(o.y-cam.y)>sh/viewScale*.7)continue;
+  let can=canEat(player,o),pulse=.5+.5*Math.sin(elapsed*2.5);
+  ctx.save();ctx.strokeStyle=o.route==='fast'?'#8aebf3':o.route==='bash'?'#ff97b1':can?'#ffe79b':'#ffbc8c';ctx.lineWidth=2+pulse*1.3;
+  ctx.setLineDash([12,7]);ctx.beginPath();ctx.arc(o.x,o.y,o.r*.86+9+pulse*3,0,TAU);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle=o===selectedGoal()?'#101e26eb':'#101e26ac';rounded(o.x-67,o.y-o.r-54,134,33,8);ctx.fill();
+  ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillStyle=o.route==='fast'?'#a0f6ff':o.route==='bash'?'#ffc0d0':can?'#f8f4a5':'#ffceaf';
+  ctx.fillText(o.role==='landmark'?(can?'★ '+o.name+' '+o.reward:'🔒 成長Ⅳ '+o.name):o.role==='outerGate'?(can?'E '+o.name:'🔒 成長'+['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ','Ⅶ'][o.tier]+' '+o.name):(can?'都心を切り開く':'🔒 成長Ⅴで開通'),o.x,o.y-o.r-32);
+  ctx.restore();
+ }
+}
+function ground(){ctx.fillStyle='#172932';ctx.fillRect(cam.x-sw/viewScale,cam.y-sh/viewScale,sw/viewScale*2,sh/viewScale*2);ctx.strokeStyle='#38505b55';ctx.lineWidth=1.5;for(let x=Math.floor((cam.x-sw/viewScale)/100)*100;x<cam.x+sw/viewScale;x+=100){ctx.beginPath();ctx.moveTo(x,cam.y-sh/viewScale);ctx.lineTo(x,cam.y+sh/viewScale);ctx.stroke()}for(let y=Math.floor((cam.y-sh/viewScale)/100)*100;y<cam.y+sh/viewScale;y+=100){ctx.beginPath();ctx.moveTo(cam.x-sw/viewScale,y);ctx.lineTo(cam.x+sw/viewScale,y);ctx.stroke()}ctx.fillStyle='#253b41';ctx.fillRect(0,0,W,H);ctx.fillStyle='#29474a';for(let i=0;i<W;i+=170)for(let j=0;j<H;j+=170){let n=Math.sin(i*.017+j*.022);ctx.fillStyle=n>0?'#2d4948':'#294347';ctx.fillRect(i+5,j+5,160,160)}// Four neighborhoods initially feel like distinct regions; their walls are actual solid buildings.
+ ctx.save();ctx.fillStyle='#11282a3b';for(let h of HOMES){ctx.beginPath();ctx.moveTo(h.x,h.y);ctx.arc(h.x,h.y,645, h.sy>0?(h.sx>0?0:PI/2):(h.sx>0?-PI/2:PI),h.sy>0?(h.sx>0?PI/2:PI):(h.sx>0?0:3*PI/2),h.sx*h.sy<0);ctx.closePath();ctx.fill()}ctx.restore();
+ ctx.fillStyle='#1b323d';for(let i=300;i<W;i+=500){ctx.fillRect(i-35,0,70,H);ctx.fillRect(i,0,8,H)}for(let j=260;j<H;j+=450)ctx.fillRect(0,j-30,W,65);ctx.strokeStyle='#49616a';ctx.lineWidth=2;ctx.setLineDash([20,22]);for(let i=300;i<W;i+=500){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,H);ctx.stroke()}for(let j=260;j<H;j+=450){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(W,j);ctx.stroke()}ctx.setLineDash([]);ctx.strokeStyle='#5e827d55';ctx.lineWidth=8;ctx.strokeRect(8,8,W-16,H-16);ctx.save();ctx.translate(W/2,H/2);ctx.strokeStyle=starOpened?'#ffefae':'#ffc77c55';ctx.lineWidth=3;for(let r of [390,540,755]){ctx.beginPath();ctx.arc(0,0,r,0,TAU);ctx.stroke()}ctx.restore();drawScars()}
+function drawMini(){if(sw<800||sh<620)return;let ww=176,hh=126,x=sw-ww-25,y=sh-hh-20;ctx.save();ctx.fillStyle='#0a1a21d9';rounded(x,y,ww,hh,13);ctx.fill();ctx.strokeStyle='#8fffe045';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#82b7ae';ctx.font='bold 10px sans-serif';ctx.textAlign='left';ctx.fillText('WORLD MAP',x+12,y+15);let mx=x+12,my=y+23,mw=ww-24,mh=hh-34;ctx.fillStyle='#2e494f';ctx.fillRect(mx,my,mw,mh);let mark=selectedGoal();if(mark){let xx=mx+mark.x/W*mw,yy=my+mark.y/H*mh;ctx.strokeStyle='#ffffbb';ctx.lineWidth=2;ctx.strokeRect(xx-4.5,yy-4.5,9,9);}ctx.fillStyle='#bbdaaa44';for(let o of things)if(!o.dead&&o.tier>=3){ctx.fillRect(mx+o.x/W*mw-1,my+o.y/H*mh-1,o.tier>=5?4:2,o.tier>=5?4:2)}for(let o of [...outerGates,...centerGates,...things.filter(t=>t.role==='landmark'||t.role==='feast')]){ctx.fillStyle=o.dead?'#8fffdc':o.route==='fast'?'#67ddea':o.route==='bash'?'#f48ba6':o.role==='landmark'?'#aaffed':o.role==='feast'?'#ffad72':'#f6dd91';ctx.fillRect(mx+o.x/W*mw-2,my+o.y/H*mh-2,5,5)}for(let d of drones)if(elapsed>60){ctx.fillStyle='#ffcf77';ctx.fillRect(mx+d.x/W*mw-2,my+d.y/H*mh-2,4,4)}for(let c of cats){ctx.fillStyle=TEAM[c.id];ctx.beginPath();ctx.arc(mx+c.x/W*mw,my+c.y/H*mh,c.id===0?4.1:2.7,0,TAU);ctx.fill()}ctx.strokeStyle='#ffe4a3';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(mx+mw*.5,my+mh*.5,4,0,TAU);ctx.stroke();ctx.restore()}
+function draw(){ctx.clearRect(0,0,sw,sh);let ratio=Math.min(sw/1250,sh/760);viewScale=ratio*(player?clamp(1-(player.r-25)/410,.54,1):1);let dx=playing&&!paused&&!gameOver&&shake?rnd(-shake,shake):0,dy=playing&&!paused&&!gameOver&&shake?rnd(-shake,shake):0;ctx.save();ctx.translate(sw*.5+dx,sh*.5+dy);ctx.scale(viewScale,viewScale);ctx.translate(-cam.x,-cam.y);ground();let visible=things.filter(o=>!o.dead&&Math.abs(o.x-cam.x)<sw/viewScale/2+230&&Math.abs(o.y-cam.y)<sh/viewScale/2+230).sort((a,b)=>a.y-b.y);drawTethers();drawGravityTethers();drawSwallowTrails();for(let o of visible)drawObject(o);drawGateLabels();drawGoalBeacon();drawRouteHint();drawPlayerRanges();drawDrones();drawPreyIndicators();drawWallCombo();drawSlamMarks();for(let ring of rings){ctx.globalAlpha=ring.life/.6;ctx.strokeStyle=ring.col;ctx.lineWidth=4*ring.life;ctx.beginPath();ctx.arc(ring.x,ring.y,ring.r,0,TAU);ctx.stroke()}ctx.globalAlpha=1;for(let c of cats)catDraw(c);for(let p of particles){ctx.fillStyle=p.col;ctx.globalAlpha=clamp(p.life/p.max,0,1);ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life/p.max,0,TAU);ctx.fill()}ctx.globalAlpha=1;for(let f of floats){ctx.textAlign='center';ctx.font='900 19px sans-serif';ctx.fillStyle=f.col;ctx.shadowColor='#00151a';ctx.shadowBlur=6;ctx.globalAlpha=clamp(f.life,0,1);ctx.fillText(f.txt,f.x,f.y);ctx.shadowBlur=0}ctx.globalAlpha=1;ctx.restore();let vg=ctx.createRadialGradient(sw/2,sh/2,sw*.1,sw/2,sh/2,Math.max(sw,sh)*.8);vg.addColorStop(0,'#08141b00');vg.addColorStop(1,'#020b17a9');ctx.fillStyle=vg;ctx.fillRect(0,0,sw,sh);drawMini();if(player&&player.dashCd>0&&!paused){ctx.font='bold 11px sans-serif';ctx.fillStyle='#c0e5e3';ctx.textAlign='center';ctx.fillText('DASH '+player.dashCd.toFixed(1)+'s',sw/2,sh-82)}}
+function togglePause(){if(gameOver)return;if(paused){if($('overlay').dataset.mode!=='pause')return;paused=false;$('overlay').classList.add('hidden');clock=performance.now()}else{paused=true;shake=0;$('overlay').dataset.mode='pause';$('overlay').classList.remove('hidden');$('modal').innerHTML='<div class="tag">A MOMENT BETWEEN BITES</div><h2>PAUSED</h2><p>世界が止まっている。休憩したらまた食べよう。</p><button class="cta" id="resume">続ける →</button>';$('resume').onclick=togglePause}}
+function frame(t){let dt=clock?Math.min(.035,(t-clock)/1000):.016;clock=t;update(dt);draw();requestAnimationFrame(frame)}document.addEventListener('keydown',e=>{if(pendingUpgrades>0&&/^Digit[123]$/.test(e.code)&&!e.repeat){chooseUpgrade(Number(e.code.slice(-1))-1);e.preventDefault();return}if(e.code==='KeyP'&&!e.repeat&&playing&&!gameOver){togglePause();return}if(e.code==='KeyQ'&&!e.repeat&&playing&&!gameOver){cycleGoal();e.preventDefault();return}if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();keys[e.code]=true});document.addEventListener('keyup',e=>keys[e.code]=false);window.addEventListener('blur',()=>{keys={};mouseDown=false});canvas.addEventListener('pointermove',e=>{mouseValid=true;mouseX=e.clientX;mouseY=e.clientY});canvas.addEventListener('pointerdown',e=>{mouseDown=true;mouseValid=true;mouseX=e.clientX;mouseY=e.clientY;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointerup',()=>mouseDown=false);canvas.addEventListener('pointercancel',()=>mouseDown=false);$('sound').onclick=()=>{soundOn=!soundOn;$('sound').textContent=soundOn?'♪ SOUND ON':'♪ SOUND OFF'};reset();showMenu();requestAnimationFrame(frame);
+})();
+</script></body></html>

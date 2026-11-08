@@ -33,6 +33,73 @@
       "updated": "2026-10-30"
     },
     {
+      "slug": "gyaku-roomba",
+      "title": "逆ルンバ VS ルンバ",
+      "category": "game",
+      "access": "hub",
+      "status": "prototype",
+      "summary": "毛をまき散らす猫と、それを吸い取るルンバが 90 秒間リビングの床を奪い合う、非対称の陣取りアクション。",
+      "tags": [
+        "陣取り",
+        "アクション",
+        "対戦"
+      ],
+      "url": "games/gyaku-roomba/",
+      "created": "2026-10-15",
+      "updated": "2026-10-15",
+      "notes": true
+    },
+    {
+      "slug": "nyaoman-kedama-factory",
+      "title": "ニャオマンの毛玉工場",
+      "category": "game",
+      "access": "hub",
+      "status": "prototype",
+      "summary": "猫のニャオマンをブラシでなでて集めた毛を、洗浄・成型・圧縮して出荷する。限られた敷地と電力で工場を回す、工場経営 × 放置ゲーム。",
+      "tags": [
+        "工場経営",
+        "放置",
+        "猫"
+      ],
+      "url": "games/nyaoman-kedama-factory/",
+      "created": "2026-10-15",
+      "updated": "2026-10-15",
+      "notes": true
+    },
+    {
+      "slug": "nekovoid",
+      "title": "NEKOVOID — 猫の腹は宇宙",
+      "category": "game",
+      "access": "hub",
+      "status": "prototype",
+      "summary": "地面に貼り付いた猫の影が、お腹の穴で街を丸呑みにして巨大化する。性格の違う 4 匹で食料と中央の星を奪い合う、5 分間の捕食アクション。",
+      "tags": [
+        "捕食",
+        "成長",
+        "対戦",
+        "猫"
+      ],
+      "url": "games/nekovoid/",
+      "created": "2026-10-14",
+      "updated": "2026-10-14",
+      "notes": true
+    },
+    {
+      "slug": "orefront-four-kingdoms",
+      "title": "鉱脈戦記 — 四国争覇",
+      "category": "game",
+      "access": "private",
+      "status": "prototype",
+      "summary": "4 陣営が同時に鉱床を奪い合う、デッキ構築型のオート RTS。奪われた鉱床の蓄積得点が移るので、最後まで逆転できる。",
+      "tags": [
+        "デッキ構築",
+        "RTS",
+        "対戦"
+      ],
+      "created": "2026-10-16",
+      "updated": "2026-10-16"
+    },
+    {
       "slug": "atelier",
       "title": "atelier",
       "category": "game",
@@ -273,6 +340,52 @@
       "repo": "discoNeko/othello",
       "created": "2016-03-24",
       "updated": "2016-03-28"
+    },
+    {
+      "slug": "choice-design",
+      "title": "面白い意思決定の設計学",
+      "category": "talk",
+      "access": "hub",
+      "status": "playable",
+      "summary": "「どれを選ぶか」より「何を諦めるか」で悩ませる。ゲームの選択を面白くする条件を、操作できる例と企画ワークシートつきで図解する。",
+      "tags": [
+        "ゲームデザイン",
+        "意思決定"
+      ],
+      "url": "talks/choice-design/",
+      "created": "2026-10-16",
+      "updated": "2026-10-16"
+    },
+    {
+      "slug": "nietzsche-9-concepts",
+      "title": "ニーチェ哲学の9つの鍵",
+      "category": "talk",
+      "access": "hub",
+      "status": "playable",
+      "summary": "「神は死んだ」から運命愛まで、ニーチェの9つの概念を一つの問いでつなぐ思想地図。ケーススタディと理解度クイズつき。",
+      "tags": [
+        "哲学",
+        "ニーチェ"
+      ],
+      "url": "talks/nietzsche-9-concepts/",
+      "created": "2026-10-18",
+      "updated": "2026-10-18"
+    },
+    {
+      "slug": "kasu-ponkotsu-yunou",
+      "title": "カスでポンコツで有能なキャラは、なぜ刺さるのか",
+      "category": "talk",
+      "access": "hub",
+      "status": "playable",
+      "summary": "人間性がカスなのに、たまに有能。そんなキャラに惹かれる理由を ChatGPT と掘り下げたら、3 つの要素が互いの欠点を打ち消し合う三すくみだった。",
+      "tags": [
+        "キャラクター",
+        "心理学",
+        "物語論"
+      ],
+      "url": "talks/kasu-ponkotsu-yunou/",
+      "created": "2026-07-16",
+      "updated": "2026-07-16"
     }
   ]
 }
