@@ -350,14 +350,20 @@
       "category": "talk",
       "access": "hub",
       "status": "playable",
-      "summary": "「どれを選ぶか」より「何を諦めるか」で悩ませる。ゲームの選択を面白くする条件を、操作できる例と企画ワークシートつきで図解する。",
+      "summary": "ゲームに限らず「面白い意思決定」とは何かを ChatGPT と掘り下げた。選択肢の数ではなく、何を諦めるかで悩ませる設計の話。図解版はワークシートつき。",
       "tags": [
         "ゲームデザイン",
         "意思決定"
       ],
       "url": "talks/choice-design/",
       "created": "2026-10-16",
-      "updated": "2026-10-16"
+      "updated": "2026-10-16",
+      "variants": [
+        {
+          "label": "図解版",
+          "file": "visual.html"
+        }
+      ]
     },
     {
       "slug": "nietzsche-9-concepts",
