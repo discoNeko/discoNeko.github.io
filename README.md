@@ -18,6 +18,8 @@ talks/<slug>/         AI との対話で生まれた議論(HTML 作品)
 templates/talk/       対話ページのテンプレート
 thumbs/               サムネイル(16:9、横 640px 程度の jpg 推奨)
 scripts/check.mjs     台帳の整合性チェック + 公開 NG っぽい文字列の検出
+scripts/build-readme.mjs  GitHub プロフィール README 用の素材を readme/ に生成
+readme/               プロフィール README 用のバナー・サムネイル・作品欄(自動生成。直接編集しない)
 ```
 
 ## 作品の掲載形態(`access`)
@@ -97,6 +99,18 @@ public リポジトリのメモはそのまま Web に公開されます。commi
 - パスワード・トークン・API キー・keystore などの秘密情報
 - 素材の購入元や、ライセンス上公開できない素材のファイル名・URL
 - 非公開リポジトリへのリンク、非公開の内部ドキュメントの中身
+
+## GitHub プロフィールの作品欄
+
+https://github.com/discoNeko のプロフィール README に出る作品欄(バナー・Featured・Recent・全作品の折りたたみ)は、このリポジトリで生成しています。
+
+- `scripts/build-readme.mjs` が `games.json` から `readme/` に素材を書き出す
+  - `readme/banner.svg`: 上部のバナー(作品数と、最新作のカードを扇状に重ねた絵)
+  - `readme/thumbs/<slug>.svg`: 作品ごとのサムネイル
+  - `readme/profile.md`: README に差し込む作品欄
+- commit 時に pre-commit が自動で作り直して commit に含めるので、普段は意識しなくてよい
+- プロフィール側(`discoNeko/discoNeko`)の GitHub Actions が毎日、公開中の `readme/profile.md` を取り込んで README を更新する。すぐ反映したいときは、その Actions を手動実行する
+- バナーと Featured は非公開の作品を出さない。Recent と全作品の一覧では、非公開は 🔒 付きのリンクなしで出る
 
 ## ローカルで見る
 

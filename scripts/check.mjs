@@ -104,6 +104,7 @@ const targets = new Set([
   ...hubNoteDirs.flatMap((d) => walk(d)),
   ...(existsSync(join(root, "talks")) ? walk(join(root, "talks")) : []),
   ...(existsSync(join(root, "templates")) ? walk(join(root, "templates")) : []),
+  join(root, "readme", "profile.md"),
 ]);
 for (const file of targets) {
   if (!existsSync(file)) continue;
