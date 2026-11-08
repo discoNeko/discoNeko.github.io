@@ -1,6 +1,6 @@
 <!-- このブロックは discoNeko.github.io の scripts/build-readme.mjs が games.json から生成しています。直接編集しないでください -->
 <p align="center">
-<a href="https://disconeko.github.io/"><img src="https://disconeko.github.io/readme/banner.svg?v=9ddcdf6e" width="100%" alt="discoNeko works — ダッシュボードを開く"></a>
+<a href="https://disconeko.github.io/"><img src="https://disconeko.github.io/readme/banner.svg?v=6fee45f2" width="100%" alt="discoNeko works — ダッシュボードを開く"></a>
 </p>
 
 ### Featured
@@ -38,4 +38,4 @@
 </td>
 </tr></table>
 
-<p align="center"><a href="https://disconeko.github.io/"><b>すべての作品を見る(あと 21 件)</b></a></p>
+<p align="center"><a href="https://disconeko.github.io/"><b>すべての作品を見る(あと 22 件)</b></a></p>

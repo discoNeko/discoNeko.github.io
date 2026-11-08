@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>異世界ダービー:魔王討伐杯 — ローカルモック v0.3</title>
+<style>
+:root{
+  --ink:#1c1410; --ink2:#241a10; --chrome:#14100b;
+  --parch:#ece0c4; --parch2:#f4ead2; --parch3:#e2d4b2;
+  --gold:#e9c96a; --gold2:#c9a44f; --brown:#6b4f1d; --brown2:#6b5a3a;
+  --tx:#2a2018; --tx2:#6b5a3a; --cream:#e8dcc0; --cream2:#c9b78f;
+  --red:#8a2f2f; --green:#5f8a34; --logbg:#171310; --logtx:#cfc4a8;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html,body{height:100%;}
+body{
+  background:var(--chrome); color:var(--cream);
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+  font-size:13px; line-height:1.5; overflow:hidden;
+}
+.serif{font-family:"Hiragino Mincho ProN","Yu Mincho","MS PMincho",serif;}
+#app{display:flex; flex-direction:column; height:100vh; min-width:1080px;}
+
+/* ── header ─────────────────────────── */
+header{
+  display:flex; align-items:center; gap:16px; padding:6px 14px;
+  background:var(--ink); border-bottom:2px solid var(--gold2); flex:0 0 52px;
+}
+header .logo{font-size:20px; font-weight:600; color:var(--gold); letter-spacing:1px;}
+header .logo small{font-size:11px; color:var(--cream2); font-weight:400; margin-left:8px;}
+header .hud{display:flex; gap:18px; margin-left:auto; align-items:center;}
+.hud .item{text-align:right;}
+.hud .item .lab{font-size:10px; color:var(--cream2);}
+.hud .item .val{font-size:16px; font-weight:600; color:var(--gold); font-variant-numeric:tabular-nums;}
+.hud .item .val.warn{color:#f08a6a;}
+.speed{display:flex; gap:4px;}
+.speed button{padding:3px 8px;}
+button{
+  font-family:inherit; font-size:12px; cursor:pointer;
+  background:var(--parch2); color:var(--tx);
+  border:1px solid var(--brown); border-radius:4px; padding:5px 10px;
+}
+button:hover:not(:disabled){background:#fff6dd;}
+button:disabled{opacity:.45; cursor:not-allowed;}
+button.gold{background:var(--gold); border-color:var(--gold2); font-weight:600;}
+button.dark{background:#3a2c1c; color:var(--cream); border-color:var(--brown);}
+button.on{outline:2px solid var(--gold); outline-offset:1px;}
+
+/* ── main grid ──────────────────────── */
+main{flex:1; display:grid; grid-template-columns:290px 1fr 250px; gap:8px; padding:8px; min-height:0;}
+.panel{border:1px solid var(--brown); border-radius:6px; overflow:hidden; display:flex; flex-direction:column; min-height:0;}
+.panel.parch{background:var(--parch); color:var(--tx);}
+.panel.dark{background:var(--logbg); color:var(--logtx);}
+.panel h2{
+  font-size:13px; padding:6px 10px; letter-spacing:1px;
+  background:var(--ink); color:var(--gold); font-weight:600; flex:0 0 auto;
+}
+.panel .body{flex:1; overflow-y:auto; min-height:0;}
+
+/* ── 出征表 ─────────────────────────── */
+table.sheet{width:100%; border-collapse:collapse; font-size:12px;}
+table.sheet th{
+  font-size:10px; color:var(--tx2); font-weight:400; text-align:left;
+  padding:4px 4px; border-bottom:1px solid var(--brown2); position:sticky; top:0; background:var(--parch);
+}
+table.sheet td{padding:4px 4px; border-bottom:1px solid #d8c9a4; vertical-align:middle;}
+table.sheet tr.row{cursor:pointer;}
+table.sheet tr.row:hover td{background:var(--parch3);}
+table.sheet tr.sel td{background:#f7e9b8;}
+.waku{display:inline-block; width:9px; height:15px; border:1px solid var(--brown2); vertical-align:-3px;}
+.mark{color:var(--red); font-weight:600;}
+.odds{font-weight:600; font-variant-numeric:tabular-nums; text-align:right;}
+.odds.up{color:var(--red);} .odds.down{color:#1c6ea0;}
+.tname{font-weight:600;}
+.ttype{font-size:10px; color:var(--tx2);}
+.hpbar{height:4px; background:#d8c9a4; border-radius:2px; margin-top:2px; overflow:hidden;}
+.hpbar i{display:block; height:100%; background:var(--green);}
+.stat{font-size:10px; color:var(--tx2);}
+.progbar{height:5px; background:#d8c9a4; border-radius:2px; margin-top:2px; overflow:hidden;}
+.progbar i{display:block; height:100%; background:var(--gold2);}
+.progbar i.boss{background:#a83a8a;}
+.rankb{font-weight:700; font-size:12px; color:var(--tx2);}
+.lvb{font-size:10px; background:#3a2c1c; color:var(--gold); border-radius:3px; padding:0 4px; font-weight:700; vertical-align:1px;}
+.rankb.first{color:#8a5a00; font-size:13px;}
+tr.lead td:first-child{box-shadow:inset 3px 0 0 var(--gold2);}
+.sheetfoot{padding:6px 10px; font-size:11px; color:var(--tx2); border-top:1px solid var(--brown2);}
+
+/* ── map ────────────────────────────── */
+#mapwrap{position:relative; flex:1; min-height:0; background:#8fb0c9;}
+#mapsvg{width:100%; height:100%; display:block;}
+#mapbar{
+  display:flex; gap:12px; align-items:center; padding:4px 10px;
+  background:var(--ink); color:var(--cream); font-size:12px; flex:0 0 auto;
+}
+#mapbar .t{color:var(--gold); font-weight:600; font-size:15px; font-variant-numeric:tabular-nums;}
+#loghud{flex:0 0 132px; height:132px; min-height:0; overflow:hidden; display:flex; flex-direction:column; border-top:1px solid var(--brown); background:var(--logbg);}
+#loghud h3{font-size:11px; color:var(--gold); padding:4px 10px 0;}
+#logbox{flex:1; min-height:0; overflow-y:auto; padding:2px 10px 6px; font-size:11.5px; color:var(--logtx);}
+#logbox p{margin:1px 0;}
+#logbox p .tt{color:#8a7a55; margin-right:6px; font-variant-numeric:tabular-nums;}
+#logbox p.sys{color:var(--gold);}
+#logbox p.dark{color:#c98a8a;}
+.node-label{font-size:11px; fill:var(--tx); font-weight:600; paint-order:stroke; stroke:#f4ead2cc; stroke-width:3px;}
+.pin-num{font-size:11px; font-weight:700; text-anchor:middle;}
+.stamp-float{
+  position:absolute; padding:3px 8px; background:var(--parch2); color:var(--red);
+  border:1px solid var(--brown); border-radius:10px; font-weight:700; font-size:12px;
+  pointer-events:none; animation:floatup 2.2s ease-out forwards; white-space:nowrap;
+}
+@keyframes floatup{0%{opacity:0; transform:translateY(8px);}15%{opacity:1;}80%{opacity:1;}100%{opacity:0; transform:translateY(-34px);}}
+.targeting #mapsvg{cursor:crosshair;}
+.nodehit{cursor:pointer;}
+.node-glow{animation:pulse 1s infinite alternate;}
+@keyframes pulse{from{stroke-width:2px;}to{stroke-width:5px;}}
+
+/* ── 右カラム ────────────────────────── */
+.opgroup{padding:8px 10px; border-bottom:1px solid var(--brown2);}
+.opgroup .cap{font-size:11px; font-weight:600; margin-bottom:5px; color:var(--tx);}
+.opgroup .cap small{font-weight:400; color:var(--tx2);}
+.btnrow{display:flex; flex-wrap:wrap; gap:5px;}
+.btnrow button{flex:1 0 44%; padding:6px 4px; font-size:11.5px;}
+.btnrow button b{font-size:10px; color:var(--brown2); font-weight:400; display:block;}
+#selinfo{font-size:11.5px; background:var(--parch3); border-radius:4px; padding:5px 8px; margin-bottom:6px;}
+#mybets{font-size:11px;}
+#mybets .b{display:flex; justify-content:space-between; padding:2px 0; border-bottom:1px dashed #d8c9a4;}
+.stamps{display:flex; flex-wrap:wrap; gap:4px; padding:8px 10px;}
+.stamps button{flex:1 0 30%; font-size:11px; padding:4px 2px; color:var(--red); font-weight:700;}
+
+/* ── overlays ───────────────────────── */
+.overlay{
+  position:fixed; inset:0; background:#0d0a06ee; display:flex;
+  align-items:center; justify-content:center; z-index:50; overflow:auto; padding:20px;
+}
+.sheetcard{
+  background:var(--parch); color:var(--tx); border:2px solid var(--gold2);
+  border-radius:8px; max-width:880px; width:100%; max-height:92vh;
+  display:flex; flex-direction:column; box-shadow:0 0 0 6px #1c1410, 0 0 0 7px var(--brown);
+}
+.sheetcard .head{padding:14px 20px 8px; border-bottom:2px solid var(--brown);}
+.sheetcard .head h1{font-size:22px; letter-spacing:2px;}
+.sheetcard .head .sub{font-size:12px; color:var(--tx2); margin-top:2px;}
+.sheetcard .content{padding:12px 20px; overflow-y:auto;}
+.sheetcard .foot{padding:10px 20px; border-top:1px solid var(--brown2); display:flex; gap:10px; align-items:center;}
+.sheetcard .foot .spacer{flex:1;}
+.betctl{display:flex; gap:4px; align-items:center;}
+.betctl button{padding:3px 7px; font-size:11px;}
+.result-hero{text-align:center; padding:10px 0 14px;}
+.result-hero .win{font-size:30px; color:var(--red); font-weight:700; letter-spacing:4px;}
+.result-hero .who{font-size:18px; font-weight:600; margin-top:4px;}
+.result-hero .meta{font-size:12px; color:var(--tx2); margin-top:4px;}
+.result-hero .demonwin{font-size:24px; color:#5a2d7a; font-weight:700; letter-spacing:3px;}
+.cols2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+.boxed{border:1px solid var(--brown2); border-radius:6px; padding:8px 10px;}
+.boxed h4{font-size:12px; color:var(--red); margin-bottom:6px; letter-spacing:1px;}
+.revealline{padding:3px 0; border-bottom:1px dashed #d8c9a4; font-size:12px; opacity:0; transform:translateY(4px); transition:all .4s;}
+.revealline.show{opacity:1; transform:none;}
+.revealline .who{font-weight:700; color:var(--red);}
+.revealline .who.me{color:#1c6ea0;}
+.revealline .tt{color:var(--tx2); font-size:10px; margin-right:6px;}
+.demonreveal{
+  margin-top:10px; padding:10px; text-align:center; border:2px solid #5a2d7a;
+  border-radius:6px; background:#efe4f4; color:#3a1d52; font-weight:700; font-size:15px;
+  opacity:0; transition:opacity .8s;
+}
+.demonreveal.show{opacity:1;}
+.paytable{width:100%; font-size:12px; border-collapse:collapse; margin-top:6px;}
+.paytable td,.paytable th{padding:3px 6px; border-bottom:1px solid #d8c9a4; text-align:right;}
+.paytable th{color:var(--tx2); font-weight:400; font-size:10px;}
+.paytable td:first-child,.paytable th:first-child{text-align:left;}
+.plus{color:var(--green); font-weight:700;} .minus{color:var(--red); font-weight:700;}
+.note{font-size:11px; color:var(--tx2); margin-top:8px;}
+.tagline{font-size:12px; color:var(--tx2);}
+::-webkit-scrollbar{width:9px;} ::-webkit-scrollbar-thumb{background:var(--brown2); border-radius:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo serif">異世界ダービー<small>魔王討伐杯 — ローカルモック</small></div>
+    <div class="speed" id="speedbtns">
+      <button data-sp="1" class="dark on">×1</button>
+      <button data-sp="2" class="dark">×2</button>
+      <button data-sp="4" class="dark">×4</button>
+      <button id="pausebtn" class="dark">⏸</button>
+    </div>
+    <div class="hud">
+      <div class="item"><div class="lab">レース</div><div class="val" id="hud-race">1/3</div></div>
+      <div class="item"><div class="lab">残り時間</div><div class="val" id="hud-time">2:00</div></div>
+      <div class="item"><div class="lab">ベット/介入締切</div><div class="val" id="hud-deadline">1:00</div></div>
+      <div class="item"><div class="lab">所持スコア</div><div class="val" id="hud-money">10,000</div></div>
+    </div>
+  </header>
+  <main>
+    <section class="panel parch" id="left">
+      <h2>出征表(ライブ)</h2>
+      <div class="body"><table class="sheet" id="sheet"></table></div>
+      <div class="sheetfoot" id="sheetfoot">行をクリックで対象選択。金バーが勝利ゲージ(進行70%+ボス削り30%)、紫はボス戦の削り</div>
+    </section>
+    <section class="panel" id="center" style="background:var(--ink);">
+      <div id="mapbar">
+        <span id="racename">魔王討伐杯 第1レース</span>
+        <span style="margin-left:auto">残り <span class="t" id="maptime">2:00</span></span>
+      </div>
+      <div id="mapwrap"><svg id="mapsvg" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div id="loghud"><h3>冒険実況ログ</h3><div id="logbox"></div></div>
+    </section>
+    <section class="panel parch" id="right">
+      <h2>パトロン操作(匿名)</h2>
+      <div class="body">
+        <div class="opgroup">
+          <div id="selinfo">対象:未選択(左の出征表から選択)</div>
+          <div class="cap">単勝ベット <small>— その時点の倍率で固定</small></div>
+          <div class="btnrow" id="betbtns">
+            <button data-amt="100">100</button><button data-amt="300">300</button>
+            <button data-amt="500">500</button><button data-amt="1000">1,000</button>
+          </div>
+        </div>
+        <div class="opgroup">
+          <div class="cap">直接支援 <small>— 選択中のパーティーへ</small></div>
+          <div class="btnrow">
+            <button id="iv-equip">装備支援<b>1,000 / 攻撃+15</b></button>
+            <button id="iv-supply">物資支援<b>500 / 補給+回復</b></button>
+          </div>
+        </div>
+        <div class="opgroup">
+          <div class="cap">間接投資 <small>— 押してからマップの対象を選択</small></div>
+          <div class="btnrow">
+            <button id="iv-town">町へ投資<b>800 / 回復強化</b></button>
+            <button id="iv-road">街道整備<b>800 / 移動+30%</b></button>
+            <button id="iv-hunt">討伐依頼<b>1,000 / 魔物減少</b></button>
+            <button id="iv-reward">報酬上乗せ<b>600 / 勇者を誘引</b></button>
+          </div>
+        </div>
+        <div class="opgroup">
+          <div class="cap">あなたのベット</div>
+          <div id="mybets"><span class="stat">まだベットしていません</span></div>
+        </div>
+        <div class="cap" style="padding:8px 10px 0; font-size:11px; font-weight:600;">定型スタンプ</div>
+        <div class="stamps" id="stampbtns"></div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="overlay" class="overlay" style="display:none;"></div>
+<script>
+"use strict";
+/* ==== SIM (DOM非依存) ==================================================== */
+const TYPES = {
+  totsugeki:{name:"突撃型",  speed:1.09, aggro:0.9, greed:0.15, growth:1.0, rest:0.3, gamble:0.3},
+  shincho:  {name:"慎重型",  speed:1.0, aggro:0.3, greed:0.25, growth:1.0, rest:0.95, gamble:0.1},
+  goyoku:   {name:"強欲型",  speed:1.0,  aggro:0.5, greed:1.0,  growth:1.4, rest:0.5, gamble:0.4},
+  butou:    {name:"武闘型",  speed:1.0,  aggro:0.85,greed:0.3,  growth:1.5, rest:0.4, gamble:0.3},
+  gamble:   {name:"ギャンブル型", speed:1.05, aggro:0.7, greed:0.7, growth:1.3, rest:0.2, gamble:1.0},
+  bansei:   {name:"大器晩成型", speed:0.93, aggro:0.4, greed:0.4, growth:2.0, rest:0.6, gamble:0.3},
+};
+const PARTY_DEFS = [
+  {name:"王道の剣勇者一行", type:"totsugeki", color:"#ffffff", tcol:"#2a2018"},
+  {name:"静寂の旅団",       type:"shincho",   color:"#2a2018", tcol:"#ffffff"},
+  {name:"金策大好き隊",     type:"goyoku",    color:"#d85a30", tcol:"#ffffff"},
+  {name:"不屈の武闘派",     type:"butou",     color:"#4a7fd9", tcol:"#ffffff"},
+  {name:"運命を賭ける者たち", type:"gamble",  color:"#e0b73f", tcol:"#2a2018"},
+  {name:"夜明けの星々",     type:"bansei",    color:"#6a9e3f", tcol:"#ffffff"},
+  {name:"森の巡礼団",       type:"shincho",   color:"#e08a3c", tcol:"#2a2018"},
+  {name:"雷光の斬込隊",     type:"totsugeki", color:"#e585a8", tcol:"#2a2018"},
+];
+/* ── マップ生成: 3列×3行レーン+合流。地形・報酬・危険・町の位置・クロス道を毎レース抽選 ── */
+const NAME_POOL = {
+  town:["北の宿場町","港町","湖畔の町","交易都市","温泉郷","霧の村"],
+  field:["草原","森","山道","荒野","風の丘","古街道","湿原","峠"],
+  dungeon:["洞窟","地下水道","廃坑","竜の巣"],
+  ruins:["古代遺跡","沈黙の神殿","星降る祭壇"],
+  fort:["砦","国境の関","廃城"],
+  sea:["海路","渡し船","入り江"],
+  merge:["関所","王国街道","峡谷の橋","古い峠道"],
+};
+function genMap(){
+  const used={};
+  const nameOf=k=>{ const pool=NAME_POOL[k].filter(n=>!used[n]); const n=pick(pool.length?pool:NAME_POOL[k]); used[n]=1; return n; };
+  const colX=[210,390,565], rowY=[165,305,462];
+  const slots=[...Array(9).keys()];
+  const shuffled=slots.slice().sort(()=>Math.random()-0.5);
+  const kinds=new Array(9).fill("field");
+  shuffled.slice(0,2).forEach(i=>kinds[i]="town");
+  const rkinds=["ruins","dungeon","fort"].sort(()=>Math.random()-0.5);
+  shuffled.slice(2,5).forEach((slot,j)=>kinds[slot]=rkinds[j]);
+  const bottomFields=slots.filter(i=>i%3===2 && kinds[i]==="field");
+  if(bottomFields.length && Math.random()<0.7) kinds[pick(bottomFields)]="sea";
+  const KDEF={
+    field:()=>({danger:rnd(0.15,0.5),reward:0}), town:()=>({danger:0,reward:0}),
+    dungeon:()=>({danger:rnd(0.5,0.7),reward:rnd(16,26)}), ruins:()=>({danger:rnd(0.6,0.8),reward:rnd(26,40)}),
+    fort:()=>({danger:rnd(0.35,0.55),reward:rnd(10,18)}), sea:()=>({danger:rnd(0.2,0.35),reward:0}),
+  };
+  const nodes=[{id:0,name:"スタート",kind:"start",x:85,y:310,danger:0,reward:0}];
+  for(let c=0;c<3;c++) for(let r=0;r<3;r++){
+    const k=kinds[c*3+r], d=KDEF[k]();
+    nodes.push({id:1+c*3+r,name:nameOf(k),kind:k,x:Math.round(colX[c]+rnd(-24,24)),y:Math.round(rowY[r]+rnd(-20,20)),
+      danger:d.danger,reward:Math.round(d.reward)});
+  }
+  nodes.push({id:10,name:nameOf("merge"),kind:"field",x:Math.round(700+rnd(-18,18)),y:Math.round(205+rnd(-18,18)),danger:rnd(0.2,0.4),reward:0});
+  nodes.push({id:11,name:nameOf("merge"),kind:"field",x:Math.round(700+rnd(-18,18)),y:Math.round(400+rnd(-18,18)),danger:rnd(0.2,0.4),reward:0});
+  nodes.push({id:12,name:"魔王城前",kind:"camp",x:818,y:295,danger:0,reward:0});
+  nodes.push({id:13,name:"魔王城",kind:"boss",x:915,y:268,danger:0,reward:0});
+  const lanes=[[0,1],[0,2],[0,3],[1,4],[4,7],[2,5],[5,8],[3,6],[6,9],[7,10],[9,11],[10,12],[11,12],[12,13],
+    [8, Math.random()<0.5?10:11]];
+  const crossCand=[[1,2],[2,3],[4,5],[5,6],[7,8],[8,9],[1,5],[2,4],[2,6],[3,5],[4,8],[5,7],[5,9],[6,8]];
+  crossCand.sort(()=>Math.random()-0.5);
+  return {nodes, edges:[...lanes, ...crossCand.slice(0,3)]};
+}
+const IV_DEFS = {
+  equip: {name:"装備支援",   cost:1000, target:"party"},
+  supply:{name:"物資支援",   cost:500,  target:"party"},
+  town:  {name:"町への投資", cost:800,  target:"town"},
+  road:  {name:"街道整備",   cost:800,  target:"edge"},
+  hunt:  {name:"魔物討伐依頼",cost:1000, target:"nodeDanger"},
+  reward:{name:"報酬上乗せ", cost:600,  target:"nodeReward"},
+  /* 魔王のパトロン専用(CPUのみ) */
+  d_mob: {name:"魔物増援",   cost:700,  target:"nodeDanger", demon:true},
+  d_boss:{name:"魔王強化",   cost:1200, target:"boss",       demon:true},
+  d_trap:{name:"甘い罠",     cost:600,  target:"nodeReward", demon:true},
+};
+const CPU_NAMES = ["タロウ","ハナコ","ジロウ"];
+const STAMPS = ["刺せーーー!!","そのまま!!","荒れろ!!","狂う!!","妙味!!","宝箱見るな!!",
+  "誰だよ!!","何者か出た!!","魔王おるぞ!!","お前魔王だろ!!","買ってない!!","まだ舞える"];
+const RACE_SEC = 120;
+
+function fmtT(sec){ sec = Math.max(0, Math.ceil(sec)); return Math.floor(sec/60)+":"+String(sec%60).padStart(2,"0"); }
+function rnd(a,b){ return a + Math.random()*(b-a); }
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function bfsDist(nodes, adj){
+  const dist = new Array(nodes.length).fill(Infinity);
+  dist[13] = 0; const q=[13];
+  while(q.length){ const c=q.shift(); for(const nb of adj[c]) if(dist[nb]===Infinity){ dist[nb]=dist[c]+1; q.push(nb); } }
+  return dist;
+}
+
+function createRace(raceNo, demonEnabled, dur){
+  dur = dur || RACE_SEC;
+  const gm = genMap();
+  const nodes = gm.nodes.map(n=>({...n, danger0:n.danger, reward0:n.reward, townBoost:0}));
+  const edges = gm.edges.map(([a,b],i)=>({id:i,a,b,speed:1}));
+  const adj = nodes.map(()=>[]);
+  const edgeAt = {};
+  edges.forEach(e=>{ adj[e.a].push(e.b); adj[e.b].push(e.a); edgeAt[e.a+"-"+e.b]=e; edgeAt[e.b+"-"+e.a]=e; });
+  const dist = bfsDist(nodes, adj);
+  const parties = PARTY_DEFS.map((p,i)=>{
+    const t = TYPES[p.type];
+    return {
+      id:i, no:i+1, ...p, tdef:t, typeName:t.name,
+      node:0, edge:null, prog:0, hp:100, maxhp:100,
+      atk: 10 + Math.round(rnd(0,30)) + (p.type==="bansei" ? -7 : 0),
+      supply:100, level:1, bossDmg:0, state:"idle", stateT:0, alive:true, kills:0,
+    };
+  });
+  /* CPUパトロン。demonIdx: -1 = 今回は魔王のパトロン不在 */
+  const demonIdx = (demonEnabled && Math.random() < 0.65) ? Math.floor(Math.random()*CPU_NAMES.length) : -1;
+  const cpus = CPU_NAMES.map((n,i)=>({ name:n, demon:i===demonIdx, nextAct: rnd(6,14), bets:[] }));
+  const st = {
+    raceNo, t:0, dur, deadline:dur*0.5, rate:RACE_SEC/dur, over:false,
+    nodes, edges, adj, edgeAt, dist, parties,
+    boss:{hp:850, maxhp:850, atkBuff:0},
+    cpus, demonIdx,
+    odds: [], oddsPrev: [], evFac: PARTY_DEFS.map(()=>1),
+    bets: [],            /* {who,partyId,amount,odds,t} who:"あなた"|CPU名 */
+    actions: [],         /* {t,who,pub,secret,demon} pub=匿名文 secret=正体込み文 */
+    logs: [],            /* {t,text,cls} UI用キュー */
+    stampsQ: [],         /* {text,by} */
+    winner:null, endReason:"", finalOdds:null, spend:{},
+  };
+  for(const p of parties){ p.lv = lvOf(p.atk); p.lv0 = p.lv; p.baseStr = (p.atk*1.6 + 12) * (0.80 + p.tdef.speed*0.20); }
+  computeOdds(st); st.finalOdds = st.odds.slice();
+  return st;
+}
+
+/* オッズ = 開始時の公開ステータス × イベント係数(ログに出る出来事のみ) × 賭け金プール。
+   毎tickの自動再計算はしない:倍率が動く時は必ず原因が見える。 */
+function computeOdds(st){
+  st.oddsPrev = st.odds;
+  const s = st.parties.map(p=>Math.pow(p.baseStr * Math.pow(st.evFac[p.id],1.3), 1.8));
+  const ssum = s.reduce((a,b)=>a+b,0);
+  const pool = st.parties.map(p=>400 + st.bets.filter(b=>b.partyId===p.id).reduce((a,b)=>a+b.amount,0));
+  const psum = pool.reduce((a,b)=>a+b,0);
+  st.odds = st.parties.map((p,i)=>{
+    const prob = 0.78*(s[i]/ssum) + 0.22*(pool[i]/psum);
+    return Math.min(99, Math.max(1.2, Math.round(0.85/prob*10)/10));
+  });
+}
+function bumpEv(st, pid, factor){
+  st.evFac[pid] *= factor;
+  const before = st.odds[pid];
+  computeOdds(st);
+  const after = st.odds[pid];
+  if(before && Math.abs(after-before)/before > 0.22){
+    const p = st.parties[pid];
+    log(st, after<before
+      ? `${p.name}の倍率が急落(${before.toFixed(1)}→${after.toFixed(1)})`
+      : `${p.name}の倍率が上昇(${before.toFixed(1)}→${after.toFixed(1)})`, "sys");
+  }
+}
+
+function log(st, text, cls){ st.logs.push({t:st.t, text, cls:cls||""}); }
+function act(st, who, pub, secret, demon){
+  st.actions.push({t:st.t, who, pub, secret:secret||pub, demon:!!demon});
+  log(st, pub, demon?"":"");
+}
+
+/* ---- プレイヤー/CPU 共通の操作 ---- */
+function placeBet(st, who, partyId, amount){
+  if(st.t > st.deadline || st.over) return null;
+  const odds = st.odds[partyId];
+  const b = {who, partyId, amount, odds, t:st.t};
+  st.bets.push(b);
+  computeOdds(st);
+  return b;
+}
+function applyIntervention(st, who, key, target){
+  if(st.t > st.deadline || st.over) return false;
+  const iv = IV_DEFS[key];
+  switch(key){
+    case "equip":{ const p=st.parties[target];
+      act(st,who,`何者かが${p.name}に装備を支援した!`,`${p.name}に装備支援`);
+      gainAtk(st,p,15); break; }
+    case "supply":{ const p=st.parties[target]; p.supply=100; p.hp=Math.min(p.maxhp,p.hp+20);
+      act(st,who,`何者かが${p.name}に物資を届けた`,`${p.name}に物資支援`); break; }
+    case "town":{ const n=st.nodes[target]; n.townBoost+=1;
+      act(st,who,`何者かが${n.name}に投資した。補給効率が上昇`,`${n.name}へ町投資`); break; }
+    case "road":{ const e=st.edges[target]; e.speed*=1.3;
+      act(st,who,`${st.nodes[e.a].name}〜${st.nodes[e.b].name}の街道が整備された!`,`街道整備(${st.nodes[e.a].name}〜${st.nodes[e.b].name})`); break; }
+    case "hunt":{ const n=st.nodes[target]; n.danger=Math.max(0,n.danger-0.3);
+      act(st,who,`${n.name}の魔物密度が低下。何者かの討伐依頼か`,`${n.name}へ討伐依頼`); break; }
+    case "reward":{ const n=st.nodes[target]; n.reward+=18;
+      act(st,who,`${n.name}の報酬が上乗せされた!`,`${n.name}の報酬上乗せ`); break; }
+    case "d_mob":{ const n=st.nodes[target]; n.danger+=0.55;
+      act(st,who,`${n.name}に魔物の群れが出現。原因は不明…`,`【裏】${n.name}に魔物増援`,true); break; }
+    case "d_boss":{ st.boss.hp+=220; st.boss.maxhp+=220; st.boss.atkBuff+=1.7;
+      act(st,who,`魔王城の防備が強化された模様。魔の気配が濃い`,`【裏】魔王強化(HP+220)`,true); break; }
+    case "d_trap":{ const n=st.nodes[target]; n.reward+=24; n.danger+=0.25;
+      act(st,who,`${n.name}の報酬が上乗せされた!`,`【裏】甘い罠(${n.name}:報酬+/危険+)`,true); break; }
+    default: return false;
+  }
+  st.spend[who]=(st.spend[who]||0)+iv.cost;
+  return iv.cost;
+}
+
+/* ---- レベル(可視化された強さ)。上がった時だけログ+オッズが動く ---- */
+function lvOf(atk){ return Math.max(1, 1+Math.floor((atk-10)/5)); }
+function gainAtk(st,p,amount){
+  p.atk += amount;
+  const nl = lvOf(p.atk);
+  if(nl>p.lv){
+    const diff=nl-p.lv; p.lv=nl;
+    log(st,`${p.name}、レベル${nl}に上がった!`,"sys");
+    bumpEv(st,p.id,Math.pow(1.09,diff));
+  }
+}
+
+/* ---- 勇者AI ---- */
+function chooseNext(st,p){
+  const cur=p.node, t=p.tdef;
+  const opts = st.adj[cur].map(nb=>{
+    const n=st.nodes[nb];
+    let sc = (st.dist[cur]-st.dist[nb]) * 3.2 * t.speed;
+    sc += n.reward * t.greed * 0.22;
+    sc -= n.danger * (1.6 - t.aggro) * 2.2;
+    sc += rnd(-0.8,0.8) + t.gamble*rnd(-1,1.6);
+    if(n.kind==="town" && p.hp<70) sc += t.rest*2.5 + n.townBoost;
+    return {nb, sc};
+  });
+  opts.sort((a,b)=>b.sc-a.sc);
+  return opts[0].nb;
+}
+function tickParty(st,p,dt){
+  p.stateT -= dt;
+  if(p.type==="bansei" && st.t*st.rate>40) gainAtk(st,p,0.72*dt);
+  if(p.state==="battle"){ if(p.stateT<=0){ p.state="idle";
+      const dmg = rnd(9,22)*(0.75+p.tdef.aggro*0.5); p.hp=Math.max(1,p.hp-dmg);
+      p.kills++;
+      log(st,`${p.name}、道中戦を制した`);
+      gainAtk(st,p, rnd(1.6,3.2)*p.tdef.growth); } return; }
+  if(p.state==="quest"){ if(p.stateT<=0){ p.state="idle";
+      const n=st.nodes[p.node];
+      if(Math.random() < 0.58 + p.tdef.gamble*0.15){
+        log(st,`${p.name}、${n.name}のイベントに成功!`,"sys");
+        gainAtk(st,p, Math.min(24, n.reward*(0.58+p.tdef.growth*0.35)));
+      }else{ p.hp=Math.max(1,p.hp-18); log(st,`${p.name}、${n.name}で罠にかかった…`); bumpEv(st,p.id,0.86); }
+      n.reward=Math.max(0,n.reward-14); } return; }
+  if(p.state==="rest"){ if(p.stateT<=0){ p.state="idle"; } else {
+      const n=st.nodes[p.node]; p.hp=Math.min(p.maxhp,p.hp+dt*(6+n.townBoost*4)); p.supply=Math.min(100,p.supply+dt*20); } return; }
+  if(p.state==="boss"){
+    const dps = p.atk*0.5*(p.supply>15?1:0.6);
+    st.boss.hp -= dps*dt; p.bossDmg += dps*dt;
+    const enrage = Math.max(0,(st.t*st.rate-65))*0.15;
+    p.hp -= (5+enrage+st.boss.atkBuff)*dt;
+    if(st.boss.hp<=0){
+      st.boss.hp=0;
+      const top = st.parties.slice().sort((a,b)=>b.bossDmg-a.bossDmg)[0];
+      if(top.id!==p.id) log(st,`${p.name}がとどめを刺すも、戦功は${top.name}が上!`,"sys");
+      endRace(st,top,"魔王討伐(最大戦功)"); return; }
+    if(p.hp<18){ p.hp=18; p.state="rest"; p.stateT=5; p.node=12; p.edge=null;
+      log(st,`${p.name}、消耗し魔王城前へ後退`); bumpEv(st,p.id,0.88); }
+    return;
+  }
+  /* idle: ノード上 → 次を選ぶ */
+  if(!p.edge){
+    const n=st.nodes[p.node];
+    if(n.kind==="boss"){ p.state="boss"; log(st,`${p.name}、魔王戦に突入!!`,"sys"); bumpEv(st,p.id,1.45); return; }
+    if((n.kind==="ruins"||n.kind==="dungeon"||n.kind==="fort") && n.reward>6 && Math.random()<p.tdef.greed*0.9){
+      p.state="quest"; p.stateT=3.5; log(st,`${p.name}、${n.name}の高難度イベントに挑戦`); return; }
+    if(n.kind==="town" && p.hp<80 && Math.random()<p.tdef.rest){
+      p.state="rest"; p.stateT=2.8; log(st,`${p.name}、${n.name}で補給中`); return; }
+    const nb = chooseNext(st,p);
+    p.edge = st.edgeAt[p.node+"-"+nb]; p.edgeFrom=p.node; p.edgeTo=nb; p.prog=0;
+    return;
+  }
+  /* 移動中 */
+  const e=p.edge;
+  const supFac = p.supply>15 ? 1 : 0.6;
+  p.prog += dt/10 * p.tdef.speed * e.speed * supFac;
+  p.supply = Math.max(0, p.supply - dt*2.3);
+  const destDanger = st.nodes[p.edgeTo].danger;
+  if(destDanger>0 && Math.random() < destDanger*0.10*dt*(0.55+p.tdef.aggro*0.6)){
+    p.state="battle"; p.stateT=2.5; log(st,`${p.name}、魔物と交戦!`); return; }
+  if(p.prog>=1){ p.node=p.edgeTo; p.edge=null; p.prog=0;
+    const n=st.nodes[p.node];
+    if(n.kind==="town"){ p.supply=100; }
+    if(n.kind==="boss"){ log(st,`${p.name}、魔王城に到達!`,"sys"); }
+  }
+}
+
+/* ---- CPUパトロン ---- */
+function tickCpus(st,dt){
+  for(const c of st.cpus){
+    if(st.t < 2 && c.bets.length===0){
+      const n = c.demon ? 1 : (Math.random()<0.4?2:1);
+      for(let i=0;i<n;i++){
+        const pid = weightedPick(st);
+        const amt = pick([300,500,500,1000]);
+        const b = placeBet(st, c.name, pid, c.demon ? 100 : amt);
+        if(b) c.bets.push(b);
+      }
+    }
+    c.nextAct -= dt;
+    if(c.nextAct<=0 && st.t<st.deadline){
+      c.nextAct = c.demon ? rnd(7,13) : rnd(10,20);
+      cpuIntervene(st,c);
+      if(Math.random()<0.5) st.stampsQ.push({text:pick(STAMPS), by:c.name});
+    }
+  }
+}
+function weightedPick(st){
+  const w = st.odds.map(o=>1/o + 0.02);
+  const sum=w.reduce((a,b)=>a+b,0); let r=Math.random()*sum;
+  for(let i=0;i<w.length;i++){ r-=w[i]; if(r<=0) return i; }
+  return 0;
+}
+function cpuIntervene(st,c){
+  const towns=st.nodes.filter(n=>n.kind==="town").map(n=>n.id);
+  const risky=st.nodes.filter(n=>n.danger>0.15&&n.kind!=="camp"&&n.kind!=="boss").map(n=>n.id);
+  const rewardy=st.nodes.filter(n=>["ruins","dungeon","fort"].includes(n.kind)).map(n=>n.id);
+  if(c.demon){
+    const key = pick(["d_mob","d_boss","d_trap","d_mob"]);
+    let target=null;
+    if(key==="d_mob") target = pick(risky.length?risky:[10,11]);
+    if(key==="d_trap") target = pick(rewardy.length?rewardy:risky);
+    applyIntervention(st,c.name,key,target);
+  }else{
+    const fav = c.bets.length ? c.bets[0].partyId : weightedPick(st);
+    const roll = Math.random();
+    if(roll<0.3) applyIntervention(st,c.name,"equip",fav);
+    else if(roll<0.5) applyIntervention(st,c.name,"supply",fav);
+    else if(roll<0.65) applyIntervention(st,c.name,"town",pick(towns));
+    else if(roll<0.8) applyIntervention(st,c.name,"road",Math.floor(Math.random()*st.edges.length));
+    else if(roll<0.9) applyIntervention(st,c.name,"hunt",pick(risky));
+    else applyIntervention(st,c.name,"reward",pick(rewardy));
+  }
+}
+
+/* ---- 終了処理 ---- */
+function endRace(st, winner, reason){
+  st.over=true; st.winner=winner; st.endReason=reason;
+  st.finalOdds = st.odds.slice();
+}
+function rankOrder(st){
+  return st.parties.slice().sort((a,b)=> b.bossDmg-a.bossDmg || distOf(st,a)-distOf(st,b) || (b.atk+b.hp)-(a.atk+a.hp));
+}
+function timeUpJudge(st){
+  let w = rankOrder(st)[0];
+  const demonPresent = st.demonIdx>=0;
+  endRace(st, w, demonPresent ? "時間切れ — 魔王の防衛成功" : "時間切れ判定");
+  st.demonWon = demonPresent;
+}
+function distOf(st,p){ return p.edge ? Math.min(st.dist[p.edge.a],st.dist[p.edge.b])+(1-p.prog) : st.dist[p.node]; }
+
+function tick(st, dt){
+  if(st.over) return;
+  st.t += dt;
+  const e = dt*st.rate; /* 実時間→内部時間(120秒基準) */
+  tickCpus(st, e);
+  for(const p of st.parties){ tickParty(st,p,e); if(st.over) break; }
+  if(!st.over && st.t>=st.dur) timeUpJudge(st);
+}
+
+/* 払戻: betsのうち勝者に賭けた分 amount×odds を返す(魔王防衛成立時は半額) */
+function settle(st){
+  const mult = st.demonWon ? 0.5 : 1;
+  const res = {};
+  for(const b of st.bets){
+    if(!res[b.who]) res[b.who]={bet:0, ret:0};
+    res[b.who].bet += b.amount;
+    if(st.winner && b.partyId===st.winner.id) res[b.who].ret += Math.round(b.amount*b.odds*mult);
+  }
+  return res;
+}
+/* ==== SIM ここまで ======================================================== */
+
+/* ==== UI ================================================================= */
+const $ = id => document.getElementById(id);
+const SVGNS = "http://www.w3.org/2000/svg";
+const TYPE_COMMENT = {
+  totsugeki:"展開がハマれば逃げ切り濃厚。ただし補給不安あり。",
+  shincho:"安定感は上位。ただし決め手に欠ける。",
+  goyoku:"寄り道次第で化けるが、暴走注意。",
+  butou:"道中戦が多いほど評価上昇。消耗管理が鍵。",
+  gamble:"ハイリスクルートで大駆けあり。事故率も高い。",
+  bansei:"序盤劣勢でも魔王戦で一変。買い時が難しい穴馬。",
+};
+const G = {
+  st:null, raceNo:1, speed:1, paused:false, dur:120,
+  wallet:10000, walletStart:10000,
+  cpuWallets:{}, demonEnabled:true,
+  sel:-1, targeting:null, lastLog:0, raf:0, prevTs:0,
+  els:{}, tokenEls:[], decoLayer:null, bossBar:null,
+};
+CPU_NAMES.forEach(n=>G.cpuWallets[n]=10000);
+
+/* ---------- マップ描画 ---------- */
+function el(tag, attrs, parent){
+  const e=document.createElementNS(SVGNS,tag);
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+  if(parent) parent.appendChild(e); return e;
+}
+function buildMap(){
+  const svg=$("mapsvg"); svg.innerHTML="";
+  el("path",{d:"M25 595 C35 380 115 195 300 125 C560 25 800 90 975 235 L975 600 L25 600 Z",fill:"#9db370"},svg);
+  el("ellipse",{cx:300,cy:430,rx:180,ry:80,fill:"#7a9455",opacity:.45},svg);
+  el("ellipse",{cx:640,cy:250,rx:170,ry:90,fill:"#7a9455",opacity:.4},svg);
+  el("ellipse",{cx:415,cy:545,rx:250,ry:52,fill:"#8fb0c9"},svg);
+  [[500,105],[560,80],[620,110],[470,140]].forEach(([x,y])=>{
+    el("polygon",{points:`${x-18},${y+18} ${x},${y-14} ${x+18},${y+18}`,fill:"#5d6f45"},svg);
+    el("polygon",{points:`${x-6},${y-4} ${x},${y-14} ${x+6},${y-4}`,fill:"#e8e2d0"},svg);
+  });
+  const st=G.st;
+  st.edges.forEach(e=>{
+    const a=st.nodes[e.a], b=st.nodes[e.b];
+    el("line",{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:"#f4ead2",class:"edgeline","stroke-width":4,
+      "stroke-dasharray":"3 9","stroke-linecap":"round","data-eid":e.id},svg);
+    const hit=el("line",{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:"transparent","stroke-width":16,"data-eid":e.id,class:"edgehit"},svg);
+    hit.addEventListener("click",()=>onMapTarget("edge",e.id));
+  });
+  st.nodes.forEach(n=>{
+    const g=el("g",{class:"nodehit","data-nid":n.id},svg);
+    drawNodeGlyph(g,n);
+    el("circle",{cx:n.x,cy:n.y,r:9,fill:"#f4ead2",stroke:"#6b4f1d","stroke-width":2,class:"nodedot","data-nid":n.id},g);
+    if(n.kind!=="boss")
+      el("text",{x:n.x,y:n.y+26,class:"node-label","text-anchor":"middle"},g).textContent=n.name;
+    g.addEventListener("click",()=>onMapTarget("node",n.id));
+  });
+  G.decoLayer=el("g",{},svg);
+  /* 魔王城 */
+  const c=st.nodes[13];
+  const cg=el("g",{},svg);
+  el("rect",{x:c.x-26,y:c.y-58,width:10,height:44,fill:"#3a2b52"},cg);
+  el("rect",{x:c.x+16,y:c.y-58,width:10,height:44,fill:"#3a2b52"},cg);
+  el("rect",{x:c.x-18,y:c.y-42,width:36,height:30,fill:"#3a2b52"},cg);
+  el("polygon",{points:`${c.x-26},${c.y-58} ${c.x-21},${c.y-74} ${c.x-16},${c.y-58}`,fill:"#2c2040"},cg);
+  el("polygon",{points:`${c.x+16},${c.y-58} ${c.x+21},${c.y-74} ${c.x+26},${c.y-58}`,fill:"#2c2040"},cg);
+  el("polygon",{points:`${c.x-10},${c.y-42} ${c.x},${c.y-60} ${c.x+10},${c.y-42}`,fill:"#2c2040"},cg);
+  [[-8,-34],[2,-30],[-2,-22]].forEach(([dx,dy])=>el("rect",{x:c.x+dx,y:c.y+dy,width:4,height:7,fill:"#b07fe8"},cg));
+  el("text",{x:c.x,y:c.y+28,class:"node-label","text-anchor":"middle"},cg).textContent="魔王城";
+  el("rect",{x:c.x-45,y:c.y-92,width:90,height:8,fill:"#241a10",rx:3},cg);
+  G.bossBar=el("rect",{x:c.x-44,y:c.y-91,width:88,height:6,fill:"#a83a8a",rx:2},cg);
+  /* パーティーコマ */
+  G.tokenEls = st.parties.map(p=>{
+    const g=el("g",{},svg);
+    el("circle",{cx:0,cy:0,r:11,fill:p.color,stroke:"#2a2018","stroke-width":2},g);
+    const t=el("text",{x:0,y:4,class:"pin-num",fill:p.tcol},g); t.textContent=p.no;
+    const s=el("circle",{cx:8,cy:-8,r:3.5,fill:"none"},g);
+    return {g,state:s};
+  });
+  G.crownEl=el("g",{},svg);
+  el("polygon",{points:"-7,0 -4,-7 0,-3 4,-7 7,0",fill:"#e9c96a",stroke:"#8a5a00","stroke-width":0.8},G.crownEl);
+}
+function drawNodeGlyph(g,n){
+  const x=n.x,y=n.y;
+  if(n.kind==="town"){ el("rect",{x:x-9,y:y-22,width:18,height:11,fill:"#c98a4a",stroke:"#6b4f1d"},g);
+    el("polygon",{points:`${x-12},${y-22} ${x},${y-33} ${x+12},${y-22}`,fill:"#8a4a2a"},g); }
+  if(n.kind==="dungeon"){ el("path",{d:`M${x-11} ${y-14} A11 11 0 0 1 ${x+11} ${y-14} Z`,fill:"#3d3428"},g); }
+  if(n.kind==="ruins"){ [[-8,0],[0,-3],[8,0]].forEach(([dx,dy])=>el("rect",{x:x+dx-2,y:y-26+dy,width:5,height:13,fill:"#b8ab8a",stroke:"#6b5a3a"},g)); }
+  if(n.kind==="fort"){ el("rect",{x:x-10,y:y-25,width:20,height:12,fill:"#8a8578",stroke:"#5a5548"},g);
+    [[-10,0],[-3,0],[4,0]].forEach(([dx])=>el("rect",{x:x+dx,y:y-29,width:5,height:5,fill:"#8a8578"},g)); }
+}
+
+/* ---------- 出征表 ---------- */
+function buildSheet(){
+  const st=G.st;
+  const rows = st.parties.map(p=>`
+    <tr class="row" data-pid="${p.id}">
+      <td><span class="waku" style="background:${p.color}"></span></td>
+      <td>${p.no}</td>
+      <td><div class="tname">${p.name} <span class="lvb" data-lv="${p.id}">Lv${p.lv}</span></div><div class="ttype">${p.typeName}</div>
+          <div class="hpbar"><i data-hp="${p.id}" style="width:100%"></i></div>
+          <div class="progbar"><i data-prog="${p.id}" style="width:0%"></i></div></td>
+      <td class="odds" data-odds="${p.id}">${st.odds[p.id].toFixed(1)}</td>
+      <td><div class="rankb" data-rank="${p.id}">–</div><div class="stat" data-pos="${p.id}">出走前</div></td>
+    </tr>`).join("");
+  $("sheet").innerHTML = `<thead><tr><th></th><th>No</th><th>パーティー</th><th style="text-align:right">倍率</th><th>順位/状況</th></tr></thead><tbody>${rows}</tbody>`;
+  document.querySelectorAll("#sheet tr.row").forEach(tr=>{
+    tr.addEventListener("click",()=>selectParty(+tr.dataset.pid));
+  });
+}
+function selectParty(pid){
+  G.sel=pid;
+  document.querySelectorAll("#sheet tr.row").forEach(tr=>tr.classList.toggle("sel",+tr.dataset.pid===pid));
+  const p=G.st.parties[pid];
+  $("selinfo").innerHTML=`対象:<b>${p.no} ${p.name}</b>(Lv${p.lv}・${p.typeName})— 現在 <b>${G.st.odds[pid].toFixed(1)}倍</b>`;
+}
+
+/* ---------- ログ・スタンプ ---------- */
+function drainLogs(){
+  const st=G.st, box=$("logbox");
+  while(G.lastLog < st.logs.length){
+    const L=st.logs[G.lastLog++];
+    const pEl=document.createElement("p");
+    if(L.cls) pEl.className=L.cls;
+    pEl.innerHTML=`<span class="tt">${fmtT(L.t)}</span>${L.text}`;
+    box.appendChild(pEl);
+    while(box.children.length>60) box.removeChild(box.firstChild);
+    box.scrollTop=box.scrollHeight;
+  }
+  while(st.stampsQ.length) floatStamp(st.stampsQ.shift().text);
+}
+function floatStamp(text){
+  const w=$("mapwrap"), d=document.createElement("div");
+  d.className="stamp-float"; d.textContent=text;
+  d.style.left=(15+Math.random()*60)+"%";
+  d.style.top=(20+Math.random()*55)+"%";
+  w.appendChild(d); setTimeout(()=>d.remove(),2300);
+}
+function buildStamps(){
+  $("stampbtns").innerHTML = STAMPS.map(s=>`<button data-st="${s}">${s}</button>`).join("");
+  document.querySelectorAll("#stampbtns button").forEach(b=>{
+    b.addEventListener("click",()=>floatStamp(b.dataset.st));
+  });
+}
+
+/* ---------- 操作 ---------- */
+function canAct(){ return G.st && !G.st.over && G.st.t <= G.st.deadline; }
+function tryPay(cost){
+  if(G.wallet < cost){ toastLog(`スコア不足(必要:${cost})`); return false; }
+  G.wallet -= cost; return true;
+}
+function toastLog(msg){ G.st.logs.push({t:G.st.t,text:"― "+msg,cls:"sys"}); drainLogs(); }
+function doBet(amt){
+  if(!canAct()) return toastLog("締切を過ぎています");
+  if(G.sel<0) return toastLog("先に出征表からパーティーを選択");
+  if(!tryPay(amt)) return;
+  const b=placeBet(G.st,"あなた",G.sel,amt);
+  toastLog(`${G.st.parties[G.sel].name}に ${amt}(${b.odds.toFixed(1)}倍で固定)`);
+  renderMyBets();
+}
+function renderMyBets(){
+  const mine=G.st.bets.filter(b=>b.who==="あなた");
+  $("mybets").innerHTML = mine.length===0 ? '<span class="stat">まだベットしていません</span>' :
+    mine.map(b=>`<div class="b"><span>${G.st.parties[b.partyId].no} ${G.st.parties[b.partyId].name}</span><span>${b.amount}×${b.odds.toFixed(1)}</span></div>`).join("");
+}
+const TARGET_FILTER = {
+  town: n=>n.kind==="town",
+  hunt: n=>n.danger>0.05,
+  reward: n=>["ruins","dungeon","fort"].includes(n.kind),
+};
+function armIntervention(key){
+  const iv=IV_DEFS[key];
+  if(!canAct()) return toastLog("締切を過ぎています");
+  if(iv.target==="party"){
+    if(G.sel<0) return toastLog("先にパーティーを選択");
+    if(!tryPay(iv.cost)) return;
+    applyIntervention(G.st,"あなた",key,G.sel); drainLogs(); return;
+  }
+  if(G.wallet<iv.cost) return toastLog(`スコア不足(必要:${iv.cost})`);
+  G.targeting=key;
+  document.body.classList.add("targeting");
+  toastLog(`${iv.name}:マップ上の対象を選択(${iv.target==="edge"?"街道":"地点"})`);
+  highlightTargets(key);
+}
+function highlightTargets(key){
+  const iv=IV_DEFS[key];
+  document.querySelectorAll(".nodedot").forEach(c=>{
+    const n=G.st.nodes[+c.dataset.nid];
+    const ok = iv.target==="edge" ? false : (TARGET_FILTER[key] ? TARGET_FILTER[key](n) : false);
+    c.classList.toggle("node-glow", ok);
+    if(ok) c.setAttribute("stroke","#e9c96a"); else c.setAttribute("stroke","#6b4f1d");
+  });
+  document.querySelectorAll(".edgeline").forEach(l=>{
+    l.setAttribute("stroke", iv.target==="edge" ? "#e9c96a" : "#f4ead2");
+  });
+}
+function clearTargeting(){
+  G.targeting=null; document.body.classList.remove("targeting");
+  document.querySelectorAll(".nodedot").forEach(c=>{ c.classList.remove("node-glow"); c.setAttribute("stroke","#6b4f1d"); });
+  document.querySelectorAll(".edgeline").forEach(l=>l.setAttribute("stroke","#f4ead2"));
+}
+function onMapTarget(kind,id){
+  if(!G.targeting) return;
+  const key=G.targeting, iv=IV_DEFS[key];
+  if(iv.target==="edge" && kind!=="edge") return;
+  if(iv.target!=="edge"){
+    if(kind!=="node") return;
+    const n=G.st.nodes[id];
+    if(TARGET_FILTER[key] && !TARGET_FILTER[key](n)) return toastLog("その地点は対象外");
+  }
+  if(!tryPay(iv.cost)) { clearTargeting(); return; }
+  applyIntervention(G.st,"あなた",key,id);
+  drainLogs(); clearTargeting();
+}
+
+/* ---------- 毎フレーム描画 ---------- */
+function posOf(p){
+  const st=G.st;
+  if(!p.edge){ const n=st.nodes[p.node]; return [n.x,n.y]; }
+  const a=st.nodes[p.edge.a===p.edgeFrom?p.edge.a:p.edge.b];
+  const from=st.nodes[p.edgeFrom], to=st.nodes[p.edgeTo];
+  return [from.x+(to.x-from.x)*p.prog, from.y+(to.y-from.y)*p.prog];
+}
+const STATE_COL={battle:"#e24b4a",quest:"#e9c96a",rest:"#7ab648",boss:"#a83a8a"};
+function render(){
+  const st=G.st;
+  const order = rankOrder(st);
+  $("hud-time").textContent = fmtT(st.dur-st.t);
+  $("maptime").textContent = fmtT(st.dur-st.t);
+  const dl = st.deadline-st.t;
+  $("hud-deadline").textContent = dl>0 ? fmtT(dl) : "締切";
+  $("hud-deadline").classList.toggle("warn", dl<=0 || dl<15);
+  $("hud-money").textContent = G.wallet.toLocaleString();
+  $("hud-race").textContent = `${G.raceNo}/3`;
+  st.parties.forEach((p,i)=>{
+    const [x,y]=posOf(p);
+    const off = (i%4)*5-7, off2=Math.floor(i/4)*10-5;
+    G.tokenEls[i].g.setAttribute("transform",`translate(${x+off},${y-16+off2})`);
+    const sc=STATE_COL[p.state];
+    G.tokenEls[i].state.setAttribute("fill", sc||"none");
+    const hpEl=document.querySelector(`[data-hp="${i}"]`);
+    if(hpEl){ hpEl.style.width=(p.hp/p.maxhp*100)+"%"; hpEl.style.background=p.hp<30?"#c0452f":"var(--green)"; }
+    const lvEl=document.querySelector(`[data-lv="${i}"]`);
+    if(lvEl) lvEl.textContent="Lv"+p.lv;
+    const oEl=document.querySelector(`[data-odds="${i}"]`);
+    if(oEl){ const o=st.odds[i], prev=st.oddsPrev[i]||o;
+      oEl.textContent=o.toFixed(1);
+      oEl.className="odds"+(o<prev?" down":o>prev?" up":""); }
+    const posEl=document.querySelector(`[data-pos="${i}"]`);
+    if(posEl){
+      const d=distOf(st,p);
+      posEl.textContent = p.state==="boss"?"魔王戦!!":p.state==="battle"?"交戦中":p.state==="quest"?"イベント":p.state==="rest"?"補給中":`城まで${d.toFixed(1)}`;
+    }
+    const prEl=document.querySelector(`[data-prog="${i}"]`);
+    if(prEl){
+      const travel = Math.max(0, Math.min(1, 1 - distOf(st,p)/st.dist[0]));
+      const bossShare = Math.min(1, p.bossDmg/st.boss.maxhp);
+      prEl.style.width = (travel*70 + bossShare*30) + "%";
+      prEl.className = p.bossDmg>0 ? "boss" : "";
+    }
+  });
+  order.forEach((p,ri)=>{
+    const rEl=document.querySelector(`[data-rank="${p.id}"]`);
+    if(rEl){ rEl.textContent=(ri+1)+"位"; rEl.classList.toggle("first",ri===0); }
+    const tr=document.querySelector(`#sheet tr.row[data-pid="${p.id}"]`);
+    if(tr) tr.classList.toggle("lead", ri===0);
+  });
+  if(G.crownEl){
+    const L=order[0];
+    const [cx,cy]=posOf(L);
+    const off=(L.id%4)*5-7, off2=Math.floor(L.id/4)*10-5;
+    G.crownEl.setAttribute("transform",`translate(${cx+off},${cy-16+off2-15})`);
+  }
+  G.bossBar.setAttribute("width", 88*Math.max(0,st.boss.hp/st.boss.maxhp));
+  /* 介入の痕跡 */
+  G.decoLayer.innerHTML="";
+  st.nodes.forEach(n=>{
+    if(n.townBoost>0) el("circle",{cx:n.x+14,cy:n.y-12,r:5,fill:"#e9c96a",stroke:"#c9a44f"},G.decoLayer);
+    if(n.reward>n.reward0) el("text",{x:n.x+14,y:n.y-6,fill:"#8a5a00","font-size":13,"font-weight":700},G.decoLayer).textContent="+";
+    if(n.danger>n.danger0+0.05) el("circle",{cx:n.x-14,cy:n.y-12,r:5,fill:"#c0452f"},G.decoLayer);
+    if(n.danger<n.danger0-0.05) el("circle",{cx:n.x-14,cy:n.y-12,r:5,fill:"#7ab648"},G.decoLayer);
+  });
+  st.edges.forEach(e=>{
+    if(e.speed>1){ const q=document.querySelector(`.edgeline[data-eid="${e.id}"]`);
+      if(q && !G.targeting) q.setAttribute("stroke","#e9c96a"); }
+  });
+  const dis = !canAct();
+  document.querySelectorAll("#betbtns button, #right .opgroup:nth-child(2) button, #right .opgroup:nth-child(3) button").forEach(b=>b.disabled=dis);
+}
+
+/* ---------- メインループ ---------- */
+function loop(ts){
+  G.raf=requestAnimationFrame(loop);
+  const dtReal=Math.min(0.1,(ts-G.prevTs)/1000||0); G.prevTs=ts;
+  if(G.paused||!G.st||G.st.over) { render(); return; }
+  tick(G.st, dtReal*G.speed);
+  drainLogs(); render();
+  if(G.st.over){ clearTargeting(); setTimeout(showResult, 900); }
+}
+
+/* ---------- オーバーレイ:レース前 ---------- */
+function showStart(){
+  const st=G.st;
+  const rows=st.parties.map(p=>`
+    <tr><td><span class="waku" style="background:${p.color}"></span> ${p.no}</td>
+      <td><b>${p.name}</b> <span class="lvb">Lv${p.lv}</span><div class="ttype">${p.typeName} — ${TYPE_COMMENT[p.type]}</div></td>
+      <td class="odds">${st.odds[p.id].toFixed(1)}</td>
+      <td><div class="betctl">
+        <button data-ib="${p.id}" data-amt="100">+100</button>
+        <button data-ib="${p.id}" data-amt="500">+500</button>
+        <button data-ibclr="${p.id}">取消</button>
+        <span data-ibsum="${p.id}" class="stat"></span></div></td></tr>`).join("");
+  $("overlay").innerHTML=`<div class="sheetcard">
+    <div class="head"><h1 class="serif">魔王討伐杯 出征表 <small style="font-size:13px">第${G.raceNo}レース</small></h1>
+    <div class="sub">初期ベットを置いてレース開始。開始後も残り1:00までは追いベット・介入が可能。すべての介入は匿名 —— そして${G.demonEnabled?"CPUパトロンの中に<b>魔王のパトロン</b>が紛れているかもしれない。":"今回は魔王のパトロン無効。"}</div></div>
+    <div class="content"><table class="sheet"><thead><tr><th>枠</th><th>パーティー</th><th style="text-align:right">倍率</th><th>初期ベット</th></tr></thead><tbody>${rows}</tbody></table>
+    ${G.raceNo===1?`<label class="note"><input type="checkbox" id="demonchk" ${G.demonEnabled?"checked":""}> 魔王のパトロンを有効化(CPU側・不在回あり)</label>
+    <label class="note" style="margin-left:16px">1レースの時間 <select id="dursel">${[[60,"1分"],[120,"2分"],[180,"3分"],[300,"5分"]].map(([v,l])=>`<option value="${v}" ${G.dur===v?"selected":""}>${l}</option>`).join("")}</select>(進行バランスは自動補正)</label>`:""}</div>
+    <div class="foot"><span class="tagline">所持:<b id="ov-money">${G.wallet.toLocaleString()}</b></span>
+    <button id="resetbets">賭け金を全てリセット</button>
+    <span class="spacer"></span><button class="gold" id="startbtn" style="padding:8px 26px; font-size:14px;">レース開始</button></div></div>`;
+  $("overlay").style.display="flex";
+  document.querySelectorAll("[data-ib]").forEach(b=>b.addEventListener("click",()=>{
+    const pid=+b.dataset.ib, amt=+b.dataset.amt;
+    if(!tryPayOv(amt)) return;
+    placeBet(G.st,"あなた",pid,amt);
+    const sum=G.st.bets.filter(x=>x.who==="あなた"&&x.partyId===pid).reduce((a,x)=>a+x.amount,0);
+    document.querySelector(`[data-ibsum="${pid}"]`).textContent=sum+" 賭け済";
+  }));
+  function refundBets(pid){
+    const mine = G.st.bets.filter(b=>b.who==="あなた" && (pid===undefined || b.partyId===pid));
+    const refund = mine.reduce((a,b)=>a+b.amount,0);
+    if(refund===0) return;
+    G.wallet += refund;
+    G.st.bets = G.st.bets.filter(b=>!(b.who==="あなた" && (pid===undefined || b.partyId===pid)));
+    $("ov-money").textContent = G.wallet.toLocaleString();
+    document.querySelectorAll("[data-ibsum]").forEach(sp=>{
+      const id=+sp.dataset.ibsum;
+      const sum=G.st.bets.filter(x=>x.who==="あなた"&&x.partyId===id).reduce((a,x)=>a+x.amount,0);
+      sp.textContent = sum>0 ? sum+" 賭け済" : "";
+    });
+  }
+  document.querySelectorAll("[data-ibclr]").forEach(b=>b.addEventListener("click",()=>refundBets(+b.dataset.ibclr)));
+  $("resetbets").addEventListener("click",()=>refundBets());
+  function applySettings(){
+    const refund=G.st.bets.filter(b=>b.who==="あなた").reduce((a,b)=>a+b.amount,0);
+    G.wallet+=refund;
+    G.st=createRace(G.raceNo,G.demonEnabled,G.dur); buildMap(); buildSheet();
+    showStart();
+  }
+  if($("demonchk")) $("demonchk").addEventListener("change",()=>{ G.demonEnabled=$("demonchk").checked; applySettings(); });
+  if($("dursel")) $("dursel").addEventListener("change",()=>{ G.dur=+$("dursel").value; applySettings(); });
+  $("startbtn").addEventListener("click",()=>{
+    $("overlay").style.display="none";
+    renderMyBets(); log(G.st,`第${G.raceNo}レース、スタート!!`,"sys"); drainLogs();
+  });
+}
+function tryPayOv(cost){
+  if(G.wallet<cost) return false;
+  G.wallet-=cost; $("ov-money").textContent=G.wallet.toLocaleString(); return true;
+}
+
+/* ---------- オーバーレイ:結果+全暴露 ---------- */
+function showResult(){
+  const st=G.st, res=settle(st);
+  const w=st.winner;
+  const myRet=(res["あなた"]||{ret:0}).ret;
+  G.wallet+=myRet;
+  /* CPU精算 */
+  for(const c of st.cpus){
+    const r=res[c.name]||{bet:0,ret:0};
+    G.cpuWallets[c.name] += r.ret - r.bet - (st.spend[c.name]||0);
+    if(st.demonWon && c.demon) G.cpuWallets[c.name]+=5000;
+  }
+  const hero = st.demonWon
+    ? `<div class="demonwin">魔王、防衛成功 ——</div><div class="meta">誰も魔王を討伐できなかった。的中配当は半額。魔王のパトロンに防衛ボーナス +5,000</div><div class="who" style="margin-top:6px">判定勝ち:${w.no} ${w.name}(与ダメ ${w.bossDmg.toFixed(0)})</div>`
+    : `<div class="win serif">優 勝</div><div class="who">${w.no} ${w.name}(${w.typeName})</div>
+       <div class="meta">${st.endReason} ${fmtT(st.t)} ・ 確定 ${st.finalOdds[w.id].toFixed(1)}倍${st.bets.some(b=>b.partyId===w.id&&b.who==="あなた")?" —— あなたのベット的中!!":""}</div>`;
+  const analysis = `
+    <li>Lv${w.lv0}→Lv${w.lv} に成長(道中戦 ${w.kills}勝)・与ボスダメージ ${w.bossDmg.toFixed(0)}</li>
+    <li>${TYPE_COMMENT[w.type]}</li>
+    ${st.demonWon?"<li>魔王側の裏介入がレースを崩壊させた</li>":""}`;
+  const payRows = ["あなた",...CPU_NAMES].map(name=>{
+    const r=res[name]||{bet:0,ret:0};
+    const spend=st.spend[name]||0;
+    const net=r.ret-r.bet-spend + ((st.demonWon&&st.cpus.find(c=>c.name===name&&c.demon))?5000:0);
+    const wallet = name==="あなた"?G.wallet:G.cpuWallets[name];
+    return `<tr><td>${name}</td><td>${r.bet}</td><td>${spend}</td><td>${r.ret}</td>
+      <td class="${net>=0?"plus":"minus"}">${net>=0?"+":""}${net.toLocaleString()}</td><td>${wallet.toLocaleString()}</td></tr>`;
+  }).join("");
+  const reveals=[
+    ...st.bets.map(b=>({t:b.t,who:b.who,txt:`${st.parties[b.partyId].no} ${st.parties[b.partyId].name} に ${b.amount}(${b.odds.toFixed(1)}倍)`,demon:false})),
+    ...st.actions.map(a=>({t:a.t,who:a.who,txt:a.secret,demon:a.demon})),
+  ].sort((a,b)=>a.t-b.t);
+  const revealHtml=reveals.map(r=>`<div class="revealline">
+    <span class="tt">${fmtT(r.t)}</span><span class="who ${r.who==="あなた"?"me":""}">${r.who}</span> — ${r.txt}${r.demon?" 🩸":""}</div>`).join("");
+  const demonName = st.demonIdx>=0 ? st.cpus[st.demonIdx].name : null;
+  $("overlay").innerHTML=`<div class="sheetcard">
+    <div class="head"><h1 class="serif">第${G.raceNo}レース 結果</h1></div>
+    <div class="content">
+      <div class="result-hero">${hero}</div>
+      <div class="cols2">
+        <div class="boxed"><h4>勝因分析</h4><ul style="padding-left:18px; font-size:12px;">${analysis}</ul>
+          <h4 style="margin-top:10px">収支</h4>
+          <table class="paytable"><tr><th>パトロン</th><th>賭け</th><th>介入</th><th>払戻</th><th>収支</th><th>所持</th></tr>${payRows}</table></div>
+        <div class="boxed"><h4>━━ 全暴露タイム ━━</h4><div id="revealbox">${revealHtml}</div>
+          <div class="demonreveal" id="demonbox">${demonName?`魔王のパトロンは …… <span style="font-size:20px">${demonName}</span> だった!!`:"今回、魔王のパトロンは不在だった。疑心暗鬼、お疲れさま。"}</div></div>
+      </div></div>
+    <div class="foot"><span class="tagline">これは勇者の物語ではない。勇者に金を出す者たちの物語である。</span>
+      <span class="spacer"></span><button class="gold" id="nextbtn" style="padding:8px 26px; font-size:14px;">${G.raceNo<3?"次のレースへ":"最終結果へ"}</button></div></div>`;
+  $("overlay").style.display="flex";
+  const lines=[...document.querySelectorAll(".revealline")];
+  lines.forEach((l,i)=>setTimeout(()=>l.classList.add("show"), 350+i*220));
+  setTimeout(()=>$("demonbox").classList.add("show"), 350+lines.length*220+600);
+  $("nextbtn").addEventListener("click",()=>{ G.raceNo<3 ? nextRace() : showFinal(); });
+}
+function showFinal(){
+  const rows=[["あなた",G.wallet],...CPU_NAMES.map(n=>[n,G.cpuWallets[n]])]
+    .sort((a,b)=>b[1]-a[1])
+    .map(([n,v],i)=>`<tr><td>${i+1}位</td><td>${n==="あなた"?"<b>あなた</b>":n}</td><td>${v.toLocaleString()}</td></tr>`).join("");
+  $("overlay").innerHTML=`<div class="sheetcard" style="max-width:520px">
+    <div class="head"><h1 class="serif">魔王討伐杯 最終成績</h1><div class="sub">全3レース終了(初期スコア 10,000)</div></div>
+    <div class="content"><table class="paytable"><tr><th></th><th>パトロン</th><th>最終スコア</th></tr>${rows}</table></div>
+    <div class="foot"><span class="spacer"></span><button class="gold" id="againbtn" style="padding:8px 26px;">もう1セット</button></div></div>`;
+  $("againbtn").addEventListener("click",()=>{
+    G.wallet=10000; CPU_NAMES.forEach(n=>G.cpuWallets[n]=10000); G.raceNo=0; nextRace();
+  });
+}
+function nextRace(){
+  G.raceNo++;
+  G.sel=-1; G.lastLog=0; $("logbox").innerHTML="";
+  $("racename").textContent=`魔王討伐杯 第${G.raceNo}レース`;
+  $("selinfo").textContent="対象:未選択(左の出征表から選択)";
+  G.st=createRace(G.raceNo, G.demonEnabled, G.dur);
+  buildMap(); buildSheet(); renderMyBets();
+  showStart();
+}
+
+/* ---------- 初期化 ---------- */
+function initUI(){
+  document.querySelectorAll("#speedbtns [data-sp]").forEach(b=>b.addEventListener("click",()=>{
+    G.speed=+b.dataset.sp;
+    document.querySelectorAll("#speedbtns [data-sp]").forEach(x=>x.classList.toggle("on",x===b));
+  }));
+  $("pausebtn").addEventListener("click",()=>{ G.paused=!G.paused; $("pausebtn").textContent=G.paused?"▶":"⏸"; });
+  document.querySelectorAll("#betbtns button").forEach(b=>b.addEventListener("click",()=>doBet(+b.dataset.amt)));
+  $("iv-equip").addEventListener("click",()=>armIntervention("equip"));
+  $("iv-supply").addEventListener("click",()=>armIntervention("supply"));
+  $("iv-town").addEventListener("click",()=>armIntervention("town"));
+  $("iv-road").addEventListener("click",()=>armIntervention("road"));
+  $("iv-hunt").addEventListener("click",()=>armIntervention("hunt"));
+  $("iv-reward").addEventListener("click",()=>armIntervention("reward"));
+  window.addEventListener("keydown",e=>{ if(e.key==="Escape") clearTargeting(); });
+  buildStamps();
+  G.raceNo=0; nextRace();
+  G.prevTs=performance.now();
+  requestAnimationFrame(loop);
+}
+document.addEventListener("DOMContentLoaded", initUI);
+
+</script>
+</body>
+</html>

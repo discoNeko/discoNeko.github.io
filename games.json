@@ -47,7 +47,8 @@
       "url": "games/gyaku-roomba/",
       "created": "2026-10-15",
       "updated": "2026-10-15",
-      "notes": true
+      "notes": true,
+      "spec": true
     },
     {
       "slug": "nyaoman-kedama-factory",
@@ -64,7 +65,8 @@
       "url": "games/nyaoman-kedama-factory/",
       "created": "2026-10-15",
       "updated": "2026-10-15",
-      "notes": true
+      "notes": true,
+      "spec": true
     },
     {
       "slug": "nekovoid",
@@ -82,7 +84,8 @@
       "url": "games/nekovoid/",
       "created": "2026-10-14",
       "updated": "2026-10-14",
-      "notes": true
+      "notes": true,
+      "spec": true
     },
     {
       "slug": "orefront-four-kingdoms",
@@ -386,6 +389,24 @@
       "url": "talks/kasu-ponkotsu-yunou/",
       "created": "2026-07-16",
       "updated": "2026-07-16"
+    },
+    {
+      "slug": "isekai-derby",
+      "title": "異世界ダービー：魔王討伐杯",
+      "category": "game",
+      "access": "hub",
+      "status": "prototype",
+      "summary": "勇者パーティーたちが自動で魔王討伐を競うレースに、匿名のパトロンとして賭け、資金で勝ち筋を仕込む。レース後には全員の仕込みが暴露される、競馬 × RPG のパーティーゲーム。",
+      "tags": [
+        "競馬",
+        "RPG",
+        "パーティーゲーム"
+      ],
+      "url": "games/isekai-derby/",
+      "created": "2026-07-16",
+      "updated": "2026-07-16",
+      "notes": true,
+      "spec": true
     }
   ]
 }

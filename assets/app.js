@@ -217,6 +217,13 @@ function notePath(g) {
   return `https://raw.githubusercontent.com/${g.repo}/HEAD/notes/README.md`;
 }
 
+// 詳細な仕様書は作品と同じリポジトリの notes/spec.md。Markdown が整形される GitHub の画面を開く
+function specURL(g) {
+  if (!g.spec || g.access === "private") return null;
+  if (g.access === "hub") return `https://github.com/discoNeko/discoNeko.github.io/blob/main/${g.url}notes/spec.md`;
+  return g.repo ? `https://github.com/${g.repo}/blob/HEAD/notes/spec.md` : null;
+}
+
 async function loadNote(g) {
   const slug = g.slug;
   if (noteCache.has(slug)) return noteCache.get(slug);
@@ -244,7 +251,12 @@ async function openDetail(slug, { push = true } = {}) {
     g.repo && g.access !== "private"
       ? `<a class="btn ghost" href="https://github.com/${esc(g.repo)}" target="_blank" rel="noopener">${ICON.code}ソース<span class="ext">${ICON.ext}</span></a>`
       : "";
-  $("d-actions").innerHTML = primaryAction(g) + repoLink;
+  // 詳細な仕様書(notes/spec.md)はパネルに表示せず、GitHub のファイル表示画面へのリンクだけ置く
+  const spec = specURL(g);
+  const specLink = spec
+    ? `<a class="btn ghost" href="${esc(spec)}" target="_blank" rel="noopener">${ICON.note}詳細な仕様書<span class="ext">${ICON.ext}</span></a>`
+    : "";
+  $("d-actions").innerHTML = primaryAction(g) + repoLink + specLink;
   const meta = [
     ["カテゴリ", LABEL.category[g.category]],
     ["公開状態", accessLabel(g)],

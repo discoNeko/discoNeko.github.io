@@ -64,7 +64,17 @@ for (const [i, g] of (data.items ?? []).entries()) {
     errors.push(`${at}: notes: true には repo("owner/name")が必要(メモはそのリポジトリの notes/README.md から読む)`);
   }
   if (g.repo && !/^[\w.-]+\/[\w.-]+$/.test(g.repo)) errors.push(`${at}: repo は "owner/name" の形式`);
-  for (const k of ["featured", "notes"]) {
+  // 詳細な仕様書(notes/spec.md)。パネルにはリンクだけ出す
+  if (g.spec) {
+    if (g.access === "private") errors.push(`${at}: private 作品に spec は付けない`);
+    else if (g.access === "hub" && g.url && !existsSync(join(root, g.url, "notes", "spec.md"))) {
+      errors.push(`${at}: spec: true だが ${g.url}notes/spec.md がありません`);
+    } else if (g.access !== "hub" && !g.repo) errors.push(`${at}: spec: true には repo が必要`);
+  }
+  if (g.access === "hub" && g.url && !g.spec && existsSync(join(root, g.url, "notes", "spec.md"))) {
+    warnings.push(`${at}: ${g.url}notes/spec.md があるが spec: true が付いていません`);
+  }
+  for (const k of ["featured", "notes", "spec"]) {
     if (k in g && typeof g[k] !== "boolean") errors.push(`${at}: ${k} は true / false`);
   }
 }
