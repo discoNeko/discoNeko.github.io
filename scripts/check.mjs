@@ -10,7 +10,9 @@ const errors = [];
 const warnings = [];
 
 // ---- games.json ----
-const CATEGORIES = ["game", "tool"];
+const CATEGORIES = ["game", "tool", "talk"];
+// 同居作品の置き場所(カテゴリごと)
+const HUB_DIR = { game: "games", tool: "tools", talk: "talks" };
 const ACCESS = ["hub", "pages", "repo", "private"];
 const STATUS = ["playable", "wip", "prototype", "archived"];
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -46,7 +48,7 @@ for (const [i, g] of (data.items ?? []).entries()) {
     errors.push(`${at}: url がありません`);
   }
   if (g.access === "hub" && g.url) {
-    const dir = g.category === "tool" ? "tools" : "games";
+    const dir = HUB_DIR[g.category] ?? "games";
     if (g.url !== `${dir}/${g.slug}/`) errors.push(`${at}: 同居作品の url は "${dir}/${g.slug}/" にする`);
     if (!existsSync(join(root, g.url, "index.html"))) errors.push(`${at}: ${g.url}index.html がありません`);
   }
@@ -67,7 +69,8 @@ for (const [i, g] of (data.items ?? []).entries()) {
   }
 }
 
-// ---- 公開NGっぽい文字列のスキャン(games/ tools/ 配下は notes/ だけが対象。作品本体は対象外) ----
+// ---- 公開NGっぽい文字列のスキャン ----
+// games/ tools/ は notes/ だけが対象(作品本体は対象外)。talks/ は本文が文章そのものなので全体を対象にする
 const privateSlugs = (data.items ?? []).filter((g) => g.access === "private").map((g) => g.slug);
 const patterns = [
   [/\/Users\/\w|\/home\/\w|C:\\Users\\\w/i, "ローカルのパス"],
@@ -87,19 +90,21 @@ function walk(dir, out = []) {
   }
   return out;
 }
-const hubNoteDirs = ["games", "tools"].flatMap((d) => {
+const hubNoteDirs = Object.values(HUB_DIR).flatMap((d) => {
   const base = join(root, d);
   if (!existsSync(base)) return [];
   return readdirSync(base)
     .map((name) => join(base, name, "notes"))
     .filter((p) => existsSync(p) && statSync(p).isDirectory());
 });
-const targets = [
+const targets = new Set([
   join(root, "games.json"),
   join(root, "index.html"),
   ...walk(join(root, "assets")),
   ...hubNoteDirs.flatMap((d) => walk(d)),
-];
+  ...(existsSync(join(root, "talks")) ? walk(join(root, "talks")) : []),
+  ...(existsSync(join(root, "templates")) ? walk(join(root, "templates")) : []),
+]);
 for (const file of targets) {
   if (!existsSync(file)) continue;
   const lines = readFileSync(file, "utf8").split("\n");

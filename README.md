@@ -1,6 +1,6 @@
 # discoNeko.github.io
 
-作ったゲームとツールをまとめるダッシュボード。https://disconeko.github.io/ で公開しています。
+作ったゲーム・ツールと、AI との対話で生まれた議論をまとめるダッシュボード。https://disconeko.github.io/ で公開しています。
 
 ビルドは不要です。`games.json` を読み込んで `index.html` が一覧を描画します。
 
@@ -13,6 +13,9 @@ games/<slug>/         このリポジトリで同居させているゲーム(単
   notes/README.md     その作品のメモ(公開される)
 tools/<slug>/         このリポジトリで同居させているツール
   notes/README.md     その作品のメモ(公開される)
+talks/<slug>/         AI との対話で生まれた議論(HTML 作品)
+  notes/README.md     その作品のメモ(公開される)
+templates/talk/       対話ページのテンプレート
 thumbs/               サムネイル(16:9、横 640px 程度の jpg 推奨)
 scripts/check.mjs     台帳の整合性チェック + 公開 NG っぽい文字列の検出
 ```
@@ -21,7 +24,7 @@ scripts/check.mjs     台帳の整合性チェック + 公開 NG っぽい文字
 
 | access | 置き場所 | パネルの挙動 |
 |---|---|---|
-| `hub` | このリポジトリの `games/<slug>/` または `tools/<slug>/` | 「遊ぶ」「開く」でそのまま開く |
+| `hub` | このリポジトリの `games/<slug>/` / `tools/<slug>/` / `talks/<slug>/` | 「遊ぶ」「開く」「読む」でそのまま開く |
 | `pages` | 個別の public リポジトリ + GitHub Pages | 外部リンクで開く |
 | `repo` | public リポジトリ(Pages なし) | リポジトリへのリンク |
 | `private` | private リポジトリ | パネルのみ。リンクは置かない(遷移できない) |
@@ -52,14 +55,26 @@ scripts/check.mjs     台帳の整合性チェック + 公開 NG っぽい文字
    }
    ```
 
-   - `category`: `game` / `tool`
+   - `category`: `game`(ゲーム)/ `tool`(ツール)/ `talk`(対話)
    - `status`: `playable`(稼働中)/ `wip`(開発中)/ `prototype`(試作)/ `archived`(昔の作品)
    - `thumb` と `notes` は任意。`thumb` がなければタイトルの 1 文字目でプレースホルダーを描きます
    - `pages` / `repo` は `repo`(`"discoNeko/<name>"`)も書く。ソースへのリンクとメモの読み込みに使います
    - `featured: true` を付けた作品は、どの並び順でも常に先頭に表示され、強調表示されます(任意)
    - それ以外は更新が新しい順で、`archived` は後ろにまとめて表示します
-2. `hub` の場合は、ゲームなら `games/<slug>/index.html`、ツールなら `tools/<slug>/index.html` を置き、`url` を `games/<slug>/` / `tools/<slug>/` にする
+2. `hub` の場合は、カテゴリに対応するフォルダ(ゲーム `games/`、ツール `tools/`、対話 `talks/`)に `<slug>/index.html` を置き、`url` を `<フォルダ>/<slug>/` にする
 3. `node scripts/check.mjs` を実行する
+
+## 対話(talk)を追加する
+
+AI との対話で生まれた面白い議論は、HTML 作品として `talks/<slug>/` に置きます。
+
+1. `templates/talk/index.html` を `talks/<slug>/index.html` にコピーして、タイトル・要旨・本文を書き換える
+   - `.turn.me` が自分、`.turn.ai` が AI の発言、`.aside` が後から付けた注釈、`.quote` が刺さった一文
+   - 生のログを全部貼る必要はありません。面白い所を抜粋・編集して読み物にします
+2. `games.json` に `category: "talk"`, `access: "hub"`, `url: "talks/<slug>/"` で登録する
+3. `node scripts/check.mjs` を実行する。`talks/` は本文も文章なので、ページ全体が公開 NG 文字列の検査対象です
+
+**対話ログには個人的な話や仕事の情報が混ざりやすいので、公開前に必ず読み返してください。** 非公開にしたい議論は private リポジトリで管理し、台帳には `access: "private"` で存在だけ載せます(ゲームと同じ扱い)。
 
 ## メモ
 
@@ -67,7 +82,7 @@ scripts/check.mjs     台帳の整合性チェック + 公開 NG っぽい文字
 
 | access | メモの場所 | パネル表示 |
 |---|---|---|
-| `hub` | このリポジトリの `games/<slug>/notes/README.md` / `tools/<slug>/notes/README.md` | される |
+| `hub` | このリポジトリの `<games|tools|talks>/<slug>/notes/README.md` | される |
 | `pages` / `repo` | 各リポジトリの `notes/README.md`(既定ブランチ。台帳の `repo` から読む) | される |
 | `private` | 各 private リポジトリ(場所は自由) | されない(`notes` は付けない) |
 

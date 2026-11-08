@@ -1,10 +1,14 @@
 "use strict";
 
 const LABEL = {
-  category: { game: "ゲーム", tool: "ツール" },
+  category: { game: "ゲーム", tool: "ツール", talk: "対話" },
+  categoryShort: { game: "GAME", tool: "TOOL", talk: "TALK" },
   access: { hub: "ここで遊べる", pages: "公開ページ", repo: "ソースのみ", private: "非公開" },
   status: { playable: "稼働中", wip: "開発中", prototype: "試作", archived: "昔の作品" },
 };
+
+// 公開状態の表示名。同居している対話(talk)は「遊べる」ではなく「読める」
+const accessLabel = (g) => (g.access === "hub" && g.category === "talk" ? "ここで読める" : LABEL.access[g.access]);
 
 const state = { items: [], q: "", category: "all", access: "all", status: "all", tag: null, sort: "updated", expanded: false };
 
@@ -25,6 +29,7 @@ const ICON = {
   lock: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
   ext: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
   play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',
+  read: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h5v17H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-5v17h5a2 2 0 0 1 2 2z"/></svg>',
   code: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 8-5 4 5 4M16 8l5 4-5 4"/></svg>',
   note: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg>',
 };
@@ -45,6 +50,7 @@ function primaryAction(g, cls = "btn") {
   let label, icon;
   if (g.access === "repo") [label, icon] = ["リポジトリ", ICON.code];
   else if (g.category === "game") [label, icon] = ["遊ぶ", ICON.play];
+  else if (g.category === "talk") [label, icon] = ["読む", ICON.read];
   else [label, icon] = ["開く", ICON.play];
   return `<a class="${cls} primary" href="${esc(g.url)}"${target}>${icon}${label}${external ? `<span class="ext">${ICON.ext}</span>` : ""}</a>`;
 }
@@ -58,13 +64,13 @@ function cardHTML(g) {
   return `
   <article class="card a-${g.access} c-${g.category}${g.featured ? " featured" : ""}" data-slug="${esc(g.slug)}">
     <button type="button" class="thumb" data-open="${esc(g.slug)}" aria-label="${esc(g.title)} の詳細">${thumbHTML(g)}
-      <span class="access-badge">${esc(LABEL.access[g.access])}</span>
+      <span class="access-badge">${esc(accessLabel(g))}</span>
       ${g.featured ? '<span class="feature-badge">★ FEATURED</span>' : ""}
     </button>
     <div class="body">
       <div class="meta-row">
         <span class="status s-${g.status}">${esc(LABEL.status[g.status])}</span>
-        <span class="cat">${g.category === "game" ? "GAME" : "TOOL"}</span>
+        <span class="cat">${esc(LABEL.categoryShort[g.category] ?? g.category)}</span>
         <time datetime="${esc(g.updated)}" title="最終更新">${esc(month(g.updated))}</time>
       </div>
       <h2><button type="button" data-open="${esc(g.slug)}">${esc(g.title)}</button></h2>
@@ -120,7 +126,8 @@ function renderFilters() {
     ["all", "すべて", all.length],
     ["game", "ゲーム", count((g) => g.category === "game")],
     ["tool", "ツール", count((g) => g.category === "tool")],
-  ]);
+    ["talk", "対話", count((g) => g.category === "talk")],
+  ].filter(([value, , n]) => value === "all" || n > 0 || state.category === value)); // 0 件のカテゴリは出さない
   chips($("f-access"), "access", [
     ["all", "公開・非公開"],
     ["public", "公開", count((g) => g.access !== "private")],
@@ -144,9 +151,10 @@ function renderStats() {
     ["作品", all.length],
     ["ゲーム", all.filter((g) => g.category === "game").length],
     ["ツール", all.filter((g) => g.category === "tool").length],
+    ["対話", all.filter((g) => g.category === "talk").length],
     ["開発中", all.filter((g) => g.status === "wip").length],
     ["非公開", all.filter((g) => g.access === "private").length],
-  ];
+  ].filter(([k, v]) => k === "作品" || v > 0); // 0 件の集計は出さない
   $("stats").innerHTML = stats.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("");
 }
 
@@ -239,7 +247,7 @@ async function openDetail(slug, { push = true } = {}) {
   $("d-actions").innerHTML = primaryAction(g) + repoLink;
   const meta = [
     ["カテゴリ", LABEL.category[g.category]],
-    ["公開状態", LABEL.access[g.access]],
+    ["公開状態", accessLabel(g)],
     ["状態", `<span class="status s-${g.status}">${esc(LABEL.status[g.status])}</span>`, true],
     ["作成", g.created],
     ["更新", g.updated],

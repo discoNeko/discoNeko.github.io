@@ -8,6 +8,7 @@
   --muted: #9a9cb2;
   --accent: #ffcf5c;
   --tool: #7cc7ff;
+  --talk: #ff9ac1;
   --ok: #7fe3a8;
   --wip: #ffb454;
   --proto: #b9a0ff;
@@ -30,6 +31,7 @@
     --muted: #6c6a75;
     --accent: #c98a00;
     --tool: #1f7fc4;
+    --talk: #c43c78;
     --ok: #1f9a5a;
     --wip: #c46f00;
     --proto: #6f4fd8;
@@ -283,6 +285,7 @@ main { flex: 1; padding-top: 20px; padding-bottom: 56px; }
 .cat { font-family: "Space Grotesk", sans-serif; letter-spacing: 0.12em; font-weight: 700; }
 .c-game .cat { color: var(--accent); }
 .c-tool .cat { color: var(--tool); }
+.c-talk .cat { color: var(--talk); }
 
 .status { display: inline-flex; align-items: center; gap: 5px; font-weight: 500; }
 .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
