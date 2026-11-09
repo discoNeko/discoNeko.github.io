@@ -35,6 +35,22 @@
       "thumb": "thumbs/auto/sfx-workbench.jpg"
     },
     {
+      "slug": "delicious-prefix-gacha",
+      "title": "うまそうな名前研究所",
+      "category": "tool",
+      "access": "hub",
+      "status": "playable",
+      "summary": "「焦がし」「炙り」「熟成」などのうまそうな言葉を掛け合わせて、まだ存在しない料理名を引くガチャ。",
+      "tags": [
+        "ことば",
+        "ネタ"
+      ],
+      "url": "tools/delicious-prefix-gacha/",
+      "created": "2026-10-27",
+      "updated": "2026-10-27",
+      "thumb": "thumbs/auto/delicious-prefix-gacha.jpg"
+    },
+    {
       "slug": "gyaku-roomba",
       "title": "逆ルンバ VS ルンバ",
       "category": "game",

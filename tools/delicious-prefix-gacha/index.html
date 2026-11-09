@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#171310" />
+<title>うまそうな名前研究所｜美味しそうな名前ガチャ</title>
+<style>
+  :root{color-scheme:dark;--bg:#171310;--surface:#251e19;--surface2:#2f261e;--line:#4b3b2d;--cream:#f7e9cb;--muted:#b1a18b;--amber:#ffba55;--red:#ef7554;--green:#aec893;--shadow:0 22px 65px rgba(0,0,0,.24)}
+  *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -25%,#583222 0,transparent 62%),var(--bg);color:var(--cream);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body::before{position:fixed;content:"";inset:0;pointer-events:none;opacity:.14;background-image:url('data:image/svg+xml,%3Csvg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency=".6" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Cpath fill="%23fff" filter="url(%23n)" opacity=".18" d="M0 0h180v180H0z"/%3E%3C/svg%3E')}
+  button,select{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible{outline:2px solid var(--amber);outline-offset:3px}button:disabled{opacity:.4;cursor:not-allowed}::selection{background:var(--amber);color:#22160e}
+  .shell{max-width:1160px;margin:auto;padding:30px 24px 80px;position:relative;z-index:1}
+  .topline{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:40px;color:var(--muted);font-size:11px;letter-spacing:.21em;font-weight:800}
+  .brand{display:flex;align-items:center;gap:10px;color:var(--amber)}.brandmark{width:31px;height:31px;display:grid;place-items:center;background:#493020;border:1px solid #8a5c2f;border-radius:9px;font-size:20px;transform:rotate(-7deg)}
+  .topline .edition{border:1px solid var(--line);border-radius:20px;padding:9px 13px;letter-spacing:.12em}
+  .intro{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:29px}
+  .eyebrow{font-size:11px;letter-spacing:.28em;color:var(--amber);font-weight:900;margin-bottom:9px}
+  h1{font-weight:900;font-size:clamp(34px,5.6vw,62px);line-height:1.13;margin:0;letter-spacing:-.065em}h1 em{color:var(--amber);font-style:normal}
+  .intro p{font-size:13px;line-height:1.95;color:var(--muted);max-width:330px;margin:0 0 3px}
+  .lab-controls{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap;border:1px solid var(--line);background:rgba(37,30,25,.83);border-radius:17px;padding:19px 22px;margin-bottom:23px}
+  .control-label{font-size:10px;color:var(--muted);letter-spacing:.18em;font-weight:900;margin-bottom:11px}
+  .control-block{min-width:0}.segmented{display:flex;flex-wrap:wrap;gap:5px}.segment{background:transparent;color:#d7c5aa;border:1px solid transparent;border-radius:8px;padding:10px 13px;font-weight:800;font-size:13px;white-space:nowrap;transition:all .2s}.segment:hover{background:#403024}.segment.selected{background:var(--cream);color:#281e15;border-color:var(--cream)}
+  .modes{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.select{appearance:none;min-width:145px;border:1px solid var(--line);border-radius:9px;background:#30251c;color:var(--cream);font-size:13px;font-weight:700;padding:10px 33px 10px 13px;background-image:url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath fill="none" stroke="%23f7e9cb" stroke-width="2" d="m6 9 6 6 6-6"/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:calc(100% - 9px) center;background-size:19px}
+  .toggle{display:flex;align-items:center;gap:9px;cursor:pointer;font-size:13px;font-weight:750;white-space:nowrap}.toggle input{position:absolute;opacity:0}.switch{width:38px;height:22px;background:#554437;border-radius:20px;padding:3px;transition:.2s}.switch::after{content:"";display:block;height:16px;width:16px;background:#e1d0b7;border-radius:50%;transition:transform .2s}.toggle input:checked+.switch{background:var(--red)}.toggle input:checked+.switch::after{transform:translateX(16px);background:white}.toggle input:focus-visible+.switch{outline:2px solid var(--amber);outline-offset:3px}
+  .result-stage{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.85fr);gap:17px}
+  .hero{position:relative;background:linear-gradient(155deg,#553320 0%,#382519 43%,#241b16 100%);border:1px solid #765138;border-radius:20px;min-height:432px;padding:33px 33px 27px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between;isolation:isolate}
+  .hero.nyaoman-special{background:linear-gradient(155deg,#574029 0%,#3d2927 45%,#261c1c 100%);border-color:#cb9669}
+  .hero.nyaoman-special .dish-title{color:#ffdaa3;text-shadow:0 0 32px rgba(255,171,89,.22)}
+  .hero::before{content:"";position:absolute;width:370px;height:370px;border-radius:50%;border:1px solid rgba(255,191,95,.16);box-shadow:0 0 0 30px rgba(255,191,95,.025),0 0 0 65px rgba(255,191,95,.019),inset 0 0 60px rgba(255,140,35,.05);top:-170px;right:-150px;pointer-events:none;z-index:-1}
+  .hero::after{content:"";position:absolute;width:230px;height:230px;right:-100px;bottom:-115px;background:radial-gradient(circle,rgba(239,117,84,.18),transparent 65%);pointer-events:none;z-index:-1}
+  .hero-header{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}.sticker{display:inline-flex;gap:8px;align-items:center;color:var(--amber);font-size:11px;font-weight:900;letter-spacing:.11em}.sticker .star{font-size:17px;line-height:1}.hero-n{font-size:11px;color:#d1a679;font-variant-numeric:tabular-nums;letter-spacing:.16em}
+  .result{padding:38px 0 20px}.descriptor-lines{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:20px}.descriptor{font-size:14px;font-weight:800;background:rgba(255,190,94,.10);color:#f1bd7c;border:1px solid rgba(255,195,111,.23);padding:7px 12px;border-radius:6px}
+  .dish-title{font-size:clamp(42px,5.6vw,72px);font-weight:950;letter-spacing:-.065em;line-height:1.21;overflow-wrap:anywhere;text-shadow:0 3px 20px rgba(0,0,0,.17);margin:0 0 13px}
+  .natural-title{font-size:13px;color:#e6bea0;line-height:1.7;margin:0;overflow-wrap:anywhere}.natural-title span{opacity:.7;font-weight:500}
+  .hero-foot{display:flex;justify-content:space-between;gap:15px;align-items:end;border-top:1px solid rgba(255,224,188,.22);padding-top:20px}.flavor{font-size:12px;color:#dfc4a6;line-height:1.8;max-width:70%}.rating{white-space:nowrap;text-align:right}.rating small{display:block;color:#d1a679;letter-spacing:.13em;font-size:10px;font-weight:900}.rating strong{font-size:38px;line-height:1.15;color:var(--amber);font-variant-numeric:tabular-nums;letter-spacing:-.07em}.rating sub{font-size:11px;color:#ceab86;margin-left:4px}
+  .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}.btn{padding:14px 20px;border-radius:11px;font-weight:900;font-size:14px;border:1px solid var(--line);background:#38291f;color:var(--cream);transition:background .2s,transform .2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}.btn:hover{transform:translateY(-2px);background:#463429}.btn.primary{flex:1.1;background:var(--amber);color:#2b1b10;border-color:var(--amber);font-size:16px}.btn.primary:hover{background:#ffce7b}.btn.special{flex:1;background:#453326;border-color:#946842}.btn.ghost{background:#2e241e}.btn[aria-pressed="true"]{background:#57452b;border-color:var(--amber);color:var(--amber)}
+  .right-panel{background:rgba(37,30,25,.78);border:1px solid var(--line);border-radius:20px;min-width:0;overflow:hidden;display:flex;flex-direction:column}.right-head{display:flex;align-items:start;justify-content:space-between;padding:25px 22px 16px;gap:12px}.right-head h2{font-size:18px;letter-spacing:-.03em;margin:0 0 5px}.right-head p{font-size:11px;margin:0;color:var(--muted);line-height:1.5}.small-tag{font-size:10px;border:1px solid #675039;border-radius:30px;color:#c4a789;padding:5px 8px;white-space:nowrap}
+  .candidate-list{display:flex;flex-direction:column;overflow-y:auto;max-height:406px;padding:0 11px 13px;flex:1}.candidate{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:1px solid transparent;border-radius:11px;background:transparent;color:var(--cream);padding:12px 10px;min-width:0;transition:background .15s,border-color .15s}.candidate:hover{background:#3c2d23;border-color:#58412c}.candidate+.candidate{border-top-color:#413329}.candidate-number{font-size:11px;font-weight:900;min-width:22px;color:#9a826c;font-variant-numeric:tabular-nums}.candidate-copy{flex:1;min-width:0}.candidate-name{font-size:13px;font-weight:850;line-height:1.55;overflow-wrap:anywhere}.candidate-sub{font-size:10px;color:#a38a73;margin-top:3px}.candidate-score{font-weight:900;font-size:18px;color:#eabb77;font-variant-numeric:tabular-nums}.empty{font-size:12px;color:var(--muted);padding:20px}
+  .bottom{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:17px;margin-top:24px}.shelf,.memo{background:#231d18;border:1px solid var(--line);border-radius:17px;padding:22px 24px;min-width:0}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}.section-head h2{font-size:16px;margin:0}.section-head span{font-size:11px;color:var(--muted)}.saved-list{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow:auto}.saved-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid #45382d;background:#2e251f;border-radius:9px}.saved-item .saved-name{font-size:13px;font-weight:850;flex:1;min-width:0;line-height:1.5;overflow-wrap:anywhere}.saved-item .saved-score{font-size:12px;color:var(--amber);font-weight:900}.iconbutton{border:0;background:transparent;color:#ceaf90;padding:6px;border-radius:6px;font-size:16px}.iconbutton:hover{background:#4a382a;color:white}.shelf-empty{color:#927e6e;padding:19px 4px;font-size:12px;line-height:1.8}
+  .memo p{color:#b2a18d;font-size:12px;line-height:1.9;margin:0}.memo strong{color:#efca9d}.memo .rule{margin-top:14px;padding-top:13px;border-top:1px solid #44372b;font-size:11px;color:#9e8c77}.footnote{margin-top:24px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#877868;font-size:10px;letter-spacing:.04em}.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--cream);color:#2a2017;padding:12px 20px;border-radius:9px;font-weight:800;font-size:13px;z-index:10;transition:opacity .2s,transform .2s;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}
+  .pop{animation:pop .35s cubic-bezier(.2,.65,.25,1)}@keyframes pop{from{opacity:.35;transform:translateY(9px) scale(.984);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
+  @media(max-width:850px){.intro{display:block}.intro p{margin-top:16px;max-width:620px}.result-stage{grid-template-columns:1fr}.right-panel{min-height:0}.candidate-list{max-height:none;display:grid;grid-template-columns:1fr 1fr;gap:3px}.bottom{grid-template-columns:1fr 1fr}.hero{min-height:390px}}
+  @media(max-width:610px){.shell{padding:22px 14px 60px}.topline{margin-bottom:30px}.intro{margin-bottom:22px}.intro p{font-size:12px}.lab-controls{padding:16px;gap:16px}.segment{padding:9px 12px}.control-block{width:100%}.modes{justify-content:space-between}.hero{padding:23px 20px;min-height:405px}.result{padding:34px 0}.descriptor{font-size:12px;padding:6px 9px}.dish-title{font-size:clamp(39px,10vw,59px)}.hero-foot .flavor{max-width:63%}.actions{gap:8px}.actions .btn{padding:13px 12px;font-size:12px}.actions .btn.primary{font-size:14px;flex-basis:100%}.actions .btn.special{flex:1}.right-head{padding:20px 17px 12px}.candidate-list{padding:0 7px 12px;grid-template-columns:1fr}.candidate{padding:10px}.bottom{grid-template-columns:1fr}.shelf,.memo{padding:20px}.footnote{line-height:1.8}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0s!important;scroll-behavior:auto!important;transition-duration:0s!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <div class="topline"><div class="brand"><div class="brandmark" aria-hidden="true">火</div> <span>UMA-SO NAME LAB.</span></div><div class="edition">EXPERIMENT / 001</div></div>
+  <div class="intro"><div><div class="eyebrow">THE ART OF DELICIOUS WORDS</div><h1>うまそうな名前<br><em>研究所。</em></h1></div><p>「焦がし」「炙り」「生」「熟成」——<br>うまそうな言葉を2〜4個掛け合わせて、<br>まだ存在しない最強の料理名を発掘する。</p></div>
+  <section class="lab-controls" aria-label="生成設定"><div class="control-block"><div class="control-label">01 — 修飾語の重ね数</div><div class="segmented" id="countFilters" role="group" aria-label="修飾語の数"><button type="button" class="segment selected" data-count="random" aria-pressed="true">おまかせ</button><button type="button" class="segment" data-count="2" aria-pressed="false">2個</button><button type="button" class="segment" data-count="3" aria-pressed="false">3個</button><button type="button" class="segment" data-count="4" aria-pressed="false">4個</button></div></div>
+    <div class="control-block"><div class="control-label">02 — 料理ジャンル / 実験モード</div><div class="modes"><select class="select" id="foodCategory" aria-label="料理ジャンル"><option value="all">全ジャンル</option><option value="nyaoman">🐈 にゃおまん（万能食材）</option><option value="meat">肉料理</option><option value="fish">魚料理</option><option value="seafood">魚介料理</option><option value="rice">ご飯もの</option><option value="noodle">麺料理</option><option value="bread">パン</option><option value="sweet">スイーツ</option><option value="vegetable">野菜料理</option><option value="egg">たまご</option><option value="cheese">チーズ</option><option value="drink">ドリンク</option></select><label class="toggle"><input id="chaosMode" type="checkbox"/><span class="switch" aria-hidden="true"></span><span>カオス解禁</span></label></div></div>
+  </section>
+  <section class="result-stage"><div><div class="hero" id="hero" aria-live="polite" aria-atomic="true"><div class="hero-header"><span class="sticker"><span class="star">✦</span> 本日の逸品候補</span><span class="hero-n" id="serial">No. 0001</span></div><div class="result" id="result"><div class="descriptor-lines" id="descriptors"></div><h2 class="dish-title" id="dish">—</h2><p class="natural-title" id="combined"></p></div><div class="hero-foot"><div class="flavor" id="flavor">味覚は想像力から。</div><div class="rating"><small>うまそう度 / EXPERIMENTAL</small><strong id="score">—</strong><sub>/ 100</sub></div></div></div>
+    <div class="actions"><button type="button" class="btn primary" id="spin">↻ もう一皿、生成！</button><button type="button" class="btn special" id="best">✦ 30連・最高傑作を探す</button><button type="button" class="btn ghost" id="save" aria-pressed="false" title="気に入った名前を保存">☆ 保存</button><button type="button" class="btn ghost" id="copy" title="料理名をコピー">⧉ コピー</button></div></div>
+    <aside class="right-panel"><div class="right-head"><div><h2>別皿の候補 <span style="color:var(--amber)">✦</span></h2><p>気になる料理をタップして主役に。</p></div><span class="small-tag" id="listMode">7 DISHES</span></div><div class="candidate-list" id="candidates"></div></aside>
+  </section>
+  <section class="bottom"><div class="shelf"><div class="section-head"><h2>☆ マイ・うまそうコレクション</h2><span id="savedCount">0皿 ストック中</span></div><div class="saved-list" id="savedList"><div class="shelf-empty">おいしそうな名前ができたら「保存」。<br>ここにお気に入りを集められます。</div></div></div><div class="memo"><div class="section-head"><h2>研究ノート</h2><span>LAB NOTE 01</span></div><p><strong>通常モード</strong>は食材と調理法の相性を重視。「火入れ × 食感 × 香り」など、違う種類の言葉を掛け算します。</p><p style="margin-top:9px"><strong>カオス解禁</strong>では相性制約がなくなり、奇妙だけど妙に気になる組み合わせも出現。</p><p style="margin-top:9px"><strong>万能食材「にゃおまん」</strong>は肉・魚・スイーツ・飲み物を含むあらゆるジャンルに出現。すべての修飾語と相性抜群。ジャンル欄から「にゃおまん」を指定すれば専用ガチャになります。</p><p class="rule">※「うまそう度」は語感・相性・希少感に基づく遊びのスコアです。実際のおいしさや安全性の評価ではありません。お気に入りはこのブラウザに保存されます。</p></div></section>
+  <div class="footnote"><span>UMA-SO NAME LAB / その料理、名前からうまい。</span><span>SPACE キーでも再抽選 · すべて単一HTMLで動作</span></div>
+</main><div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(() => {
+  'use strict';
+  const foods = {
+    meat: ['牛タン','和牛ハンバーグ','厚切りベーコン','鶏もも唐揚げ','ローストビーフ','豚角煮','牛ハラミステーキ','手羽先','豚ロースカツ','焼き鳥','牛すじ煮込み','スペアリブ','鴨ロース','肉団子'],
+    fish: ['サーモン','カツオのたたき','マグロ頬肉','銀だら','ブリ','しめ鯖','うなぎ蒲焼き','ホッケ','のどぐろ','アジフライ','金目鯛','さわら'],
+    seafood: ['牡蠣','ホタテ','エビフライ','イカ焼き','大海老','タコ','カニクリームコロッケ','ハマグリ','海老しんじょ','ズワイガニ'],
+    rice: ['焼きおにぎり','牛丼','釜飯','チャーハン','卵かけご飯','スパイスカレー','海鮮丼','チーズリゾット','バターライス','親子丼','ガーリックライス'],
+    noodle: ['味噌ラーメン','つけ麺','讃岐うどん','油そば','ナポリタン','カルボナーラ','焼きそば','担々麺','まぜそば','鴨南蛮そば','塩ラーメン'],
+    bread: ['クロワッサン','塩パン','食パン','フォカッチャ','マルゲリータピザ','メロンパン','フレンチトースト','カレーパン','ベーグル','アップルパイ','バゲット'],
+    sweet: ['プリン','ショコラテリーヌ','チーズケーキ','ドーナツ','シュークリーム','バスクチーズケーキ','生チョコタルト','カステラ','モンブラン','アイスクリーム','クレープ','いちご大福','ガトーショコラ'],
+    vegetable: ['しいたけ','アスパラ','焼きとうもろこし','さつまいも','じゃがバター','長ねぎ','トマト','れんこん','たけのこ','かぼちゃ','茄子の田楽'],
+    egg: ['だし巻き卵','オムライス','オムレツ','煮卵','茶碗蒸し','たまごサンド','厚焼き玉子','エッグベネディクト'],
+    cheese: ['カマンベール','ブッラータ','モッツァレラ','チーズフォンデュ','チーズスティック','グラタン','チーズオムレツ'],
+    drink: ['レモネード','いちごミルク','オレンジジュース','カフェラテ','レモンスカッシュ','フルーツソーダ','バナナシェイク','抹茶ラテ']
+  };
+  const ALL = Object.keys(foods);
+  const UNIVERSAL_FOOD = Object.freeze({name:"にゃおまん",category:"nyaoman"});
+  const NYAOMAN_RATE = 0.14; // どの料理ジャンルにも現れる、特別な万能食材
+  // 表記 / 系統 / 適合する料理カテゴリ / 魅力度（遊びの重み）
+  const termRows = [
+    ['焦がし','fire','meat fish seafood rice noodle bread sweet vegetable egg cheese',9],
+    ['炙り','fire','meat fish seafood rice vegetable cheese egg',10],
+    ['炭火焼き','fire','meat fish seafood rice vegetable cheese',9],
+    ['直火焼き','fire','meat fish seafood rice bread vegetable cheese',8],
+    ['藁焼き','fire','meat fish seafood',11],
+    ['薪火焼き','fire','meat fish seafood vegetable bread',10],
+    ['鉄板焼き','fire','meat fish seafood rice noodle vegetable egg cheese',8],
+    ['石窯焼き','fire','bread vegetable cheese meat',8],
+    ['瞬間燻製','fire','meat fish seafood egg cheese',12],
+    ['燻製','fire','meat fish seafood rice egg cheese',9],
+    ['二度揚げ','fire','meat fish seafood vegetable bread',9],
+    ['低温調理','fire','meat fish seafood egg',10],
+    ['香ばし焼き','fire','meat fish seafood rice bread vegetable egg',8],
+    ['とろける','texture','meat fish seafood rice bread sweet egg cheese',12],
+    ['半熟','texture','egg sweet rice bread',12],
+    ['ふわとろ','texture','egg rice bread sweet cheese',11],
+    ['もちもち','texture','noodle bread sweet rice cheese',10],
+    ['ぷるぷる','texture','egg sweet seafood cheese drink',9],
+    ['しっとり','texture','meat fish bread sweet egg',9],
+    ['ザクザク','texture','meat seafood bread sweet vegetable',10],
+    ['サクほろ','texture','bread sweet meat',10],
+    ['カリじゅわ','texture','meat fish seafood bread vegetable',12],
+    ['カリカリ','texture','meat fish seafood rice bread vegetable cheese',9],
+    ['ジューシー','texture','meat fish seafood vegetable',10],
+    ['ねっとり','texture','sweet vegetable cheese',8],
+    ['なめらか','texture','sweet egg cheese drink',9],
+    ['極厚','size','meat fish seafood bread sweet egg cheese',11],
+    ['肉厚','size','meat fish seafood vegetable',9],
+    ['大ぶり','size','meat fish seafood vegetable',9],
+    ['特大','size','meat fish seafood rice bread sweet vegetable',8],
+    ['大粒','size','seafood rice sweet vegetable',9],
+    ['ごろごろ','size','meat seafood rice noodle sweet vegetable',9],
+    ['粗挽き','size','meat',9],
+    ['熟成','time','meat fish seafood cheese bread',10],
+    ['長期熟成','time','meat fish cheese bread',12],
+    ['氷温熟成','time','meat fish seafood',13],
+    ['一夜干し','time','fish seafood',12],
+    ['じっくり煮込み','time','meat rice noodle vegetable',10],
+    ['一晩寝かせた','time','meat bread sweet rice noodle',10],
+    ['24時間仕込み','time','meat noodle bread sweet',10],
+    ['発酵','time','bread sweet cheese drink',11],
+    ['生','fresh','fish seafood sweet cheese bread drink',11],
+    ['朝獲れ','fresh','fish seafood',12],
+    ['朝採れ','fresh','vegetable sweet',11],
+    ['摘みたて','fresh','vegetable sweet drink',10],
+    ['搾りたて','fresh','drink sweet',10],
+    ['生搾り','fresh','drink sweet',10],
+    ['旬の','fresh','fish seafood vegetable sweet',9],
+    ['産地直送','fresh','meat fish seafood vegetable sweet cheese',9],
+    ['焼きたて','fresh','meat fish seafood bread vegetable egg cheese',8],
+    ['揚げたて','fresh','meat fish seafood bread vegetable',9],
+    ['炊きたて','fresh','rice',10],
+    ['焦がしバター香る','aroma','meat fish rice noodle bread sweet vegetable egg cheese',12],
+    ['焦がし醤油香る','aroma','meat fish seafood rice noodle vegetable egg',12],
+    ['ガーリック香る','aroma','meat fish seafood rice noodle bread vegetable cheese',9],
+    ['柚子香る','aroma','meat fish seafood rice noodle sweet vegetable egg drink',10],
+    ['山椒香る','aroma','meat fish seafood rice noodle vegetable',10],
+    ['トリュフ香る','aroma','meat rice noodle bread vegetable egg cheese',11],
+    ['黒胡椒香る','aroma','meat fish seafood rice noodle bread vegetable cheese',9],
+    ['蜂蜜香る','aroma','bread sweet cheese drink',9],
+    ['バニラ香る','aroma','sweet bread drink',10],
+    ['燻し胡椒香る','aroma','meat seafood rice noodle vegetable',11],
+    ['濃厚','rich','meat fish seafood rice noodle bread sweet vegetable egg cheese drink',9],
+    ['特濃','rich','noodle sweet egg cheese drink',11],
+    ['クリーミー','rich','rice noodle bread sweet egg cheese drink',9],
+    ['背脂たっぷり','rich','noodle rice meat',12],
+    ['追いバター','rich','meat rice noodle bread sweet vegetable egg',10],
+    ['ダブルチーズ','rich','meat rice noodle bread egg cheese',10],
+    ['旨み凝縮','rich','meat fish seafood rice noodle vegetable cheese',11],
+    ['黄金','rich','meat rice noodle bread sweet egg drink',9],
+    ['贅沢','craft','meat fish seafood rice noodle bread sweet vegetable egg cheese drink',8],
+    ['特選','craft','meat fish seafood rice noodle bread sweet vegetable egg cheese drink',8],
+    ['手仕込み','craft','meat fish seafood rice noodle bread sweet vegetable egg cheese',9],
+    ['自家製','craft','meat fish seafood rice noodle bread sweet vegetable egg cheese drink',8],
+    ['石臼挽き','craft','noodle bread',10],
+    ['手打ち','craft','noodle',10],
+    ['土鍋炊き','craft','rice',11],
+    ['秘伝の','craft','meat fish seafood rice noodle vegetable egg',9],
+    ['数量限定','craft','meat fish seafood rice noodle bread sweet vegetable egg cheese drink',9]
+  ];
+  const terms = termRows.map(([text,group,categories,appeal],index) => ({id:index,text,group,categories:categories.split(' '),appeal}));
+  const complementary = { fire:['texture','aroma','fresh'], texture:['fire','aroma','time','rich'], time:['texture','fire','aroma'], fresh:['texture','rich'], aroma:['fire','texture','rich'], rich:['texture','aroma','fresh'], size:['fire','texture'], craft:['fire','aroma'] };
+  const flavorWords = {
+    fire:'香ばしさ', texture:'食感', size:'食べ応え', time:'熟成の妙', fresh:'できたて感', aroma:'香り', rich:'コク', craft:'こだわり'
+  };
+  const state = {count:'random',category:'all',chaos:false,current:null,other:[],serial:0,saved:loadSaved()};
+  const $ = id=>document.getElementById(id);
+  let toastTimer;
+  function loadSaved(){try{const v=JSON.parse(localStorage.getItem('umaso-saved-v1')||'[]');return Array.isArray(v)?v.slice(0,100):[]}catch{return []}}
+  function persist(){try{localStorage.setItem('umaso-saved-v1',JSON.stringify(state.saved))}catch{toast('保存容量の都合で記録できませんでした')}}
+  function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
+  function randint(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+  function isCompatible(term,food){return food.category==='nyaoman' || term.categories.includes(food.category)}
+  function generateOne(){
+    // にゃおまんは修飾語でなく食材。ジャンル横断で出現し、すべての調理・食感と適合する。
+    const isNyaoman = state.category==='nyaoman' || Math.random()<NYAOMAN_RATE;
+    const category = state.category==='all' || state.category==='nyaoman'?pick(ALL):state.category;
+    const food=isNyaoman ? {...UNIVERSAL_FOOD} : {name:pick(foods[category]),category};
+    const n=state.count==='random'?randint(2,4):Number(state.count);
+    let avail=terms.filter(t=>state.chaos || isCompatible(t,food));
+    const selected=[];
+    while(selected.length<n && avail.length){
+      let eligible=avail.filter(t=>!selected.some(s=>s.group===t.group));
+      if(!eligible.length) eligible=avail;
+      // ときどき語感のよいジャンルを優先するが、完全に固定はしない。
+      const weighted=eligible.flatMap(t=>Array.from({length:Math.max(1,Math.round((t.appeal-5)/2))},()=>t));
+      const term=pick(weighted);
+      selected.push(term);
+      avail=avail.filter(t=>t.id!==term.id);
+    }
+    const order={fresh:0,time:1,craft:2,size:3,fire:4,aroma:5,rich:6,texture:7};
+    selected.sort((a,b)=>order[a.group]-order[b.group]);
+    const groups=new Set(selected.map(t=>t.group));
+    let synergy=0;
+    const groupArray=[...groups];
+    for(let i=0;i<groupArray.length;i++)for(let j=i+1;j<groupArray.length;j++){
+      const a=groupArray[i],b=groupArray[j];
+      if((complementary[a]||[]).includes(b)||(complementary[b]||[]).includes(a)) synergy+=3;
+    }
+    // 語感の種類・食材との親和性をスコアに。ただし全部ゲーム的な指標。
+    const mean=selected.reduce((s,t)=>s+t.appeal,0)/selected.length;
+    const mismatches=selected.filter(t=>!isCompatible(t,food)).length;
+    const score=Math.max(25,Math.min(99,Math.round(47+mean*1.1+selected.length*3+groups.size*1.5+Math.min(synergy,14)+randint(-5,5)-mismatches*13)));
+    const id=food.category+'|'+food.name+'|'+selected.map(t=>t.id).join(',');
+    const highlights=selected.map(t=>t.text);
+    const natural=highlights.join('・')+' '+food.name;
+    const flavors=pick(groupArray.map(g=>flavorWords[g]))+' × '+pick(groupArray.map(g=>flavorWords[g]));
+    return {id,food,termIds:selected.map(t=>t.id),highlights,natural,score,flavors};
+  }
+  function generateBatch(count){
+    const unique=new Map();let attempts=0;
+    while(unique.size<count&&attempts<count*15){const item=generateOne();attempts++;if(!unique.has(item.id))unique.set(item.id,item)}
+    const dishes=[...unique.values()];
+    if(count>8)dishes.sort((a,b)=>b.score-a.score);
+    state.current=dishes[0];state.other=dishes.slice(1,8);state.serial++;
+    render();
+  }
+  function isSaved(item){return state.saved.some(s=>s.id===item.id)}
+  function render(){
+    const d=state.current;if(!d)return;
+    $('serial').textContent='No. '+String(state.serial).padStart(4,'0');
+    $('descriptors').replaceChildren(...d.highlights.map(v=>{const s=document.createElement('span');s.className='descriptor';s.textContent=v;return s}));
+    $('dish').textContent=d.food.name;
+    $('combined').replaceChildren();const pre=document.createElement('span');pre.textContent='正式メニュー名 /  ';$('combined').append(pre,document.createTextNode(d.natural));
+    $('score').textContent=d.score;
+    $('flavor').textContent=d.food.category==='nyaoman' ? '万能食材、にゃおまん。'+d.flavors+'。' : (state.chaos?'常識を超えた実験的一皿。'+d.flavors+'。':d.flavors+'。名前だけでおなかがすく。');
+    $('hero').classList.toggle('nyaoman-special',d.food.category==='nyaoman');
+    $('save').textContent=isSaved(d)?'★ 保存済み':'☆ 保存';$('save').setAttribute('aria-pressed',String(isSaved(d)));
+    const r=$('result');r.classList.remove('pop');void r.offsetWidth;r.classList.add('pop');
+    const list=$('candidates');list.replaceChildren();
+    state.other.forEach((item,i)=>{
+      const btn=document.createElement('button');btn.type='button';btn.className='candidate';btn.title='この料理を主役にする';
+      const num=document.createElement('span');num.className='candidate-number';num.textContent=String(i+2).padStart(2,'0');
+      const copy=document.createElement('span');copy.className='candidate-copy';
+      const name=document.createElement('div');name.className='candidate-name';name.textContent=item.highlights.join(' × ')+' '+item.food.name;
+      const sub=document.createElement('div');sub.className='candidate-sub';sub.textContent=item.highlights.length+'修飾語 ・ '+(item.food.category==='nyaoman'?'万能食材':item.food.category.toUpperCase());
+      copy.append(name,sub);const score=document.createElement('span');score.className='candidate-score';score.textContent=item.score;
+      btn.append(num,copy,score);btn.addEventListener('click',()=>{state.other[i]=state.current;state.current=item;render()});list.append(btn);
+    });
+    $('listMode').textContent=state.other.length+' DISHES';
+    renderSaved();
+  }
+  function renderSaved(){
+    const list=$('savedList');list.replaceChildren();$('savedCount').textContent=state.saved.length+'皿 ストック中';
+    if(!state.saved.length){const p=document.createElement('div');p.className='shelf-empty';p.innerHTML='おいしそうな名前ができたら「保存」。<br>ここにお気に入りを集められます。';list.append(p);return}
+    state.saved.forEach((item,i)=>{
+      const row=document.createElement('div');row.className='saved-item';
+      const name=document.createElement('span');name.className='saved-name';name.textContent=item.natural;
+      const score=document.createElement('span');score.className='saved-score';score.textContent=item.score+'pt';
+      const copy=document.createElement('button');copy.className='iconbutton';copy.type='button';copy.textContent='⧉';copy.title='料理名をコピー';copy.setAttribute('aria-label',item.natural+' をコピー');copy.onclick=()=>copyText(item.natural);
+      const del=document.createElement('button');del.className='iconbutton';del.type='button';del.textContent='×';del.title='削除';del.setAttribute('aria-label',item.natural+' を削除');del.onclick=()=>{state.saved.splice(i,1);persist();renderSaved();if(state.current) {$('save').textContent=isSaved(state.current)?'★ 保存済み':'☆ 保存';$('save').setAttribute('aria-pressed',String(isSaved(state.current)))};toast('コレクションから削除しました')};
+      row.append(name,score,copy,del);list.append(row);
+    });
+  }
+  function toast(message){const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2000)}
+  async function copyText(s){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(s)}else{const tmp=document.createElement('textarea');tmp.value=s;tmp.style.position='fixed';tmp.style.opacity='0';document.body.append(tmp);tmp.select();if(!document.execCommand('copy'))throw Error('unsupported');tmp.remove()}toast('料理名をコピーしました！')}catch{toast('コピーできませんでした。文字を選択してコピーしてください')}}
+  $('countFilters').addEventListener('click',e=>{const btn=e.target.closest('button[data-count]');if(!btn)return;state.count=btn.dataset.count;document.querySelectorAll('#countFilters button').forEach(b=>{const active=b===btn;b.classList.toggle('selected',active);b.setAttribute('aria-pressed',String(active))});generateBatch(8)});
+  $('foodCategory').addEventListener('change',e=>{state.category=e.target.value;generateBatch(8)});
+  $('chaosMode').addEventListener('change',e=>{state.chaos=e.target.checked;generateBatch(8);toast(state.chaos?'カオス解禁！ 相性無視で抽選します':'通常モードに戻しました')});
+  $('spin').addEventListener('click',()=>generateBatch(8));
+  $('best').addEventListener('click',()=>{generateBatch(30);toast('30皿からスコア上位を抽出！')});
+  $('save').addEventListener('click',()=>{const d=state.current;if(!d)return;const i=state.saved.findIndex(s=>s.id===d.id);if(i>=0){state.saved.splice(i,1);toast('保存を解除しました')}else{state.saved.unshift(d);state.saved=state.saved.slice(0,100);toast('お気に入りに保存しました！')}persist();renderSaved();$('save').textContent=isSaved(d)?'★ 保存済み':'☆ 保存';$('save').setAttribute('aria-pressed',String(isSaved(d)))});
+  $('copy').addEventListener('click',()=>state.current&&copyText(state.current.natural));
+  document.addEventListener('keydown',e=>{if(e.code==='Space' && !['BUTTON','SELECT','INPUT','TEXTAREA'].includes(document.activeElement.tagName)){e.preventDefault();generateBatch(8)}});
+  generateBatch(8);
+})();
+</script>
+</body>
+</html>
