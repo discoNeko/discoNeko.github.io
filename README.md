@@ -17,6 +17,8 @@ talks/<slug>/         AI との対話で生まれた議論(HTML 作品)
   notes/README.md     その作品のメモ(公開される)
 templates/talk/       対話ページのテンプレート
 thumbs/               サムネイル(16:9、横 640px 程度の jpg 推奨)
+  auto/               capture-thumbs.mjs が撮ったタイトル画面(自動生成)
+scripts/capture-thumbs.mjs  HTML 作品のタイトル画面を撮ってサムネイルにする
 scripts/check.mjs     台帳の整合性チェック + 公開 NG っぽい文字列の検出
 scripts/build-readme.mjs  GitHub プロフィール README 用の素材を readme/ に生成
 readme/               プロフィール README 用のバナー・サムネイル・作品欄(自動生成。直接編集しない)
@@ -59,7 +61,8 @@ readme/               プロフィール README 用のバナー・サムネイ�
 
    - `category`: `game`(ゲーム)/ `tool`(ツール)/ `talk`(対話)
    - `status`: `playable`(稼働中)/ `wip`(開発中)/ `prototype`(試作)/ `archived`(昔の作品)
-   - `thumb` と `notes` は任意。`thumb` がなければタイトルの 1 文字目でプレースホルダーを描きます
+   - `thumb` と `notes` は任意。`thumb` がなければタイトルの 1 文字目でプレースホルダーを描きます(`private` は鍵アイコンと背景だけ)
+   - HTML で開ける作品(`hub` / `pages`)は、`node scripts/capture-thumbs.mjs [slug...]` でタイトル画面を撮って `thumbs/auto/<slug>.jpg` に保存し、`thumb` に設定できます。対話は `variants` に図解版があればそちらを撮ります。手で置いた `thumbs/` 直下の画像は上書きしません(Google Chrome が必要。開くとアニメーションする作品は、スクリプト内の `WAIT` で待ち時間を延ばす)
    - `pages` / `repo` は `repo`(`"discoNeko/<name>"`)も書く。ソースへのリンクとメモの読み込みに使います
    - `featured: true` を付けた作品は、どの並び順でも常に先頭に表示され、強調表示されます(任意)
    - `variants`: 同じ作品の別バージョン(例: 対話の図解版)。`[{"label": "図解版", "file": "visual.html"}]` のように書くと、詳細パネルにボタンが出る。同居作品のフォルダ内の HTML だけ指定できる。各ページには互いに行き来する切り替えスイッチを置く

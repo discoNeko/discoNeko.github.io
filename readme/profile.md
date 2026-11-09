@@ -1,6 +1,6 @@
 <!-- このブロックは discoNeko.github.io の scripts/build-readme.mjs が games.json から生成しています。直接編集しないでください -->
 <p align="center">
-<a href="https://disconeko.github.io/"><img src="https://disconeko.github.io/readme/banner.svg?v=c59f0820" width="100%" alt="discoNeko works — ダッシュボードを開く"></a>
+<a href="https://disconeko.github.io/"><img src="https://disconeko.github.io/readme/banner.svg?v=bc3ea2ab" width="100%" alt="discoNeko works — ダッシュボードを開く"></a>
 </p>
 
 ### Featured
@@ -19,19 +19,19 @@
 
 <table><tr>
 <td width="33%" valign="top">
-<a href="https://disconeko.github.io/games/goji-jukugo/"><img src="https://disconeko.github.io/readme/thumbs/goji-jukugo.svg?v=e6b3c972" width="100%" alt="誤字熟語"></a>
+<a href="https://disconeko.github.io/games/goji-jukugo/"><img src="https://disconeko.github.io/thumbs/auto/goji-jukugo.jpg" width="100%" alt="誤字熟語"></a>
 <br><a href="https://disconeko.github.io/games/goji-jukugo/"><b>誤字熟語</b></a>
 <br><sub>🎮 GAME ・ 🟢 稼働中</sub>
 <br><sub>説明文だけを頼りに、一字違いの“誤字熟語”を当てるクイズ。</sub>
 </td>
 <td width="33%" valign="top">
-<a href="https://disconeko.github.io/tools/sfx-workbench/"><img src="https://disconeko.github.io/readme/thumbs/sfx-workbench.svg?v=1ffe7a3d" width="100%" alt="SFX Workbench"></a>
+<a href="https://disconeko.github.io/tools/sfx-workbench/"><img src="https://disconeko.github.io/thumbs/auto/sfx-workbench.jpg" width="100%" alt="SFX Workbench"></a>
 <br><a href="https://disconeko.github.io/tools/sfx-workbench/"><b>SFX Workbench</b></a>
 <br><sub>🛠️ TOOL ・ 🟢 稼働中</sub>
 <br><sub>スライダーを触りながらゲーム用の効果音を手続き合成し、WAV で書き出すツール。</sub>
 </td>
 <td width="33%" valign="top">
-<a href="https://disconeko.github.io/karaoke-tools/"><img src="https://disconeko.github.io/readme/thumbs/karaoke-tools.svg?v=c66e6971" width="100%" alt="karaoke-tools"></a>
+<a href="https://disconeko.github.io/karaoke-tools/"><img src="https://disconeko.github.io/thumbs/auto/karaoke-tools.jpg" width="100%" alt="karaoke-tools"></a>
 <br><a href="https://disconeko.github.io/karaoke-tools/"><b>karaoke-tools</b></a>
 <br><sub>🛠️ TOOL ・ 🟢 稼働中</sub>
 <br><sub>個人用のカラオケ楽曲管理ツール。</sub>

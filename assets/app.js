@@ -37,10 +37,14 @@ const ICON = {
 function thumbHTML(g) {
   const lock = g.access === "private" ? `<span class="lock">${ICON.lock}<b>PRIVATE</b></span>` : "";
   if (g.thumb) {
-    return `<img src="${esc(g.thumb)}" alt="" loading="lazy">${lock}`;
+    // 自動キャプチャ(タイトル画面)はロゴが上寄りにあることが多いので、切り取るときは上を残す
+    const shot = g.thumb.startsWith("thumbs/auto/") ? ' class="shot"' : "";
+    return `<img src="${esc(g.thumb)}"${shot} alt="" loading="lazy">${lock}`;
   }
+  // 非公開は鍵アイコンと背景だけ。頭文字は出さない
+  if (g.access === "private") return `<span class="ph" style="--h:${hue(g.slug)}"></span>${lock}`;
   const glyph = [...g.title][0] ?? "?";
-  return `<span class="ph" style="--h:${hue(g.slug)}"><span class="glyph">${esc(glyph)}</span></span>${lock}`;
+  return `<span class="ph" style="--h:${hue(g.slug)}"><span class="glyph">${esc(glyph)}</span></span>`;
 }
 
 function primaryAction(g, cls = "btn") {

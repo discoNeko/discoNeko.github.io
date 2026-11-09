@@ -15,7 +15,8 @@
       "url": "games/goji-jukugo/",
       "created": "2026-11-01",
       "updated": "2026-11-02",
-      "notes": true
+      "notes": true,
+      "thumb": "thumbs/auto/goji-jukugo.jpg"
     },
     {
       "slug": "sfx-workbench",
@@ -30,7 +31,8 @@
       ],
       "url": "tools/sfx-workbench/",
       "created": "2026-10-29",
-      "updated": "2026-10-30"
+      "updated": "2026-10-30",
+      "thumb": "thumbs/auto/sfx-workbench.jpg"
     },
     {
       "slug": "gyaku-roomba",
@@ -48,7 +50,8 @@
       "created": "2026-10-15",
       "updated": "2026-10-15",
       "notes": true,
-      "spec": true
+      "spec": true,
+      "thumb": "thumbs/auto/gyaku-roomba.jpg"
     },
     {
       "slug": "nyaoman-kedama-factory",
@@ -66,7 +69,8 @@
       "created": "2026-10-15",
       "updated": "2026-10-15",
       "notes": true,
-      "spec": true
+      "spec": true,
+      "thumb": "thumbs/auto/nyaoman-kedama-factory.jpg"
     },
     {
       "slug": "nekovoid",
@@ -85,7 +89,8 @@
       "created": "2026-10-14",
       "updated": "2026-10-14",
       "notes": true,
-      "spec": true
+      "spec": true,
+      "thumb": "thumbs/auto/nekovoid.jpg"
     },
     {
       "slug": "orefront-four-kingdoms",
@@ -174,7 +179,8 @@
       "url": "https://disconeko.github.io/karaoke-tools/",
       "repo": "discoNeko/karaoke-tools",
       "created": "2026-09-24",
-      "updated": "2026-10-28"
+      "updated": "2026-10-28",
+      "thumb": "thumbs/auto/karaoke-tools.jpg"
     },
     {
       "slug": "takken-2weeks",
@@ -190,7 +196,8 @@
       "url": "https://disconeko.github.io/takken-2weeks/",
       "repo": "discoNeko/takken-2weeks",
       "created": "2026-10-12",
-      "updated": "2026-10-12"
+      "updated": "2026-10-12",
+      "thumb": "thumbs/auto/takken-2weeks.jpg"
     },
     {
       "slug": "genshin-tools",
@@ -220,7 +227,8 @@
       "url": "https://disconeko.github.io/BFLangMaker/",
       "repo": "discoNeko/BFLangMaker",
       "created": "2017-02-18",
-      "updated": "2017-02-18"
+      "updated": "2017-02-18",
+      "thumb": "thumbs/auto/BFLangMaker.jpg"
     },
     {
       "slug": "shadowverse_counting",
@@ -235,7 +243,8 @@
       "url": "https://disconeko.github.io/shadowverse_counting/",
       "repo": "discoNeko/shadowverse_counting",
       "created": "2016-10-01",
-      "updated": "2016-10-01"
+      "updated": "2016-10-01",
+      "thumb": "thumbs/auto/shadowverse_counting.jpg"
     },
     {
       "slug": "OneNightRogue",
@@ -251,7 +260,8 @@
       "url": "https://disconeko.github.io/OneNightRogue/",
       "repo": "discoNeko/OneNightRogue",
       "created": "2016-07-12",
-      "updated": "2016-09-01"
+      "updated": "2016-09-01",
+      "thumb": "thumbs/auto/OneNightRogue.jpg"
     },
     {
       "slug": "Neu",
@@ -266,7 +276,8 @@
       "url": "https://disconeko.github.io/Neu/",
       "repo": "discoNeko/Neu",
       "created": "2016-08-28",
-      "updated": "2016-08-28"
+      "updated": "2016-08-28",
+      "thumb": "thumbs/auto/Neu.jpg"
     },
     {
       "slug": "shoooting",
@@ -281,7 +292,8 @@
       "url": "https://disconeko.github.io/shoooting/",
       "repo": "discoNeko/shoooting",
       "created": "2016-06-18",
-      "updated": "2016-06-18"
+      "updated": "2016-06-18",
+      "thumb": "thumbs/auto/shoooting.jpg"
     },
     {
       "slug": "voronoi",
@@ -296,7 +308,8 @@
       "url": "https://disconeko.github.io/voronoi/",
       "repo": "discoNeko/voronoi",
       "created": "2016-05-26",
-      "updated": "2016-05-29"
+      "updated": "2016-05-29",
+      "thumb": "thumbs/auto/voronoi.jpg"
     },
     {
       "slug": "Coup",
@@ -311,7 +324,8 @@
       "url": "https://disconeko.github.io/Coup/",
       "repo": "discoNeko/Coup",
       "created": "2016-04-03",
-      "updated": "2016-04-30"
+      "updated": "2016-04-30",
+      "thumb": "thumbs/auto/Coup.jpg"
     },
     {
       "slug": "Brainf-ck-Interpreter",
@@ -326,7 +340,8 @@
       "url": "https://disconeko.github.io/Brainf-ck-Interpreter/",
       "repo": "discoNeko/Brainf-ck-Interpreter",
       "created": "2016-04-18",
-      "updated": "2016-04-18"
+      "updated": "2016-04-18",
+      "thumb": "thumbs/auto/Brainf-ck-Interpreter.jpg"
     },
     {
       "slug": "othello",
@@ -342,7 +357,8 @@
       "url": "https://disconeko.github.io/othello/",
       "repo": "discoNeko/othello",
       "created": "2016-03-24",
-      "updated": "2016-03-28"
+      "updated": "2016-03-28",
+      "thumb": "thumbs/auto/othello.jpg"
     },
     {
       "slug": "choice-design",
@@ -363,7 +379,8 @@
           "label": "図解版",
           "file": "visual.html"
         }
-      ]
+      ],
+      "thumb": "thumbs/auto/choice-design.jpg"
     },
     {
       "slug": "nietzsche-9-concepts",
@@ -378,7 +395,8 @@
       ],
       "url": "talks/nietzsche-9-concepts/",
       "created": "2026-10-18",
-      "updated": "2026-10-18"
+      "updated": "2026-10-18",
+      "thumb": "thumbs/auto/nietzsche-9-concepts.jpg"
     },
     {
       "slug": "kasu-ponkotsu-yunou",
@@ -400,7 +418,8 @@
           "label": "図解版",
           "file": "visual.html"
         }
-      ]
+      ],
+      "thumb": "thumbs/auto/kasu-ponkotsu-yunou.jpg"
     },
     {
       "slug": "isekai-derby",
@@ -418,7 +437,8 @@
       "created": "2026-07-16",
       "updated": "2026-07-16",
       "notes": true,
-      "spec": true
+      "spec": true,
+      "thumb": "thumbs/auto/isekai-derby.jpg"
     }
   ]
 }
