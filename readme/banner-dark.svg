@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="200" viewBox="0 0 900 200">
+  <text x="0" y="62" font-family="-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic UI','Segoe UI',sans-serif" font-size="48" font-weight="800" letter-spacing="-1.2" fill="#f1f1f1">discoNeko<tspan font-size="22" font-weight="500" letter-spacing="0" fill="#aaaaaa" dx="10">works</tspan></text>
+  <text x="2" y="100" font-family="-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic UI','Segoe UI',sans-serif" font-size="16" fill="#aaaaaa">@discoNeko  ·  27 作品  ·  ゲーム 15  ·  ツール 9  ·  対話 3</text>
+  <text x="2" y="128" font-family="-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic UI','Segoe UI',sans-serif" font-size="16" fill="#aaaaaa">作ったゲームとツール、AI との対話で生まれた議論をまとめています。</text>
+  <!-- バナー全体がダッシュボードへのリンクなので、押せることが分かるボタンを置く(ダッシュボードの主ボタンと同じ形) -->
+  <rect x="0" y="150" width="236" height="44" rx="22" fill="#f1f1f1"/>
+  <text x="118" y="178" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic UI','Segoe UI',sans-serif" font-size="16" font-weight="700" fill="#0f0f0f">すべての作品を見る ↗</text>
+</svg>
