@@ -155,15 +155,15 @@ public リポジトリのメモはそのまま Web に公開されます。commi
 
 ## GitHub プロフィールの作品欄
 
-https://github.com/discoNeko のプロフィール README に出る作品欄(バナー・Featured・Recent・ダッシュボードへのリンク)は、このリポジトリで生成しています。
+https://github.com/discoNeko のプロフィール README に出る作品欄(バナー・おすすめ・新着・ダッシュボードへのリンク)は、このリポジトリで生成しています。見た目はダッシュボードと同じ考え方(上の「ダッシュボードの見た目」)にそろえています。
 
 - `scripts/build-readme.mjs` が `games.json` から `readme/` に素材を書き出す
-  - `readme/banner.svg`: 上部のバナー(作品数と、最新作のカードを扇状に重ねた絵)
-  - `readme/thumbs/<slug>.svg`: 作品ごとのサムネイル
+  - `readme/banner.svg` / `readme/banner-dark.svg`: 上部のバナー(名前・作品数・紹介・入口のボタン)。地は透明で、`<picture>` で GitHub のライト/ダークに合わせて出し分ける
+  - `readme/thumbs/<slug>.svg`: サムネのない作品用の画像(無地にタイトル。非公開は鍵だけ)。閲覧者の OS のテーマで明暗が切り替わる
   - `readme/profile.md`: README に差し込む作品欄
 - commit 時に pre-commit が自動で作り直して commit に含めるので、普段は意識しなくてよい
 - プロフィール側(`discoNeko/discoNeko`)の GitHub Actions が毎日、公開中の `readme/profile.md` を取り込んで README を更新する。すぐ反映したいときは、その Actions を手動実行する
-- バナーと Featured は非公開の作品を出さない。Recent では、非公開は 🔒 付きのリンクなしで出る。残りの作品はダッシュボードへのリンクにまとめる
+- おすすめには非公開の作品を出さない。新着では、非公開はリンクなしで「非公開」と出る。残りの作品はダッシュボードへのリンクにまとめる
 
 ## ローカルで見る
 
