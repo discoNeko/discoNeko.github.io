@@ -22,6 +22,12 @@
 
 <table><tr>
 <td width="33%" valign="top">
+<a href="https://disconeko.github.io/karaoke-tools/"><img src="https://disconeko.github.io/thumbs/auto/karaoke-tools.jpg" width="100%" alt="karaoke-tools"></a>
+<br><a href="https://disconeko.github.io/karaoke-tools/"><b>karaoke-tools</b></a>
+<br><sub>個人用のカラオケ楽曲管理ツール。</sub>
+<br><sub>外部サイトで公開 · ツール · 11/12 更新</sub>
+</td>
+<td width="33%" valign="top">
 <a href="https://disconeko.github.io/games/goji-jukugo/"><img src="https://disconeko.github.io/thumbs/auto/goji-jukugo.jpg" width="100%" alt="誤字熟語"></a>
 <br><a href="https://disconeko.github.io/games/goji-jukugo/"><b>誤字熟語</b></a>
 <br><sub>説明文だけを頼りに、一字違いの“誤字熟語”を当てるクイズ。</sub>
@@ -32,12 +38,6 @@
 <br><a href="https://disconeko.github.io/tools/sfx-workbench/"><b>SFX Workbench</b></a>
 <br><sub>スライダーを触りながらゲーム用の効果音を手続き合成し、WAV で書き出すツール。</sub>
 <br><sub>ブラウザで使える · ツール · 10/30 更新</sub>
-</td>
-<td width="33%" valign="top">
-<a href="https://disconeko.github.io/karaoke-tools/"><img src="https://disconeko.github.io/thumbs/auto/karaoke-tools.jpg" width="100%" alt="karaoke-tools"></a>
-<br><a href="https://disconeko.github.io/karaoke-tools/"><b>karaoke-tools</b></a>
-<br><sub>個人用のカラオケ楽曲管理ツール。</sub>
-<br><sub>外部サイトで公開 · ツール · 10/28 更新</sub>
 </td>
 </tr></table>
 
