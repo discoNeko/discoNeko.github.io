@@ -103,7 +103,8 @@ const action = (g) => {
 };
 
 const featured = sorted.filter((g) => g.featured && g.access !== "private");
-const recent = sorted.filter((g) => !featured.includes(g)).slice(0, 3);
+// プロフィールの枠には非公開を出さない(おすすめ・新着とも)。非公開は「あと N 件」に数え、ダッシュボードで存在だけ見せる
+const recent = sorted.filter((g) => !featured.includes(g) && g.access !== "private").slice(0, 3);
 const rest = sorted.filter((g) => !featured.includes(g) && !recent.includes(g));
 
 const md = `<!-- このブロックは discoNeko.github.io の scripts/build-readme.mjs が games.json から生成しています。直接編集しないでください -->

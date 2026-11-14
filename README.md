@@ -163,7 +163,7 @@ https://github.com/discoNeko のプロフィール README に出る作品欄(バ
   - `readme/profile.md`: README に差し込む作品欄
 - commit 時に pre-commit が自動で作り直して commit に含めるので、普段は意識しなくてよい
 - プロフィール側(`discoNeko/discoNeko`)の GitHub Actions が毎日、公開中の `readme/profile.md` を取り込んで README を更新する。すぐ反映したいときは、その Actions を手動実行する
-- おすすめには非公開の作品を出さない。新着では、非公開はリンクなしで「非公開」と出る。残りの作品はダッシュボードへのリンクにまとめる
+- おすすめ・新着には非公開の作品を出さない(飛ばして次の作品を出す)。非公開を含む残りの作品はダッシュボードへのリンクにまとめる
 
 ## ローカルで見る
 
