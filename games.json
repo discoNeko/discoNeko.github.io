@@ -377,6 +377,33 @@
       "thumb": "thumbs/auto/othello.jpg"
     },
     {
+      "slug": "jinpingmei-kouroumu",
+      "title": "金瓶梅と紅楼夢、結末が問うもの",
+      "category": "talk",
+      "access": "hub",
+      "status": "playable",
+      "summary": "『金瓶梅』のあらすじとオチを高校生向けに聞き、結びの詩と『紅楼夢』の結末から、死後に何が残るか・生前に何を手放すかという二つの読みにたどり着いた。図解版は2作品ぶん。読み物版には Claude Opus 5.5 による事実確認と補足つき。",
+      "tags": [
+        "中国古典",
+        "文学",
+        "物語論"
+      ],
+      "url": "talks/jinpingmei-kouroumu/",
+      "created": "2026-11-15",
+      "updated": "2026-11-15",
+      "variants": [
+        {
+          "label": "図解版（金瓶梅）",
+          "file": "jinpingmei.html"
+        },
+        {
+          "label": "図解版（紅楼夢）",
+          "file": "kouroumu.html"
+        }
+      ],
+      "thumb": "thumbs/auto/jinpingmei-kouroumu.jpg"
+    },
+    {
       "slug": "demon-atlas",
       "title": "思考実験に棲む8つの悪魔",
       "category": "talk",
