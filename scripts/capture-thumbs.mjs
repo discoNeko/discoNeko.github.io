@@ -38,7 +38,7 @@ const TALK_CSS = `
 `;
 // 撮影時だけ足す CSS(作品ごと)。タイトル画面が撮影範囲(720px)より低く、下に次の節が写り込む作品などに使う
 const SHOT_CSS = {
-  "jinpingmei-kouroumu": ".hero-layout { min-height: 720px !important; } .hero-art { height: 720px !important; }",
+  "jinpingmei-kouroumu": ".hero-layout { min-height: 720px !important; }",
 };
 
 if (!existsSync(CHROME)) {
