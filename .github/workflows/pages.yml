@@ -1,0 +1,35 @@
+# main のリポジトリ直下をそのまま GitHub Pages に公開する(Jekyll は使わない)
+name: Deploy Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # Actions タブから手動実行できる
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-26.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/configure-pages@v6
+
+      # .git / .github と隠しファイルは除外される
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@v5
