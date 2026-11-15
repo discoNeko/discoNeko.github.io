@@ -36,6 +36,10 @@ const TALK_CSS = `
   :root { --tb-h: 0px !important; --aside: 0px !important; }
   body { padding-top: 0 !important; }
 `;
+// 撮影時だけ足す CSS(作品ごと)。タイトル画面が撮影範囲(720px)より低く、下に次の節が写り込む作品などに使う
+const SHOT_CSS = {
+  "jinpingmei-kouroumu": ".hero-layout { min-height: 720px !important; } .hero-art { height: 720px !important; }",
+};
 
 if (!existsSync(CHROME)) {
   console.error(`Chrome が見つかりません: ${CHROME}\nCHROME=<実行ファイルのパス> で指定してください`);
@@ -176,7 +180,7 @@ try {
     const url = shotURL(g);
     const rel = `${AUTO}/${g.slug}.jpg`;
     try {
-      writeFileSync(join(root, rel), await capture(url, WAIT[g.slug] ?? SETTLE, g.category === "talk" ? TALK_CSS : ""));
+      writeFileSync(join(root, rel), await capture(url, WAIT[g.slug] ?? SETTLE, (g.category === "talk" ? TALK_CSS : "") + (SHOT_CSS[g.slug] ?? "")));
       g.thumb = rel;
       ok++;
       console.log(`✓ ${g.slug} ← ${url}`);

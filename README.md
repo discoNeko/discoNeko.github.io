@@ -73,7 +73,7 @@ YouTube のチャンネルページや、商品数の少ない EC サイトの�
    - `category`: `game`(ゲーム)/ `tool`(ツール)/ `talk`(対話)
    - `status`: `playable`(稼働中)/ `wip`(開発中)/ `prototype`(試作)/ `archived`(昔の作品)
    - `thumb` と `notes` は任意。`thumb` がなければ無地にタイトルを組んだプレースホルダーを描きます(`private` は鍵アイコンと背景だけ)
-   - HTML で開ける作品(`hub` / `pages`)は、`node scripts/capture-thumbs.mjs [slug...]` でタイトル画面を撮って `thumbs/auto/<slug>.jpg` に保存し、`thumb` に設定できます。対話は `variants` に図解版があればそちらを撮ります。手で置いた `thumbs/` 直下の画像は上書きしません(Google Chrome が必要。開くとアニメーションする作品は、スクリプト内の `WAIT` で待ち時間を延ばす)
+   - HTML で開ける作品(`hub` / `pages`)は、`node scripts/capture-thumbs.mjs [slug...]` でタイトル画面を撮って `thumbs/auto/<slug>.jpg` に保存し、`thumb` に設定できます。対話は `variants` に図解版があればそちらを撮ります。手で置いた `thumbs/` 直下の画像は上書きしません(Google Chrome が必要。開くとアニメーションする作品は、スクリプト内の `WAIT` で待ち時間を延ばす。タイトル画面が低く下に次の節が写り込む作品は、`SHOT_CSS` で撮影時だけ CSS を足す)
    - `pages` / `repo` は `repo`(`"discoNeko/<name>"`)も書く。ソースへのリンクとメモの読み込みに使います
    - `featured: true` を付けた作品は、絞り込みをしていないとき一覧の上に「おすすめ」として大きく表示されます。絞り込み中は、どの並び順でも先頭に来ます(任意)
    - `variants`: 同じ作品の別バージョン(例: 対話の図解版)。`[{"label": "図解版", "file": "visual.html"}]` のように書くと、詳細パネルにボタンが出る。同居作品のフォルダ内の HTML だけ指定できる。各ページには互いに行き来する切り替えスイッチを置く
