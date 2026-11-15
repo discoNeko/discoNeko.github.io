@@ -335,6 +335,14 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.6); }
 .d-cta .btn { width: 100%; }
 .d-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .d-links .btn { flex: 1 1 auto; }
+/* 共有(X でポスト / リンクをコピー)。作品へのリンクと混ざらないよう、小さな丸ボタンで分ける */
+.d-share { display: flex; align-items: center; gap: 6px; margin-top: 14px; }
+.d-share[hidden] { display: none; }
+.d-share-label { margin-right: 4px; font-size: 13px; color: var(--txt-2); }
+.d-share-status { margin-left: 4px; font-size: 13px; color: var(--txt-2); }
+.icon-btn { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: var(--bg-2); color: var(--txt); cursor: pointer; font-size: 16px; }
+.icon-btn:hover { background: var(--bg-3); }
+.icon-btn[hidden] { display: none; }
 
 .d-body { padding: 24px 28px 32px; }
 .d-summary { margin: 0; font-size: 15px; line-height: 1.8; }

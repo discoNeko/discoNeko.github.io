@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>discoNeko works</title>
 <meta name="description" content="discoNeko が作ったゲームとツール、AI との対話で生まれた議論の置き場">
+<!-- シェア時のカード。#slug 付きの URL でも、クローラーは # 以降を見ないのでこのカードが出る -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="discoNeko works">
+<meta property="og:title" content="discoNeko works">
+<meta property="og:description" content="discoNeko が作ったゲームとツール、AI との対話で生まれた議論の置き場">
+<meta property="og:url" content="https://disconeko.github.io/">
+<meta property="og:image" content="https://github.com/discoNeko.png?size=400">
+<meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)">
 <link rel="stylesheet" href="assets/style.css">
@@ -82,6 +90,13 @@
         <p class="d-avail" id="d-avail"></p>
         <div class="d-cta" id="d-cta"></div>
         <div class="d-links" id="d-links"></div>
+        <div class="d-share" id="d-share" hidden>
+          <span class="d-share-label">共有</span>
+          <a class="icon-btn" id="d-share-x" target="_blank" rel="noopener" aria-label="X でポスト" title="X でポスト"><svg viewBox="0 0 24 24" aria-hidden="true" class="fill"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <button type="button" class="icon-btn" id="d-share-copy" aria-label="リンクをコピー" title="リンクをコピー"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3.2-3.2a4.5 4.5 0 0 0-6.4-6.4L12 5.6"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3.2 3.2a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg></button>
+          <button type="button" class="icon-btn" id="d-share-native" aria-label="その他のアプリで共有" title="その他のアプリで共有" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></button>
+          <span class="d-share-status" id="d-share-status" aria-live="polite"></span>
+        </div>
       </div>
     </div>
     <div class="d-body">

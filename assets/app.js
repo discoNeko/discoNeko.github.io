@@ -269,6 +269,59 @@ function related(g) {
     .map(([x]) => x);
 }
 
+// ---- 共有 ----
+const SITE = "https://disconeko.github.io/";
+// X などのクローラーは # 以降を見ないので、#slug を共有すると作品ごとのカードが出ない。
+// 対話は作品ページ自体に OGP があるので、そちらの URL を共有する。それ以外はダッシュボードの #slug
+function shareURL(g) {
+  if (g.category === "talk" && g.access === "hub") return SITE + g.url;
+  return `${SITE}#${encodeURIComponent(g.slug)}`;
+}
+function renderShare(g) {
+  const box = $("d-share");
+  // 非公開は開いても名前しか見られないので、共有は出さない
+  box.hidden = g.access === "private";
+  if (box.hidden) return;
+  const url = shareURL(g);
+  $("d-share-x").href = `https://x.com/intent/post?text=${encodeURIComponent(g.title)}&url=${encodeURIComponent(url)}`;
+  $("d-share-copy").dataset.url = url;
+  $("d-share-native").hidden = !canNativeShare();
+  $("d-share-status").textContent = "";
+}
+// OS の共有シート(LINE などに送れる)は、スマホ・タブレットで使えるときだけ出す。
+// パソコンの共有シートは X とコピーで足りるうえ、ブラウザによって中身がまちまちなので出さない
+const canNativeShare = () => typeof navigator.share === "function" && matchMedia("(hover: none) and (pointer: coarse)").matches;
+function nativeShare() {
+  const g = state.items.find((x) => x.slug === $("detail").dataset.slug);
+  if (g) navigator.share({ title: g.title, url: shareURL(g) }).catch(() => {});
+}
+// Clipboard API が使えない・拒否されたときは、textarea を選択してコピーする古い方法に切り替える
+async function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    try { return await navigator.clipboard.writeText(text); } catch {}
+  }
+  const t = Object.assign(document.createElement("textarea"), { value: text });
+  t.style.cssText = "position:fixed;left:-9999px";
+  // モーダルの dialog の外に置くと選択できないので、dialog の中に置く
+  $("detail").appendChild(t);
+  t.select();
+  const ok = document.execCommand("copy");
+  t.remove();
+  if (!ok) throw new Error("copy");
+}
+let shareTimer;
+async function copyShare() {
+  const status = $("d-share-status");
+  try {
+    await copyText($("d-share-copy").dataset.url);
+    status.textContent = "コピーしました";
+  } catch {
+    status.textContent = "コピーできませんでした";
+  }
+  clearTimeout(shareTimer);
+  shareTimer = setTimeout(() => (status.textContent = ""), 1500);
+}
+
 function openDetail(slug, { push = true } = {}) {
   const g = state.items.find((x) => x.slug === slug);
   if (!g) return;
@@ -285,6 +338,7 @@ function openDetail(slug, { push = true } = {}) {
   const spec = specURL(g);
   if (spec) links.push(`<a class="btn" href="${esc(spec)}" target="_blank" rel="noopener">仕様書<span class="ext">${ICON.ext}</span></a>`);
   $("d-links").innerHTML = links.join("");
+  renderShare(g);
   $("d-summary").textContent = g.summary;
   const meta = [
     ["カテゴリ", esc(LABEL.category[g.category])],
@@ -360,6 +414,8 @@ function bind() {
   });
   const dlg = $("detail");
   $("d-close").addEventListener("click", closeDetail);
+  $("d-share-copy").addEventListener("click", copyShare);
+  $("d-share-native").addEventListener("click", nativeShare);
   dlg.addEventListener("click", (e) => { if (e.target === dlg) closeDetail(); });
   dlg.addEventListener("close", () => history.replaceState(null, "", location.pathname + location.search));
   window.addEventListener("hashchange", openFromHash);

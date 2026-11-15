@@ -32,5 +32,67 @@ body { padding-top: var(--tb-h); }
   background: var(--tb-accent, var(--acid, var(--link)));
   transition: width .12s;
 }
+/* 共有ボタン(talkbar.js が右端に差し込む)。戻るリンクを左に寄せ、切り替えと共有を右にまとめる */
+.talkbar-back { margin-right: auto; }
+.talkbar-share { position: relative; flex: none; }
+.talkbar-share svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.talkbar-share svg.fill { fill: currentColor; stroke: none; }
+.talkbar-share-btn {
+  display: grid; place-items: center; width: 36px; height: 36px; padding: 0;
+  border: 1px solid var(--stroke); border-radius: 50%;
+  background: color-mix(in srgb, var(--txt, var(--ink)) 5%, transparent);
+  color: var(--muted); cursor: pointer;
+}
+.talkbar-share-btn:hover, .talkbar-share-btn[aria-expanded="true"] { color: var(--txt, var(--ink)); }
+.talkbar-share-menu {
+  position: absolute; top: calc(100% + 8px); right: 0; min-width: 196px;
+  display: grid; padding: 6px;
+  background: var(--bg); border: 1px solid var(--stroke); border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+}
+.talkbar-share-menu[hidden], .talkbar-share-menu [hidden] { display: none; }
+.talkbar-share-menu a, .talkbar-share-menu button {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 10px 12px; border: 0; border-radius: 8px; background: none;
+  color: var(--txt, var(--ink)); font: inherit; font-size: 13px; font-weight: 600; line-height: 1.2;
+  text-decoration: none; text-align: left; cursor: pointer; white-space: nowrap;
+}
+.talkbar-share-menu a:hover, .talkbar-share-menu button:hover { background: color-mix(in srgb, var(--txt, var(--ink)) 8%, transparent); }
+@media (max-width: 480px) {
+  .talkbar { padding: 0 12px; gap: 8px; }
+  .talkbar .vs a { padding: 7px 10px; }
+  .talkbar-sm-hide { display: none; }
+}
+/* 関連する作品(talkbar.js がページの最後に差し込む)。図解版では左の目次(--aside)の右に置く */
+.talkrel {
+  margin-left: var(--aside, 0);
+  padding: 48px 20px 64px;
+  border-top: 1px solid var(--stroke);
+  background: var(--bg);
+  color: var(--txt, var(--ink));
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  line-height: 1.5;
+}
+.talkrel-in { max-width: 1000px; margin: 0 auto; }
+.talkrel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.talkrel-head h2 { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: 0; font-family: inherit; color: inherit; }
+.talkrel-head a { font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.talkrel-head a:hover { color: var(--txt, var(--ink)); }
+.talkrel-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.talkrel-card { display: grid; gap: 4px; align-content: start; color: inherit; text-decoration: none; }
+.talkrel-thumb {
+  display: grid; place-items: center; aspect-ratio: 16 / 9; overflow: hidden; margin-bottom: 4px;
+  border: 1px solid var(--stroke); border-radius: 8px;
+  background: color-mix(in srgb, var(--txt, var(--ink)) 6%, transparent);
+}
+.talkrel-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.talkrel-ph { padding: 8px; font-size: 13px; font-weight: 700; text-align: center; color: var(--muted); }
+.talkrel-title { font-size: 14px; font-weight: 700; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.talkrel-card:hover .talkrel-title { text-decoration: underline; text-underline-offset: 3px; }
+.talkrel-meta { font-size: 12px; color: var(--muted); }
+@media (max-width: 720px) {
+  .talkrel { margin-left: 0; padding: 36px 16px 48px; }
+  .talkrel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+}
 @media (prefers-reduced-motion: reduce) { .talkbar-progress { transition: none; } }
-@media print { .talkbar { display: none; } body { padding-top: 0; } }
+@media print { .talkbar, .talkrel { display: none; } body { padding-top: 0; } }
