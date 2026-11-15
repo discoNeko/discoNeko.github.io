@@ -377,6 +377,29 @@
       "thumb": "thumbs/auto/othello.jpg"
     },
     {
+      "slug": "demon-atlas",
+      "title": "思考実験に棲む8つの悪魔",
+      "category": "talk",
+      "access": "hub",
+      "status": "playable",
+      "summary": "ラプラスやマクスウェルのような「○○の悪魔」は他にもいるのかを ChatGPT に聞いたら、物理から AI まで8体が出てきた。図解版は悪魔図鑑。読み物版には Claude Opus 5.5 による事実確認と補足つき。",
+      "tags": [
+        "思考実験",
+        "哲学",
+        "物理学"
+      ],
+      "url": "talks/demon-atlas/",
+      "created": "2026-11-15",
+      "updated": "2026-11-15",
+      "variants": [
+        {
+          "label": "図解版",
+          "file": "visual.html"
+        }
+      ],
+      "thumb": "thumbs/auto/demon-atlas.jpg"
+    },
+    {
       "slug": "choice-design",
       "title": "面白い意思決定の設計学",
       "category": "talk",
