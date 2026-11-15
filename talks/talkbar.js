@@ -125,8 +125,17 @@
 
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   const CATEGORY = { game: "ゲーム", tool: "ツール", talk: "対話" };
-  // 同居している対話は作品ページへ直接。それ以外はダッシュボードの詳細(#slug)へ
-  const href = (g) => (g.category === "talk" && g.access === "hub" ? new URL(g.url, root) : new URL(`#${encodeURIComponent(g.slug)}`, root)).href;
+  // いま図解版を見ているか。variants のファイルか、読み物版を持たない対話("reading": false)の index.html なら図解版
+  const file = location.pathname.split("/").pop() || "index.html";
+  const visual = self.reading === false || (self.variants ?? []).some((v) => v.file === file);
+  // 同居している対話は作品ページへ直接。図解版からは相手の図解版(複数あれば最初の 1 つ)、読み物版からは相手の読み物版へ。
+  // 相手にその版がなければ index.html(読み物版、または読み物版を持たない対話の図解版)へ。
+  // 対話以外はダッシュボードの詳細(#slug)へ
+  const href = (g) => {
+    if (g.category !== "talk" || g.access !== "hub") return new URL(`#${encodeURIComponent(g.slug)}`, root).href;
+    const v = visual ? g.variants?.[0] : null;
+    return new URL(g.url + (v ? v.file : ""), root).href;
+  };
   const thumb = (g) =>
     g.thumb ? `<img src="${esc(new URL(g.thumb, root).href)}" alt="" loading="lazy">` : `<span class="talkrel-ph">${esc(g.title)}</span>`;
 

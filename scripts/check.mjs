@@ -84,6 +84,12 @@ for (const [i, g] of (data.items ?? []).entries()) {
       else if (!existsSync(join(root, g.url, v.file))) errors.push(`${at}: ${g.url}${v.file} がありません`);
     }
   }
+  // 読み物版を持たない対話(index.html が図解版)だけ "reading": false を付ける
+  if (g.reading !== undefined) {
+    if (g.reading !== false) errors.push(`${at}: reading は false だけ書ける(読み物版があるなら書かない)`);
+    else if (g.category !== "talk" || g.access !== "hub") errors.push(`${at}: reading は同居している対話(category: talk, access: hub)だけ`);
+    else if (g.variants?.length) errors.push(`${at}: reading: false と variants は同時に書けない`);
+  }
   for (const k of ["featured", "notes", "spec"]) {
     if (k in g && typeof g[k] !== "boolean") errors.push(`${at}: ${k} は true / false`);
   }
