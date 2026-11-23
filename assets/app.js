@@ -2,7 +2,7 @@
 
 const LABEL = {
   category: { game: "ゲーム", tool: "ツール", talk: "対話" },
-  status: { playable: "稼働中", wip: "開発中", prototype: "試作", archived: "昔の作品" },
+  status: { playable: "稼働中", wip: "開発中", prototype: "試作", cancelled: "開発中止", archived: "昔の作品" },
 };
 
 // 入手性(EC の在庫表示にあたる)
@@ -48,8 +48,8 @@ function thumbHTML(g, { badge = true } = {}) {
     inner = `<span class="ph"><span class="ph-title">${esc(g.title)}</span></span>`;
   }
   if (g.access === "private") inner += `<span class="lock-mark">${ICON.lock}非公開</span>`;
-  // 稼働中は既定値なので語らない
-  else if (badge && g.status !== "playable") inner += `<span class="badge">${esc(LABEL.status[g.status])}</span>`;
+  // 稼働中は既定値なので語らない。鍵マーク(中央)と重ならないので非公開にも出す
+  if (badge && g.status !== "playable") inner += `<span class="badge">${esc(LABEL.status[g.status])}</span>`;
   return inner;
 }
 

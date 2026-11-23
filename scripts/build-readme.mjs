@@ -26,7 +26,7 @@ const THEME = {
   dark: { txt: "#f1f1f1", txt2: "#aaaaaa", line: "#30363d", bg2: "#272727", inv: "#f1f1f1", invTxt: "#0f0f0f" },
 };
 const CAT = { game: "ゲーム", tool: "ツール", talk: "対話" };
-const STATUS = { playable: "稼働中", wip: "開発中", prototype: "試作", archived: "昔の作品" };
+const STATUS = { playable: "稼働中", wip: "開発中", prototype: "試作", cancelled: "開発中止", archived: "昔の作品" };
 
 // 入手性(EC の在庫表示にあたる)。ダッシュボードの availLabel と同じ
 function avail(g) {

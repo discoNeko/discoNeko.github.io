@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">
+  <style>
+    .bg{fill:#f2f2f2} .ttl,.mute-t{fill:#606060} .mute{stroke:#606060}
+    @media (prefers-color-scheme: dark){ .bg{fill:#272727} .ttl,.mute-t{fill:#aaaaaa} .mute{stroke:#aaaaaa} }
+  </style>
+  <rect class="bg" width="320" height="180" rx="12"/>
+  <g transform="translate(144 84)" fill="none" class="mute" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="0" y="0" width="22" height="17" rx="3"/><path d="M5 0v-5a6 6 0 0 1 12 0v5"/></g>
+  <text x="178" y="98" class="mute-t" font-family="-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic UI','Segoe UI',sans-serif" font-size="15" font-weight="600">非公開</text>
+</svg>

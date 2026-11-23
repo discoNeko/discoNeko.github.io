@@ -1,5 +1,5 @@
 {
-  "$comment": "ダッシュボードの台帳。access: hub=このリポジトリ内 / pages=外部の公開ページ / repo=ソースのみ公開 / private=非公開(パネルのみ・遷移不可)。status: playable / wip / prototype / archived。notes: true なら notes/<slug>.md を詳細パネルに表示。",
+  "$comment": "ダッシュボードの台帳。access: hub=このリポジトリ内 / pages=外部の公開ページ / repo=ソースのみ公開 / private=非公開(パネルのみ・遷移不可)。status: playable / wip / prototype / cancelled / archived。notes: true なら notes/<slug>.md を詳細パネルに表示。",
   "items": [
     {
       "slug": "goji-jukugo",
@@ -150,6 +150,21 @@
       ],
       "created": "2026-10-18",
       "updated": "2026-10-20"
+    },
+    {
+      "slug": "nyaoman-online",
+      "title": "にゃおまんオンライン",
+      "category": "game",
+      "access": "private",
+      "status": "cancelled",
+      "summary": "20×20 マスの盤面を探索して道を敷き、中央拠点の巨大な猫「にゃおまん」をみんなで育てる、内輪向けのブラウザ MMORPG。2D で作ったが、ひと昔前のブラウザ MMORPG の域を超えられず開発中止。",
+      "tags": [
+        "MMORPG",
+        "探索",
+        "猫"
+      ],
+      "created": "2026-11-23",
+      "updated": "2026-11-23"
     },
     {
       "slug": "megastructure",

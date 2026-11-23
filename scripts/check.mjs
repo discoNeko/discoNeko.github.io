@@ -14,7 +14,7 @@ const CATEGORIES = ["game", "tool", "talk"];
 // 同居作品の置き場所(カテゴリごと)
 const HUB_DIR = { game: "games", tool: "tools", talk: "talks" };
 const ACCESS = ["hub", "pages", "repo", "private"];
-const STATUS = ["playable", "wip", "prototype", "archived"];
+const STATUS = ["playable", "wip", "prototype", "cancelled", "archived"];
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 let data;
