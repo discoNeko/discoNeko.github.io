@@ -4,5 +4,5 @@
     @media (prefers-color-scheme: dark){ .bg{fill:#272727} .ttl,.mute-t{fill:#aaaaaa} .mute{stroke:#aaaaaa} }
   </style>
   <rect class="bg" width="320" height="180" rx="12"/>
-  <text x="160" y="98" text-anchor="middle" class="ttl" font-family="-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic UI','Segoe UI',sans-serif" font-size="18" font-weight="800">マクベス、ウケた理由と残った理由</text>
+  <text x="160" y="98" text-anchor="middle" class="ttl" font-family="-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic UI','Segoe UI',sans-serif" font-size="18" font-weight="800">マクベス、引き返せない男の原型</text>
 </svg>

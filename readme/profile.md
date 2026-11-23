@@ -22,9 +22,9 @@
 
 <table><tr>
 <td width="33%" valign="top">
-<a href="https://disconeko.github.io/talks/macbeth/"><img src="https://disconeko.github.io/thumbs/auto/macbeth.jpg" width="100%" alt="マクベス、ウケた理由と残った理由"></a>
-<br><a href="https://disconeko.github.io/talks/macbeth/"><b>マクベス、ウケた理由と残った理由</b></a>
-<br><sub>シェイクスピア『マクベス』のあらすじから、当時の作劇で意識されていた主題、初演当時の客の反応、400年上演され続ける理由までを Claude Opus 5.5 に聞いた。客を呼んだのは魔女と亡霊、残ったのは「一線を越えて引き返せなくなる人間」という骨格だった。図解版は予言の仕掛けと400年の受容史つき。</sub>
+<a href="https://disconeko.github.io/talks/macbeth/"><img src="https://disconeko.github.io/thumbs/auto/macbeth.jpg" width="100%" alt="マクベス、引き返せない男の原型"></a>
+<br><a href="https://disconeko.github.io/talks/macbeth/"><b>マクベス、引き返せない男の原型</b></a>
+<br><sub>シェイクスピア『マクベス』のあらすじ、当時の主題、初演当時の客の反応、400年上演され続ける理由を Claude Opus 5.5 に聞いた。客を呼んだのは魔女と亡霊。400年残ったのは、ためらう普通の人が一度殺して引き返せなくなる、という話の原型だった。図解版は予言の仕掛けと400年の受容史つき。</sub>
 <br><sub>ここで読める · 対話 · 11/24 更新</sub>
 </td>
 <td width="33%" valign="top">
