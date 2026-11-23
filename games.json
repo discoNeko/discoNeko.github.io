@@ -392,6 +392,23 @@
       "thumb": "thumbs/auto/othello.jpg"
     },
     {
+      "slug": "macbeth",
+      "title": "マクベス、ウケた理由と残った理由",
+      "category": "talk",
+      "access": "hub",
+      "status": "playable",
+      "summary": "シェイクスピア『マクベス』のあらすじから、当時の作劇で意識されていた主題、初演当時の客の反応、400年上演され続ける理由までを Claude Opus 5.5 に聞いた。客を呼んだのは魔女と亡霊、残ったのは「一線を越えて引き返せなくなる人間」という骨格だった。",
+      "tags": [
+        "シェイクスピア",
+        "文学",
+        "物語論"
+      ],
+      "url": "talks/macbeth/",
+      "created": "2026-11-23",
+      "updated": "2026-11-23",
+      "thumb": "thumbs/auto/macbeth.jpg"
+    },
+    {
       "slug": "jinpingmei-kouroumu",
       "title": "金瓶梅と紅楼夢、結末が問うもの",
       "category": "talk",

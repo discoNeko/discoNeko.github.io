@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>マクベス、ウケた理由と残った理由 — discoNeko works</title>
+<meta name="description" content="シェイクスピア『マクベス』のあらすじから、当時の作劇で意識されていた主題、初演当時の客の反応、400年上演され続ける理由までをたどった対話。">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="discoNeko works">
+<meta property="og:title" content="マクベス、ウケた理由と残った理由 — discoNeko works">
+<meta property="og:description" content="シェイクスピア『マクベス』のあらすじから、当時の作劇で意識されていた主題、初演当時の客の反応、400年上演され続ける理由までをたどった対話。">
+<meta property="og:url" content="https://disconeko.github.io/talks/macbeth/">
+<meta property="og:image" content="https://disconeko.github.io/thumbs/auto/macbeth.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap">
+<style>
+:root {
+  --bg: #0e0f17;
+  --surface: #161824;
+  --surface-2: #1d2030;
+  --stroke: #2a2d40;
+  --txt: #ecebf3;
+  --muted: #9a9cb2;
+  --me: #ffcf5c;
+  --ai: #ff9ac1;
+  --opus: #e9a878;
+  --link: #7cc7ff;
+  --blood: #e5484d;
+  --tb-accent: #c9414a;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f5f3ee;
+    --surface: #ffffff;
+    --surface-2: #f0ede6;
+    --stroke: #e2ded3;
+    --txt: #1d1c22;
+    --muted: #6c6a75;
+    --me: #b07800;
+    --ai: #c43c78;
+    --opus: #b4572a;
+    --link: #1f7fc4;
+    --blood: #b3262c;
+    --tb-accent: #8f1f26;
+    color-scheme: light;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--txt);
+  font-family: "Zen Kaku Gothic New", system-ui, sans-serif;
+  line-height: 1.9;
+  font-size: 16px;
+}
+a { color: var(--link); }
+.wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
+
+header { margin: 40px 0 32px; }
+.kicker { font-family: "Space Grotesk", sans-serif; font-weight: 700; letter-spacing: 0.2em; font-size: 0.75rem; color: var(--ai); }
+h1 {
+  font-family: "Zen Old Mincho", serif;
+  font-weight: 900;
+  font-size: clamp(1.7rem, 6vw, 2.5rem);
+  line-height: 1.4;
+  margin: 8px 0 16px;
+}
+.meta { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: 0.85rem; }
+
+.summary {
+  background: var(--surface);
+  border: 1px solid var(--stroke);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin: 0 0 40px;
+}
+.summary h2 { margin: 0 0 6px; font-size: 0.8rem; letter-spacing: 0.15em; color: var(--muted); font-family: "Space Grotesk", "Zen Kaku Gothic New", sans-serif; }
+.summary p { margin: 0; }
+.summary ul { margin: 6px 0 0; padding-left: 1.3em; }
+
+section { margin: 56px 0; }
+section > h2 {
+  font-family: "Zen Old Mincho", serif;
+  font-size: 1.35rem;
+  line-height: 1.5;
+  margin: 0 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--stroke);
+}
+
+/* 発言 */
+.turn { position: relative; margin: 18px 0; padding-left: 16px; border-left: 3px solid var(--who); }
+.turn.me { --who: var(--me); }
+.turn.ai { --who: var(--ai); }
+.turn .who, .opus .who {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--who);
+}
+.turn p { margin: 6px 0; }
+.turn ul, .turn ol { margin: 6px 0; padding-left: 1.3em; }
+.turn h3 { font-size: 1rem; margin: 22px 0 4px; }
+.turn h4 { font-size: 0.95rem; margin: 14px 0 2px; }
+.turn.ai { background: var(--surface); border-radius: 0 12px 12px 0; padding: 12px 18px 14px 16px; }
+.turn.me p { font-weight: 500; }
+
+/* Claude Opus 5.5 による、ページにする際の見直し(訂正と補足) */
+.opus {
+  --who: var(--opus);
+  margin: 18px 0 18px 24px;
+  padding: 10px 16px 12px;
+  border: 1px dashed color-mix(in srgb, var(--opus) 55%, var(--stroke));
+  border-left: 3px solid var(--opus);
+  border-radius: 0 12px 12px 0;
+  font-size: 0.92rem;
+}
+.opus p { margin: 6px 0; }
+.opus ul, .opus ol { margin: 6px 0; padding-left: 1.3em; }
+.opus li { margin: 2px 0; }
+
+/* 刺さった一文 */
+.quote {
+  margin: 36px 0;
+  font-family: "Zen Old Mincho", serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.9;
+  text-align: center;
+}
+.quote .en { display: block; font-family: "Space Grotesk", serif; font-weight: 500; font-size: 0.85rem; color: var(--muted); letter-spacing: 0.04em; }
+
+/* 表 */
+.table-wrap { overflow-x: auto; margin: 16px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 480px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--stroke); vertical-align: top; }
+th { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
+td:first-child { white-space: nowrap; font-weight: 700; }
+td .sub { display: block; font-size: 0.8rem; color: var(--muted); font-weight: 400; }
+
+/* 図 */
+figure { margin: 20px 0; }
+figcaption { font-size: 0.8rem; color: var(--muted); margin-top: 6px; line-height: 1.7; }
+
+/* 図: 地位とためらいの推移 */
+.arc { background: var(--surface-2); border-radius: 12px; padding: 12px 10px 6px; }
+.arc svg { display: block; width: 100%; height: auto; }
+.arc .grid { stroke: var(--stroke); stroke-width: 1; }
+.arc .act { fill: var(--muted); font: 700 22px "Space Grotesk", "Zen Kaku Gothic New", sans-serif; text-anchor: middle; }
+.arc .rank { fill: none; stroke: var(--ai); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.arc .doubt { fill: none; stroke: var(--me); stroke-width: 3; stroke-dasharray: 7 6; stroke-linecap: round; }
+.arc .lbl { font: 700 24px "Zen Kaku Gothic New", sans-serif; }
+.arc .lbl.rank-l { fill: var(--ai); }
+.arc .lbl.doubt-l { fill: var(--me); }
+.arc .note { fill: var(--txt); font: 500 20px "Zen Kaku Gothic New", sans-serif; text-anchor: middle; }
+.arc .dagger { fill: var(--blood); font: 700 26px "Zen Old Mincho", serif; text-anchor: middle; }
+.dagger-i { color: var(--blood); font-family: "Zen Old Mincho", serif; font-weight: 700; }
+
+/* 図: 年表 */
+.timeline { list-style: none; margin: 14px 0; padding: 0 0 0 4px; }
+.timeline li { position: relative; display: grid; grid-template-columns: 4.2em 1fr; gap: 0 12px; padding: 0 0 12px 18px; border-left: 2px solid var(--stroke); }
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li::before { content: ""; position: absolute; left: -6px; top: 0.6em; width: 10px; height: 10px; border-radius: 50%; background: var(--surface); border: 2px solid var(--muted); }
+.timeline li.hit::before { background: var(--ai); border-color: var(--ai); }
+.timeline .y { font-family: "Space Grotesk", sans-serif; font-weight: 700; color: var(--muted); font-size: 0.9rem; }
+.timeline .t { font-size: 0.92rem; line-height: 1.75; }
+.timeline .t b { font-weight: 700; }
+
+/* 図: 二つの層 */
+.layers { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+.layer { background: var(--surface); border: 1px solid var(--stroke); border-top: 4px solid var(--c); border-radius: 12px; padding: 14px 18px 16px; }
+.layer.show { --c: var(--blood); }
+.layer.bone { --c: var(--ai); }
+.layer .k { font-family: "Space Grotesk", "Zen Kaku Gothic New", sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; color: var(--c); }
+.layer h3 { font-family: "Zen Old Mincho", serif; font-size: 1.15rem; margin: 4px 0 8px; line-height: 1.5; }
+.layer p { margin: 4px 0; font-size: 0.9rem; }
+.layer dl { margin: 10px 0 0; font-size: 0.85rem; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; }
+.layer dt { color: var(--muted); }
+.layer dd { margin: 0; }
+
+/* スマホ幅で行末の 1〜2 文字だけが次の行に落ちないようにする */
+h1, section > h2, .quote, .layer h3 { text-wrap: balance; }
+.quote .ln, .layer h3 .ln { display: inline-block; }
+@media (max-width: 560px) {
+  .layers { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .quote { font-size: 1.02rem; }
+  section > h2 { font-size: 1.2rem; }
+  .opus { margin-left: 12px; }
+  .turn.ai { padding-right: 12px; }
+}
+
+footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--stroke); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: 0.85rem; }
+footer .back { color: var(--muted); text-decoration: none; }
+footer .back:hover { color: var(--txt); }
+</style>
+<link rel="stylesheet" href="../talkbar.css">
+</head>
+<body>
+<div class="talkbar">
+  <a class="talkbar-back" href="../../">← discoNeko works</a>
+  <div class="talkbar-progress" aria-hidden="true"></div>
+</div>
+<div class="wrap">
+  <header>
+    <div class="kicker">TALK</div>
+    <h1>マクベス、<br>ウケた理由と残った理由</h1>
+    <div class="meta">
+      <span>2026-11-23</span>
+      <span>相手: Claude Opus 5.5</span>
+      <span>#シェイクスピア #文学 #物語論</span>
+    </div>
+  </header>
+
+  <aside class="summary">
+    <h2>要旨</h2>
+    <p>シェイクスピア『マクベス』のあらすじを聞くところから始めて、当時の作り手が意識していた主題、初演当時の客の反応、400年上演され続けている理由へと話を広げた。</p>
+    <ul>
+      <li><b>当時の主題</b>: 身分の高い者の転落、王殺しと暴君、罪と魂の行方、実在の脅威としての魔女。マクベスの心理を主役にして読むのは、後の時代の読み方</li>
+      <li><b>当時の受け</b>: 客を呼んだのは魔女・亡霊・殺陣という見世物の部分。大ヒットした証拠はなく、はっきり大人気になったのは60年後の改作版</li>
+      <li><b>400年残った理由</b>: 「普通の人が一線を越え、引き返せなくなる」という、どこにでも移せる骨格と、説明されていない余白</li>
+      <li>ページにする際に、同じ Claude Opus 5.5 で事実を見直した。訂正と補足は <b style="color: var(--opus)">OPUS 5.5</b> の欄に入れている</li>
+    </ul>
+  </aside>
+
+  <section>
+    <h2>論点 1: マクベスってどんな話?</h2>
+
+    <div class="turn me">
+      <span class="who">ME</span>
+      <p>マクベスについて教えて</p>
+    </div>
+
+    <div class="turn ai">
+      <span class="who">AI</span>
+      <p>ひとことで言うと、<b>「お前は王になる」と予言された将軍が、その言葉に背中を押されて王を殺す。手に入れた王座を守るために殺しを重ね、最後は自分も討たれる話</b>。</p>
+      <ul>
+        <li><b>作者</b>: シェイクスピア。1606年ごろに書かれ、1623年の作品集(ファースト・フォリオ)で初めて印刷された</li>
+        <li><b>長さ</b>: シェイクスピアの悲劇の中で一番短く、展開がとても速い</li>
+        <li><b>舞台</b>: 11世紀のスコットランド</li>
+        <li>劇場では「マクベス」と口にすると不吉だとされ、「スコットランドの劇(The Scottish Play)」と呼ぶ迷信がある</li>
+      </ul>
+
+      <h3>主な登場人物</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>人物</th><th>役どころ</th></tr></thead>
+          <tbody>
+            <tr><td>マクベス</td><td>スコットランドの将軍。武勇に優れるが、想像力が強く迷いやすい</td></tr>
+            <tr><td>マクベス夫人</td><td>夫を殺しへ押しやる。前半は誰より強気</td></tr>
+            <tr><td>ダンカン</td><td>スコットランド王。人を信じやすい善人</td></tr>
+            <tr><td>バンクォー</td><td>マクベスの戦友。同じ予言を聞くが、手を出さない</td></tr>
+            <tr><td>マクダフ</td><td>貴族。最後にマクベスを討つ</td></tr>
+            <tr><td>マルコム</td><td>ダンカンの長男。最後に王になる</td></tr>
+            <tr><td>3人の魔女</td><td>予言を告げる。原文では "weird sisters"(運命の姉妹)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>あらすじ(5幕)</h3>
+      <figure class="arc">
+        <svg viewBox="0 0 640 296" role="img" aria-labelledby="arc-title arc-desc">
+          <title id="arc-title">マクベスの地位とためらいの推移</title>
+          <desc id="arc-desc">地位は第2幕で王位まで上がり、第4幕まで高いまま続いて、第5幕で一気に落ちる。ためらいは第1幕では強いが、王を殺したあと下がり続け、第3幕の亡霊の場面で一度だけ持ち直して、第5幕ではほぼ消える。殺しや死は第2幕から第5幕まで毎幕起きる。</desc>
+          <line class="grid" x1="40" y1="230" x2="620" y2="230"/>
+          <line class="grid" x1="160" y1="20" x2="160" y2="230"/>
+          <line class="grid" x1="280" y1="20" x2="280" y2="230"/>
+          <line class="grid" x1="400" y1="20" x2="400" y2="230"/>
+          <line class="grid" x1="520" y1="20" x2="520" y2="230"/>
+          <path class="doubt" d="M48,46 C120,44 175,58 214,104 C250,146 285,112 334,118 C380,124 410,178 452,188 L600,206"/>
+          <path class="rank" d="M48,196 C110,192 150,84 214,64 L452,64 C505,66 548,74 572,96 L600,214"/>
+          <text class="lbl doubt-l" x="50" y="32">ためらい</text>
+          <text class="lbl rank-l" x="50" y="224">地位</text>
+          <text class="note" x="214" y="48">王位</text>
+          <text class="note" x="334" y="152">亡霊</text>
+          <text class="dagger" x="214" y="223">†</text>
+          <text class="dagger" x="334" y="223">†</text>
+          <text class="dagger" x="452" y="223">†</text>
+          <text class="dagger" x="572" y="223">†</text>
+          <text class="act" x="100" y="268">第1幕</text>
+          <text class="act" x="220" y="268">第2幕</text>
+          <text class="act" x="340" y="268">第3幕</text>
+          <text class="act" x="460" y="268">第4幕</text>
+          <text class="act" x="580" y="268">第5幕</text>
+        </svg>
+        <figcaption>実線はマクベスの地位、点線はためらい(殺しへの抵抗感)。<span class="dagger-i">†</span> はその幕で誰かが殺される、または死ぬことを示す。地位が上がりきった時点でためらいはもう下がり始めていて、最後は地位だけが一気に落ちる。</figcaption>
+      </figure>
+
+      <h4>第1幕 予言</h4>
+      <p>戦いに勝って帰る途中、マクベスとバンクォーは荒野で3人の魔女に会う。魔女はマクベスに「グラームズの領主、コーダーの領主、そしていずれ王になる」と告げ、バンクォーには「お前は王にならないが、子孫が王になる」と告げる。直後に王の使いが来て、マクベスはコーダーの領主に任命される。予言の一つが当たった。手紙で事情を知った夫人は、ためらう夫を「男らしくない」と責め、自分たちの城に泊まりに来たダンカン王を殺す計画を立てる。</p>
+      <h4>第2幕 王殺し <span class="dagger-i">†</span></h4>
+      <p>マクベスは宙に浮かぶ幻の短剣を見ながら寝室へ向かい、王を刺す。殺した後は動揺して凶器を持ったまま戻ってきてしまい、夫人が代わりに片付けて、罪を護衛になすりつける。王の息子たちは身の危険を感じて国外へ逃げ、そのせいで彼らが疑われる。マクベスが王になる。</p>
+      <h4>第3幕 次の殺し <span class="dagger-i">†</span></h4>
+      <p>バンクォーの子孫が王になるという予言が気になってたまらないマクベスは、刺客を雇ってバンクォーと息子フリーアンスを襲わせる。バンクォーは死ぬが、息子は逃げ延びる。その夜の宴会で、マクベスにだけバンクォーの亡霊が見え、客の前で取り乱す。</p>
+      <h4>第4幕 二度目の予言と虐殺 <span class="dagger-i">†</span></h4>
+      <p>マクベスは自分から魔女を訪ねる。魔女が見せた幻は「マクダフに気をつけろ」「女から生まれた者には、お前は倒せない」「バーナムの森がダンシネインの丘に攻めてくるまで、お前は滅びない」の3つ。マクベスは自分は無敵だと思い込むが、念のため、イングランドへ逃げたマクダフの妻子と家来を皆殺しにする。知らせを受けたマクダフは、マルコムとともに挙兵する。</p>
+      <h4>第5幕 崩壊 <span class="dagger-i">†</span></h4>
+      <p>夫人は罪の意識に耐えきれず、眠ったまま手を洗い続け、「消えろ、忌まわしい染み!」と口走るようになる。やがて夫人は亡くなる。攻めてくる兵士たちは、数をごまかすためにバーナムの森の枝を切って体を隠しながら進む。つまり森が「動いて」きた。最後の一騎打ちで、マクダフは「自分は母の腹を裂いて取り出された」と明かす。マクベスは討たれ、マルコムが王になる。</p>
+
+      <h3>読みどころ</h3>
+      <p><b>1. 魔女は「殺せ」とは一言も言っていない。</b>予言は「王になる」だけで、同じく予言を聞いたバンクォーは何もしなかった。待っていても王になれたのか。予言を聞いたから殺したのか。もともと野心があって、予言はきっかけにすぎなかったのか。「運命か、自分の選択か」が最大の論点。</p>
+      <p><b>2. 予言は嘘をつかず、言葉のすき間で人をだます。</b>「森が動く」も「女から生まれない者」も、文字どおりには本当だった。冒頭の魔女のせりふ「きれいは汚い、汚いはきれい」が、そのまま劇全体のテーマになっている。書かれた直前の1605年には火薬陰謀事件があり、その裁判で「二枚舌(はぐらかし)」が話題になった。門番の場面には、それを皮肉った台詞がある。</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>予言</th><th>相手</th><th>実際にどうなったか</th></tr></thead>
+          <tbody>
+            <tr><td>グラームズの領主</td><td>マクベス</td><td>もともとの地位。最初から当たっている</td></tr>
+            <tr><td>コーダーの領主</td><td>マクベス</td><td>その場で任命される</td></tr>
+            <tr><td>いずれ王になる</td><td>マクベス</td><td>王を殺して王になる</td></tr>
+            <tr><td>子孫が王になる</td><td>バンクォー</td><td>息子フリーアンスが逃げ延びる</td></tr>
+            <tr><td>マクダフに気をつけろ</td><td>マクベス</td><td>マクダフに討たれる</td></tr>
+            <tr><td>女から生まれた者には倒せない</td><td>マクベス</td><td>マクダフは母の腹を裂いて取り出されていた</td></tr>
+            <tr><td>森が攻めてくるまで滅びない</td><td>マクベス</td><td>兵が森の枝で身を隠して進んでくる</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><b>3. 夫婦の立場が入れ替わる。</b>最初は夫人が強く、マクベスが迷っている。ところが終盤では、マクベスは何も感じなくなり、夫人は罪悪感で壊れていく。妻の死を聞いたマクベスの独白「明日も、明日も、また明日も……人生は歩く影にすぎない」は、英文学で最も有名な虚無の言葉の一つ。</p>
+      <p><b>4. 「血」と「眠り」のイメージ。</b>王を殺した直後、マクベスは「マクベスは眠りを殺した」と叫ぶ。その後、夫婦は二人とも安らかに眠れなくなる。血は洗っても落ちないものとして何度も出てくる。</p>
+
+      <h3>史実とのちがい</h3>
+      <ul>
+        <li>実在のマクベス(在位1040〜1057年)は、ダンカン1世を<b>戦場で</b>倒して王になり、17年ほど比較的安定して国を治めた。寝込みを襲った暗殺者ではない</li>
+        <li>シェイクスピアが種本にしたのは、ホリンシェッドの『年代記』</li>
+        <li>当時のイングランド王ジェームズ1世はバンクォーの子孫を名乗っていたので、劇中のバンクォーは高潔な人物として描かれている。ジェームズは魔女についての本を書くほど魔女に関心があり、王へのサービスが入った作品だとよく言われる</li>
+        <li>魔女の女王ヘカテが出てくる場面は、後に別の作家(ミドルトン)が書き足したという説が有力</li>
+      </ul>
+
+      <h3>翻案</h3>
+      <ul>
+        <li>黒澤明『蜘蛛巣城』(1957): 舞台を戦国時代の日本に移したもの</li>
+        <li>ヴェルディのオペラ『マクベス』(1847)</li>
+        <li>映画はポランスキー版(1971)、ジョエル・コーエン版(2021)など</li>
+      </ul>
+    </div>
+
+    <p class="quote"><span class="ln">きれいは汚い、汚いはきれい</span><span class="en">Fair is foul, and foul is fair.</span></p>
+
+    <div class="opus">
+      <span class="who">OPUS 5.5 ・ 訂正: 夫人の死は舞台で示されない</span>
+      <p>最初の回答では、夫人は「自ら命を絶ったことが示される」としていたが、これは言い過ぎだったので上では削った。第5幕で聞こえるのは女たちの悲鳴と「お妃様がお亡くなりになりました」という知らせだけ。自害だったらしいと分かるのは、最後にマルコムが「噂では、自らの暴力的な手で命を絶った」と語る一言による。この「噂では(as 'tis thought)」が付いているので、死因ははっきりしないまま終わる。</p>
+    </div>
+
+    <div class="opus">
+      <span class="who">OPUS 5.5 ・ 補足: 日本語で読むなら</span>
+      <ul>
+        <li>福田恆存訳(新潮文庫)、小田島雄志訳(白水Uブックス)、松岡和子訳(ちくま文庫)、河合祥一郎訳(角川文庫)などがある</li>
+        <li>上の引用やせりふの訳は、どれかの既訳を写したものではなく、このページで原文から付けたもの</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>論点 2: 当時の作劇で意識されていた主題</h2>
+
+    <div class="turn me">
+      <span class="who">ME</span>
+      <p>いくつか読みどころがあるものの、このころの作劇の主題としては何が意識されていたのか</p>
+    </div>
+
+    <div class="turn ai">
+      <span class="who">AI</span>
+      <p>「当時の観客や作り手が意識していたこと」と「後の時代の読み方」は分けて考えたほうが正確。さっき挙げた「運命か選択か」「夫婦の逆転」は、どちらかというと現代の読み方になる。1600年代初めのイングランドで作劇の前提になっていたのは、大きく分けて次の4つ。</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>主題</th><th>当時の背景</th><th>劇中のどこに出るか</th></tr></thead>
+          <tbody>
+            <tr><td>高位の者の転落</td><td>「悲劇」とは王侯貴族が頂点から落ちる話のこと</td><td>勝利した将軍が王位に上り、罪によって落ちる</td></tr>
+            <tr><td>王殺しと暴君</td><td>エリザベス1世の死と王位継承、王権神授説、火薬陰謀事件</td><td>王殺しで自然が狂う。正統な継承者が暴君を倒す</td></tr>
+            <tr><td>罪と魂の行方</td><td>道徳劇の伝統、宗教改革後の予定説</td><td>「来世など構うものか」「魂を悪魔にくれてやった」</td></tr>
+            <tr><td>魔女と悪魔</td><td>ジェームズ王の魔女裁判と『悪魔学』、1604年の魔女禁止法</td><td>真実を少し言って信用させ、大事なところでだます予言</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>1. 悲劇とは「高い地位の人間が転落する話」</h3>
+      <p>当時の「悲劇」は、今の「悲しい話」とは意味が違う。<b>王や貴族のような身分の高い人が、栄華の頂点から破滅へ落ちる話</b>を指していた。</p>
+      <ul>
+        <li>源流は中世から続く「君主の没落」もの。ボッカッチョの『名高い人々の没落について(De casibus virorum illustrium)』の系統</li>
+        <li>イングランドでは『為政者の鑑(A Mirror for Magistrates)』(1559年〜)が広く読まれていた。歴史上の権力者が次々に自分の没落を語る詩集</li>
+        <li>中世では、転落の原因は「運命の車輪」が回るからだと考えられていた。『為政者の鑑』のころになると、<b>本人の罪や悪徳が招いた報い</b>、つまり神の裁きとして描かれるようになる</li>
+      </ul>
+      <p>『マクベス』はまさにこの型。勝利した将軍が頂点に上り、罪によって落ちていく。「運命か、自分の選択か」という論点も、もともとはこの「車輪(運命)か、罪(報い)か」という古い問いを引き継いだものだと言える。</p>
+
+      <h3>2. 王権・王位継承・暴君という政治の問題</h3>
+      <p>当時いちばん切実だった主題はこれ。</p>
+      <ul>
+        <li><b>王位継承への不安</b>: エリザベス1世は子どもがいないまま1603年に亡くなり、スコットランド王ジェームズ6世がイングランド王ジェームズ1世として即位した。誰が正統な王なのかは現実の大問題だった</li>
+        <li><b>王権神授説</b>: ジェームズ自身が「王は神から王権を授かる」と論じる本を書いていた(『自由な君主国の真の法』1598年)。この考え方では、王殺しは国への反逆であるだけでなく、神と自然の秩序を壊す行為になる</li>
+        <li><b>暴君は倒してよいか</b>: 逆に、暴君なら倒してもよいという議論もあった。皮肉なことに、ジェームズの家庭教師だったブキャナンがその論者</li>
+        <li><b>火薬陰謀事件(1605年)</b>: カトリック教徒が国王を議事堂ごと爆破しようとした未遂事件。『マクベス』が書かれたのはその直後</li>
+      </ul>
+      <p>『マクベス』はこの問題に正面から答える作りになっている。</p>
+      <ul>
+        <li>ダンカン殺しの夜、馬が互いを食い合い、昼なのに暗くなる。<b>王殺しが自然界まで狂わせる</b>という描写</li>
+        <li>第4幕では、マルコムが「王にふさわしい徳」を列挙してマクダフを試す。<b>正統な王と暴君の違い</b>を劇中で講義するような場面</li>
+        <li>暴君マクベスを倒すのは、正統な継承者のマルコム。これで「暴君を倒してよいか」という問いに、王権神授説と矛盾しない答えを出している</li>
+      </ul>
+      <p>シェイクスピアは1590年代にも『リチャード三世』『リチャード二世』などの歴史劇で、王位の簒奪と正統性を繰り返し描いている。『マクベス』はその延長線上にある。</p>
+
+      <h3>3. 罪・良心・魂の救い</h3>
+      <ul>
+        <li>中世の<b>道徳劇</b>(『万人(エヴリマン)』など)の伝統がある。人の魂を善と悪が奪い合う劇</li>
+        <li>マーロウの『フォースタス博士』(1590年前後)は、悪魔に魂を売る男の転落を描いて大当たりした</li>
+        <li>宗教改革後のイングランドでは、カルヴァン派の<b>予定説</b>(救われる者はあらかじめ決まっているという教え)が影響力を持っていた</li>
+      </ul>
+      <p>マクベスは殺す前に「来世のことなど構うものか」と言い、殺した後には「不滅の宝(魂)を人類の敵(悪魔)にくれてやった」と嘆く。当時の観客にとってこれは、<b>魂を失う話</b>として切実に響いたはず。</p>
+
+      <h3>4. 魔女と悪魔は「実在する脅威」</h3>
+      <p>現代の私たちは魔女をファンタジーの存在として見がちだが、当時は違った。</p>
+      <ul>
+        <li>ジェームズ王は、自分の暗殺を企てたとして魔女たちを裁いた経験がある(ノース・バーウィック魔女裁判、1590年ごろ)。その後、魔女について論じた『悪魔学』(1597年)を書いた</li>
+        <li>即位の翌年の1604年には、イングランドの魔女禁止法が厳しくなった</li>
+      </ul>
+      <p>魔女の予言は、悪魔が人を破滅へ誘う手口として受け取られた。「本当のことを少し言って信用させ、大事なところでだます」という手口で、バンクォーも劇中でまさにそう警告している。</p>
+
+      <h3>作劇の現実的な事情</h3>
+      <ul>
+        <li>シェイクスピアの劇団は、ジェームズの即位とともに「国王一座(King's Men)」になった。<b>国王がパトロン</b>だったわけで、バンクォーの美化や魔女の扱いには、この関係が影響していると考えられている</li>
+        <li>上演には宮廷の検閲官の許可が必要だった。存命の君主や、きわどい宗教論争を直接描くのは危険なので、<b>昔のスコットランドや外国に舞台を移して</b>今の問題を語るのが定石だった</li>
+        <li>ジェームズの時代に入ると、劇の調子は全体に暗くなる。宮廷の腐敗、マキャヴェリ的な策謀家、血なまぐさい復讐劇(ウェブスター、ミドルトンなど)が増える</li>
+      </ul>
+
+      <h3>まとめ</h3>
+      <p>当時の作り手と観客が意識していたのは、身分の高い者の転落という悲劇の型、正統な王と暴君という政治の問題、罪と魂の行方という宗教的な問題、魔女・悪魔という現実の脅威。マクベス個人の心理(野心、罪悪感、夫婦の関係)は、その枠組みの中で描かれたもの。それを主役にして読むようになったのは、主に18〜19世紀以降の批評になる。</p>
+      <p>なお、「エリザベス朝の人々は宇宙の秩序(存在の大いなる連鎖)を信じていた」という説明をよく見かけるが、これは20世紀の研究者ティリヤードが整理した見取り図で、当時の考え方を単純化しすぎているという批判もある。「後世の整理」として扱うのが安全。</p>
+    </div>
+
+    <div class="opus">
+      <span class="who">OPUS 5.5 ・ 補足: ボッカッチョの本の題</span>
+      <p>対話ではボッカッチョの本を『名士列伝』と呼んでいたが、これは定まった訳題ではないので、上では原題と直訳に改めた。ボッカッチョには女性の伝記集『名婦列伝(De mulieribus claris)』という別の本もあり、紛らわしい。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>論点 3: 当時の客にはウケたのか</h2>
+
+    <div class="turn me">
+      <span class="who">ME</span>
+      <p>当時の大衆にはウケた？</p>
+    </div>
+
+    <div class="turn ai">
+      <span class="who">AI</span>
+      <p>結論から言うと、<b>ウケたらしい形跡はあるが、大ヒット作だったと言える証拠はない</b>。当時の観客の反応を直接記録した資料がほとんど残っていないので、間接的な手がかりから推測するしかない。</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>手がかり</th><th>何がわかるか</th></tr></thead>
+          <tbody>
+            <tr><td>グローブ座の観劇メモ<span class="sub">ウケていた側</span></td><td>大衆向けの演目として上演されていた。書き留められたのは目で見て印象に残る場面</td></tr>
+            <tr><td>他の劇のパロディ<span class="sub">ウケていた側</span></td><td>観客が「宴会に亡霊が出る」場面を知っていた</td></tr>
+            <tr><td>魔女の場面の加筆<span class="sub">ウケていた側</span></td><td>魔女の歌や踊りが客に好まれたので増やしたらしい</td></tr>
+            <tr><td>単行本が出なかった<span class="sub">大ヒットとは言えない側</span></td><td>「本でも読みたい」というほどの人気ではなかった可能性</td></tr>
+            <tr><td>言及が少ない<span class="sub">大ヒットとは言えない側</span></td><td>『ハムレット』や『スペインの悲劇』ほど話題にされていない</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>ウケていたと考えられる手がかり</h3>
+      <p><b>1. 実際の観劇記録が残っている。</b>現存する最古の上演記録は、占星術師で医者のサイモン・フォアマンの観劇メモで、1611年4月にグローブ座で観たとされている。グローブ座は庶民も立ち見で入れる一般向けの劇場なので、宮廷だけの特別な劇ではなく、<b>大衆向けの演目として上演されていた</b>ことがわかる。フォアマンが書き留めたのは、バンクォーの亡霊が宴会に現れる場面や、夫人の夢遊病の場面など、目で見て印象に残る場面だった。</p>
+      <p><b>2. 他の劇にパロディが出てくる。</b>1607年ごろの喜劇、ボーモントの『The Knight of the Burning Pestle(直訳すると「燃えるすりこぎの騎士」)』に、「宴会の席に亡霊が現れる」場面をもじったと思われる台詞がある。パロディが通じるということは、<b>観客がその場面を知っていた</b>ということ。ただし本当に『マクベス』を指しているかには異論もある。</p>
+      <p><b>3. 魔女の場面が後から増やされている。</b>現存するテキストには、同時代の劇作家ミドルトンの劇『魔女』の歌の書き出しが指定されている。魔女の女王ヘカテの登場場面もある。どちらも初演後に足されたと考えられていて、<b>魔女の歌や踊りは客にウケるので増やした</b>と読むのが自然。</p>
+
+      <h3>大ヒットとまでは言えない理由</h3>
+      <p><b>1. 単行本が出なかった。</b>当時、人気の劇は1冊ずつの薄い本(四つ折り本)として売られた。『ハムレット』『リチャード三世』『ヘンリー四世 第1部』は何度も版を重ねている。『マクベス』は1623年の作品集で初めて印刷された。少なくとも「本でも読みたい」というほどの人気ではなかったと考えられる。ただし、劇団が出版を控えた可能性もあるので決め手にはならない。</p>
+      <p><b>2. 言及の数が少ない。</b>同時代の言及やもじりの数は、『ハムレット』やキッドの『スペインの悲劇』(亡霊・復讐・流血の大ヒット作)と比べるとかなり少ない。</p>
+
+      <h3>本当に大ウケしたのは60年後</h3>
+      <ul>
+        <li>王政復古期(1660年代〜)に、劇作家ダヴェナントが改作し、<b>魔女が歌って踊り、宙吊りで空を飛ぶ</b>スペクタクル版にした</li>
+        <li>日記作家サミュエル・ピープスはこれを何度も観ていて、「深刻な悲劇なのに、見世物として抜群に楽しい」という趣旨の感想を残している</li>
+        <li>この改作版が、その後およそ80年間、舞台の定番になった</li>
+      </ul>
+      <p>つまり、大衆を惹きつけたのは一貫して<b>魔女・亡霊・殺陣という「見世物」の部分</b>だった。王権や魂の救いといった主題は、作り手や知識層が意識していた層。観客が熱狂したのは、また別の層だったと言える。</p>
+
+      <h3>余談: 「呪われた劇」の迷信</h3>
+      <p>「初演で夫人役の少年俳優が急死し、シェイクスピア本人が代役を務めた」という話がよく語られるが、これは19世紀末に作家マックス・ビアボームがでっち上げた話とされ、裏付けはない。迷信が広まったのは主に19〜20世紀のことで、当時の観客が不吉な劇だと思っていたわけではない。</p>
+    </div>
+
+    <div class="opus">
+      <span class="who">OPUS 5.5 ・ 訂正と補足: パロディ劇の題名と、観劇メモの年</span>
+      <ul>
+        <li>対話ではボーモントの劇の題を『ぴかぴかすりこぎ団の騎士』としていたが、定まった訳題ではなかったので、上では原題に改めた</li>
+        <li>同じ1607年の喜劇『ピューリタン』にも、「道化の代わりに、白いシーツの亡霊を食卓の上座に座らせよう」という意味の台詞がある。これもバンクォーの亡霊をもじったものとしてよく挙げられる</li>
+        <li>フォアマンのメモには「1610年4月20日、土曜日」と書かれている。ところが4月20日が土曜日なのは1611年なので、1611年の観劇とするのが通説</li>
+        <li>フォアマンは魔女を「3人の女、妖精かニンフ」と書いている。当時の観客の目に魔女がどう映ったかを示す、数少ない記録でもある</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>論点 4: なぜ400年も上演され、作り直され続けるのか</h2>
+
+    <div class="turn me">
+      <span class="who">ME</span>
+      <p>なんで400年も擦られ続けてるの</p>
+    </div>
+
+    <div class="turn ai">
+      <span class="who">AI</span>
+      <p>理由は大きく2つある。<b>作品そのものが使い回しやすい形をしていること</b>と、<b>一度古典になると、古典であること自体が上演され続ける理由になること</b>。</p>
+
+      <h3>作品の中身の理由</h3>
+      <p><b>1. 骨格が単純で、どこにでも移植できる。</b>「予言を聞く → 殺す → 守るためにさらに殺す → 破滅する」という一本道で、脇筋がほとんどない。舞台の「スコットランド」も描き込みが薄く、地名を入れ替えればそのまま成立する。</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>翻案</th><th>移した先</th></tr></thead>
+          <tbody>
+            <tr><td>『蜘蛛巣城』<span class="sub">黒澤明、1957</span></td><td>戦国時代の日本</td></tr>
+            <tr><td>『マクブール』<span class="sub">インド、2003</span></td><td>ムンバイの裏社会</td></tr>
+            <tr><td>『メン・オブ・リスペクト』<span class="sub">アメリカ、1990</span></td><td>マフィア</td></tr>
+            <tr><td>『スコットランド・PA』<span class="sub">アメリカ、2001</span></td><td>1970年代のハンバーガー店</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>権力の大きさは関係ない。王国でも組織でも町の店でも、「上の座を奪う話」として成り立つ。</p>
+
+      <p><b>2. 「善人が一線を越えて堕ちていく」話の原型になった。</b>悪役が最初から悪いのではなく、<b>ためらう普通の人が、一度殺したことで引き返せなくなる</b>話。マクベス自身が「血の川に深く踏み込んだので、戻るのも渡りきるのも同じくらい面倒だ」という意味のことを言っている。この型は今もそのまま使われていて、『ブレイキング・バッド』や『ハウス・オブ・カード』はマクベスと比べて語られることが多い。権力の座を奪う夫婦の関係も、マクベス夫妻がよく引き合いに出される。</p>
+
+      <p><b>3. 予言の「抜け穴」がネタとして優秀。</b>予言が文字どおりの意味で破られる仕掛けは、後の物語で何度も借りられている。有名なのはトールキンで、バーナムの森が「枝を持った兵隊」というオチだったことにがっかりしたと手紙に書いている。それで『指輪物語』では、<b>本当に木(エント)が歩いて攻めてくる</b>ようにした。「男には殺せない」魔王を女性のエオウィンが倒す場面も、同じ型の予言。</p>
+
+      <p><b>4. 解釈の余白が多い。</b>魔女は運命を告げたのか、誘惑しただけなのか。夫人は「乳を飲ませたことがある」と言うが、その子はどうなったのか。同じ予言を聞いたバンクォーは、なぜ動かなかったのか。答えが書かれていないので、時代ごとに違う答えを入れられる。</p>
+
+      <figure>
+        <ol class="timeline">
+          <li><span class="y">1606頃</span><span class="t">執筆。王殺しと暴君の劇として書かれる</span></li>
+          <li><span class="y">1611</span><span class="t">グローブ座での観劇メモ(現存する最古の上演記録)</span></li>
+          <li><span class="y">1623</span><span class="t">作品集(ファースト・フォリオ)で初めて印刷される</span></li>
+          <li class="hit"><span class="y">1660年代</span><span class="t"><b>ダヴェナントの改作版</b>。魔女が歌い、踊り、空を飛ぶスペクタクルとして大人気に</span></li>
+          <li><span class="y">1744</span><span class="t">俳優ギャリックが、原作に近いテキストで上演する</span></li>
+          <li class="hit"><span class="y">1785</span><span class="t">サラ・シドンズがロンドンで夫人を演じ、伝説に。<b>心理劇</b>として読まれる時代へ</span></li>
+          <li><span class="y">1847</span><span class="t">ヴェルディのオペラ『マクベス』</span></li>
+          <li class="hit"><span class="y">1936</span><span class="t">オーソン・ウェルズがハーレムで全員黒人キャストの「ブードゥー・マクベス」を演出。<b>独裁者の劇</b>として読む演出がこの前後から増える</span></li>
+          <li><span class="y">1957</span><span class="t">黒澤明『蜘蛛巣城』</span></li>
+          <li class="hit"><span class="y">20世紀後半〜</span><span class="t"><b>フェミニズムの読み</b>。夫人を「悪女」ではなく、権力の場から締め出された女性として描き直す演出が増える</span></li>
+          <li><span class="y">2021</span><span class="t">ジョエル・コーエン監督の映画版</span></li>
+        </ol>
+        <figcaption>400年の受け止められ方の移り変わり。色付きの点は、読み方や人気が大きく変わった節目。</figcaption>
+      </figure>
+
+      <p><b>5. 言葉が英語そのものに入り込んでいる。</b>出典を知らずに使われている言い回しがたくさんある。</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>言い回し</th><th>意味</th></tr></thead>
+          <tbody>
+            <tr><td>the be-all and the end-all</td><td>最も重要なもの</td></tr>
+            <tr><td>one fell swoop</td><td>一挙に</td></tr>
+            <tr><td>the milk of human kindness</td><td>人間らしい優しさ</td></tr>
+            <tr><td>What's done is done</td><td>済んだことは済んだこと</td></tr>
+            <tr><td>sound and fury</td><td>「明日も、明日も」の独白の一節。フォークナーの小説『響きと怒り』の題になった</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>「レディ・マクベス」という名前も、「夫を操る野心家の妻」を指す普通名詞になっている。ロシアの作家レスコフの小説『ムツェンスク郡のマクベス夫人』は、この慣用を題名に使ったもので、筋は無関係。</p>
+
+      <h3>作品の外側の理由</h3>
+      <p><b>6. 短いので上演しやすい。</b>シェイクスピアの悲劇の中で一番短く、2時間前後に収まる。登場人物も多くない。</p>
+      <p><b>7. 学校の定番教材になった。</b>イギリスでは、中等教育の試験(GCSE)で最もよく選ばれるシェイクスピア作品の一つ。毎年何十万人もの生徒が読むので、それがまた次の世代の知名度になる。</p>
+      <p><b>8. 著作権がなく、名前に集客力がある。</b>上演料がかからず、自由に改変できる。しかも「マクベス」という題名だけで客が集まる。有名俳優にとっても、一度は演じたい大役になっている。</p>
+      <p><b>9. 有名だから有名、という循環。</b>正直に言えば、これも大きい。作品集で残り、18世紀にシェイクスピアが「国民的詩人」として持ち上げられたことで、正典の地位を得た。いったん正典になると、「みんなが知っている」ことがパロディや引用を呼び、それがさらに知名度を上げる。同時代に同じくらい面白い劇があっても、この循環に乗れなかったものは忘れられた。</p>
+
+      <h3>まとめ</h3>
+      <p>400年擦られ続けている理由は、骨格が単純でどの時代・どの権力構造にも移せること、説明されていない部分が多く時代ごとに新しい答えを入れられること、短くて著作権がなく、教材として定着して「古典だから上演される」循環に入ったこと。</p>
+    </div>
+
+    <div class="opus">
+      <span class="who">OPUS 5.5 ・ 補足: 心理学の用語にもなった</span>
+      <ul>
+        <li>トールキンの話は、1955年に詩人 W. H. オーデンへ宛てた手紙に出てくる。学生時代からバーナムの森の扱いにがっかりしていて、木が本当に戦争へ行進する場面を作りたかった、という趣旨</li>
+        <li>心理学には「マクベス効果」という用語もある。2006年に『Science』誌で発表された、道徳的にやましいことを思い出すと体を洗いたくなる、という研究に付いた名前で、夫人が手を洗い続ける場面から取られている。ただし、その後の追試では同じ結果が出なかった例が多く、効果があるかどうかは疑わしいとされている</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>着地: ウケた理由と、残った理由</h2>
+
+    <div class="layers">
+      <div class="layer show">
+        <span class="k">見世物の層</span>
+        <h3>魔女・亡霊・殺陣</h3>
+        <p>初演当時の客を呼び、60年後の改作版で大人気になったのはこちら。目で見て面白い部分。</p>
+        <dl>
+          <dt>効いた時期</dt><dd>初演〜18世紀前半</dd>
+          <dt>手がかり</dt><dd>観劇メモ、魔女の場面の加筆、ダヴェナント版</dd>
+        </dl>
+      </div>
+      <div class="layer bone">
+        <span class="k">骨格の層</span>
+        <h3><span class="ln">一線を越えて、</span><span class="ln">引き返せなくなる人間</span></h3>
+        <p>時代も場所も入れ替えて作り直され続けているのはこちら。どの権力構造にも移せる部分。</p>
+        <dl>
+          <dt>効いた時期</dt><dd>18世紀後半〜現在</dd>
+          <dt>手がかり</dt><dd>心理劇・独裁者劇・フェミニズムの読み、各国の翻案</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="turn ai">
+      <span class="who">AI</span>
+      <p>前の質問とつなげると、初演当時に観客を呼んだのは魔女と亡霊だった。今も繰り返し作り直されているのは、「普通の人が一線を越えて、引き返せなくなる」という骨格のほう。<b>見世物としての人気と、物語の型としての寿命は、別の理由で支えられている</b>と言える。</p>
+    </div>
+
+    <p class="quote"><span class="ln">客を呼んだのは、魔女と亡霊。</span><br><span class="ln">400年残ったのは、</span><span class="ln">一線を越えて引き返せなくなる人間の話。</span></p>
+  </section>
+
+  <footer>
+    <a class="back" href="../../">← 一覧に戻る</a>
+    <span>Claude Opus 5.5 との対話を、読みやすさのために抜粋・編集し、図と表を足しています。「OPUS 5.5」の欄は、ページにする際に同じモデルで見直した訂正と補足です。せりふの訳は、このページで原文から付けたものです。</span>
+  </footer>
+</div>
+<script src="../talkbar.js"></script>
+</body>
+</html>
