@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>マンカラ</title>
+<style>
+  :root {
+    --bg: #f4efe6;
+    --ink: #3a2e22;
+    --sub: #8a7a66;
+    --wood: #b98a57;
+    --wood-dark: #8d6338;
+    --pit: #6e4a28;
+    --seed: #f6e7c8;
+    --p1: #2f7d6d;
+    --p2: #c0573e;
+    --hl: #ffd66b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 20px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+  }
+  h1 { margin: 0; font-size: 28px; letter-spacing: .1em; }
+  .controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  button.ctl {
+    font: inherit; font-size: 14px;
+    padding: 8px 14px; border-radius: 999px;
+    border: 2px solid var(--wood-dark); background: #fff; color: var(--ink);
+    cursor: pointer;
+  }
+  button.ctl[aria-pressed="true"] { background: var(--wood-dark); color: #fff; }
+  #status {
+    min-height: 1.6em; font-size: 18px; font-weight: bold; text-align: center;
+  }
+  #status.p1 { color: var(--p1); }
+  #status.p2 { color: var(--p2); }
+
+  .board {
+    display: grid;
+    grid-template-columns: 1fr repeat(6, minmax(0, 1fr)) 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 10px;
+    padding: 18px;
+    width: min(860px, 100%);
+    background: linear-gradient(180deg, var(--wood), var(--wood-dark));
+    border-radius: 28px;
+    box-shadow: 0 10px 24px rgba(60, 40, 20, .3), inset 0 2px 0 rgba(255,255,255,.25);
+  }
+  .label {
+    grid-column: 2 / 8;
+    text-align: center; font-size: 13px; font-weight: bold; color: #fff8ec;
+    letter-spacing: .1em;
+  }
+  .label.top { grid-row: 1; }
+  .label.bottom { grid-row: 4; }
+  .store {
+    grid-row: 2 / 4;
+    border-radius: 999px;
+    background: var(--pit);
+    box-shadow: inset 0 4px 10px rgba(0,0,0,.5);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 200px;
+    transition: box-shadow .15s;
+  }
+  .store.p2 { grid-column: 1; }
+  .store.p1 { grid-column: 8; }
+  .store .count { font-size: 30px; font-weight: bold; color: #fff; }
+  .store .who { font-size: 11px; color: #e8d6bd; margin-top: 4px; }
+  .store.p1 .who { color: #bfe8de; }
+  .store.p2 .who { color: #f3c7bb; }
+
+  .pit {
+    aspect-ratio: 1;
+    border: none; border-radius: 50%;
+    background: var(--pit);
+    box-shadow: inset 0 4px 10px rgba(0,0,0,.5);
+    position: relative;
+    padding: 0;
+    cursor: default;
+    transition: transform .1s, box-shadow .15s;
+  }
+  .pit .count {
+    position: absolute; right: 6%; bottom: 4%;
+    font-size: 14px; font-weight: bold; color: #fff;
+    background: rgba(0,0,0,.35); border-radius: 999px; padding: 0 7px;
+  }
+  .pit .seeds {
+    position: absolute; inset: 14%;
+    display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 3px;
+    pointer-events: none;
+  }
+  .seed {
+    width: 22%; aspect-ratio: 1; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff, var(--seed) 55%, #c9b28a);
+  }
+  .pit.playable { cursor: pointer; }
+  .pit.playable.p1 { box-shadow: inset 0 4px 10px rgba(0,0,0,.5), 0 0 0 3px var(--p1); }
+  .pit.playable.p2 { box-shadow: inset 0 4px 10px rgba(0,0,0,.5), 0 0 0 3px var(--p2); }
+  .pit.playable:hover { transform: translateY(-2px); }
+  .pit.hl, .store.hl { box-shadow: inset 0 4px 10px rgba(0,0,0,.5), 0 0 0 4px var(--hl) !important; }
+  .row-top { grid-row: 2; }
+  .row-bottom { grid-row: 3; }
+
+  .rules {
+    width: min(860px, 100%);
+    font-size: 13px; color: var(--sub); line-height: 1.7;
+  }
+  .rules summary { cursor: pointer; font-weight: bold; color: var(--ink); }
+  .rules ul { margin: 6px 0 0; padding-left: 1.3em; }
+
+  @media (max-width: 560px) {
+    .board { gap: 6px; padding: 10px; border-radius: 18px; }
+    .store { min-height: 130px; }
+    .store .count { font-size: 22px; }
+    .pit .count { font-size: 11px; padding: 0 5px; }
+    .seed { width: 26%; }
+  }
+</style>
+</head>
+<body>
+  <h1>マンカラ</h1>
+
+  <div class="controls">
+    <button class="ctl" data-mode="cpu" aria-pressed="true">CPU と対戦</button>
+    <button class="ctl" data-mode="pvp" aria-pressed="false">2 人で対戦</button>
+    <button class="ctl" id="restart">最初から</button>
+  </div>
+
+  <div id="status"></div>
+
+  <div class="board" id="board">
+    <div class="label top" id="labelTop">CPU</div>
+    <div class="store p2" id="store13"><span class="count">0</span><span class="who" id="whoTop">CPU</span></div>
+    <div class="store p1" id="store6"><span class="count">0</span><span class="who">あなた</span></div>
+    <div class="label bottom">あなた</div>
+  </div>
+
+  <details class="rules">
+    <summary>遊び方</summary>
+    <ul>
+      <li>自分の側(下の段)の穴を 1 つ選ぶと、中の石を反時計回りに 1 つずつ配ります。相手のゴール(左の大きな穴)は飛ばします。</li>
+      <li>最後の石が<strong>自分のゴール</strong>(右の大きな穴)に入ったら、もう 1 回続けて遊べます。</li>
+      <li>最後の石が<strong>自分側の空の穴</strong>に入り、向かいの相手の穴に石があれば、両方まとめて自分のゴールへ(横取り)。</li>
+      <li>どちらかの側の穴がすべて空になったら終了。残った石はその側の人のゴールに入ります。ゴールの石が多い方の勝ち。</li>
+    </ul>
+  </details>
+
+<script>
+(() => {
+  const PITS = 6, SEEDS = 4;
+  const P1_STORE = 6, P2_STORE = 13;
+  const STEP_MS = 170;
+
+  let board, turn, mode = 'cpu', busy = false, over = false, gameId = 0;
+
+  const boardEl = document.getElementById('board');
+  const statusEl = document.getElementById('status');
+  const pitEls = [];
+
+  // 穴の要素を作る:下段 0..5(左→右)、上段 12..7(左→右)
+  for (let i = 0; i < 14; i++) {
+    if (i === P1_STORE || i === P2_STORE) { pitEls[i] = document.getElementById('store' + i); continue; }
+    const b = document.createElement('button');
+    b.className = 'pit ' + (i < 6 ? 'p1 row-bottom' : 'p2 row-top');
+    b.style.gridColumn = i < 6 ? String(i + 2) : String(12 - i + 2);
+    b.innerHTML = '<span class="seeds"></span><span class="count"></span>';
+    b.addEventListener('click', () => onPitClick(i));
+    boardEl.appendChild(b);
+    pitEls[i] = b;
+  }
+
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const ownStore = p => p === 0 ? P1_STORE : P2_STORE;
+  const isOwnPit = (p, i) => p === 0 ? i >= 0 && i < 6 : i >= 7 && i < 13;
+  const opposite = i => 12 - i;
+  const playerName = p => p === 0 ? (mode === 'cpu' ? 'あなた' : 'プレイヤー1') : (mode === 'cpu' ? 'CPU' : 'プレイヤー2');
+
+  function render(highlight = -1) {
+    for (let i = 0; i < 14; i++) {
+      const el = pitEls[i];
+      const n = board[i];
+      el.classList.toggle('hl', i === highlight);
+      if (i === P1_STORE || i === P2_STORE) {
+        el.querySelector('.count').textContent = n;
+        continue;
+      }
+      el.querySelector('.count').textContent = n;
+      const seedsEl = el.querySelector('.seeds');
+      const shown = Math.min(n, 12);
+      if (seedsEl.childElementCount !== shown) {
+        seedsEl.innerHTML = '<span class="seed"></span>'.repeat(shown);
+      }
+      const playable = !busy && !over && isOwnPit(turn, i) && n > 0 && !(mode === 'cpu' && turn === 1);
+      el.classList.toggle('playable', playable);
+      el.disabled = !playable;
+      el.setAttribute('aria-label', `${isOwnPit(0, i) ? '下' : '上'}の穴 石${n}個`);
+    }
+  }
+
+  function setStatus(text, p) {
+    statusEl.textContent = text;
+    statusEl.className = p === 0 ? 'p1' : p === 1 ? 'p2' : '';
+  }
+
+  // 純粋なルール処理(CPU の読みにも使う)
+  function applyMove(b, p, pit) {
+    b = b.slice();
+    let seeds = b[pit];
+    b[pit] = 0;
+    let i = pit;
+    const skip = p === 0 ? P2_STORE : P1_STORE;
+    while (seeds > 0) {
+      i = (i + 1) % 14;
+      if (i === skip) continue;
+      b[i]++;
+      seeds--;
+    }
+    let extra = i === ownStore(p);
+    if (isOwnPit(p, i) && b[i] === 1 && b[opposite(i)] > 0) {
+      b[ownStore(p)] += b[opposite(i)] + 1;
+      b[i] = 0;
+      b[opposite(i)] = 0;
+    }
+    const ended = finishIfOver(b);
+    return { b, extra: extra && !ended, ended };
+  }
+
+  function sideEmpty(b, p) {
+    const start = p === 0 ? 0 : 7;
+    for (let k = start; k < start + 6; k++) if (b[k] > 0) return false;
+    return true;
+  }
+
+  function finishIfOver(b) {
+    if (!sideEmpty(b, 0) && !sideEmpty(b, 1)) return false;
+    for (let k = 0; k < 6; k++) { b[P1_STORE] += b[k]; b[k] = 0; }
+    for (let k = 7; k < 13; k++) { b[P2_STORE] += b[k]; b[k] = 0; }
+    return true;
+  }
+
+  // アニメーション付きで 1 手を実行
+  async function playMove(pit) {
+    const id = gameId;
+    busy = true;
+    const p = turn;
+    let seeds = board[pit];
+    board[pit] = 0;
+    render(pit);
+    await sleep(STEP_MS);
+    let i = pit;
+    const skip = p === 0 ? P2_STORE : P1_STORE;
+    while (seeds > 0) {
+      i = (i + 1) % 14;
+      if (i === skip) continue;
+      board[i]++;
+      seeds--;
+      render(i);
+      await sleep(STEP_MS);
+      if (id !== gameId) return;
+    }
+
+    let msg = '';
+    let extra = i === ownStore(p);
+    if (isOwnPit(p, i) && board[i] === 1 && board[opposite(i)] > 0) {
+      const got = board[opposite(i)] + 1;
+      render(opposite(i));
+      await sleep(STEP_MS * 2);
+      if (id !== gameId) return;
+      board[ownStore(p)] += got;
+      board[i] = 0;
+      board[opposite(i)] = 0;
+      msg = `${playerName(p)}が ${got} 個横取り!`;
+    }
+
+    if (finishIfOver(board)) {
+      over = true; busy = false;
+      render();
+      const a = board[P1_STORE], c = board[P2_STORE];
+      if (a === c) setStatus(`引き分け(${a} 対 ${c})`, -1);
+      else {
+        const w = a > c ? 0 : 1;
+        setStatus(`${playerName(w)}の勝ち!(${a} 対 ${c})`, w);
+      }
+      return;
+    }
+
+    if (extra) msg = `ゴールにぴったり!${playerName(p)}がもう一度`;
+    else turn = 1 - turn;
+    busy = false;
+    render();
+    setStatus(msg || `${playerName(turn)}の番`, turn);
+
+    if (mode === 'cpu' && turn === 1) {
+      await sleep(msg ? 900 : 500);
+      if (id !== gameId) return;
+      await playMove(cpuChoose());
+    }
+  }
+
+  function onPitClick(i) {
+    if (busy || over || !isOwnPit(turn, i) || board[i] === 0) return;
+    if (mode === 'cpu' && turn === 1) return;
+    playMove(i);
+  }
+
+  // CPU:ミニマックス(αβ枝刈り)。評価はゴールの差。
+  function evaluate(b) { return b[P2_STORE] - b[P1_STORE]; }
+
+  function minimax(b, p, depth, alpha, beta) {
+    if (depth === 0 || sideEmpty(b, 0) || sideEmpty(b, 1)) return evaluate(b);
+    const start = p === 0 ? 0 : 7;
+    let best = p === 1 ? -Infinity : Infinity;
+    for (let k = start; k < start + 6; k++) {
+      if (b[k] === 0) continue;
+      const r = applyMove(b, p, k);
+      const next = r.extra ? p : 1 - p;
+      const v = minimax(r.b, next, depth - 1, alpha, beta);
+      if (p === 1) { best = Math.max(best, v); alpha = Math.max(alpha, v); }
+      else { best = Math.min(best, v); beta = Math.min(beta, v); }
+      if (beta <= alpha) break;
+    }
+    return best;
+  }
+
+  function cpuChoose() {
+    let best = -Infinity, choices = [];
+    for (let k = 7; k < 13; k++) {
+      if (board[k] === 0) continue;
+      const r = applyMove(board, 1, k);
+      const v = minimax(r.b, r.extra ? 1 : 0, 6, -Infinity, Infinity);
+      if (v > best) { best = v; choices = [k]; }
+      else if (v === best) choices.push(k);
+    }
+    return choices[Math.floor(Math.random() * choices.length)];
+  }
+
+  function newGame() {
+    gameId++;
+    board = Array(14).fill(SEEDS);
+    board[P1_STORE] = 0; board[P2_STORE] = 0;
+    turn = 0; busy = false; over = false;
+    const topName = mode === 'cpu' ? 'CPU' : 'プレイヤー2';
+    document.getElementById('labelTop').textContent = topName;
+    document.getElementById('whoTop').textContent = topName;
+    document.querySelector('.label.bottom').textContent = playerName(0);
+    document.querySelector('.store.p1 .who').textContent = playerName(0);
+    render();
+    setStatus(`${playerName(0)}の番`, 0);
+  }
+
+  document.querySelectorAll('[data-mode]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      mode = btn.dataset.mode;
+      document.querySelectorAll('[data-mode]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+      newGame();
+    });
+  });
+  document.getElementById('restart').addEventListener('click', newGame);
+
+  newGame();
+})();
+</script>
+</body>
+</html>

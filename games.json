@@ -2,6 +2,23 @@
   "$comment": "ダッシュボードの台帳。access: hub=このリポジトリ内 / pages=外部の公開ページ / repo=ソースのみ公開 / private=非公開(パネルのみ・遷移不可)。status: playable / wip / prototype / cancelled / archived。notes: true なら notes/<slug>.md を詳細パネルに表示。",
   "items": [
     {
+      "slug": "mancala",
+      "title": "マンカラ",
+      "category": "game",
+      "access": "hub",
+      "status": "playable",
+      "summary": "穴の石を反時計回りに配って、ゴールに多く集めた方が勝ち。CPU とも 2 人でも遊べる、シンプルなマンカラ。",
+      "tags": [
+        "ボードゲーム",
+        "対戦"
+      ],
+      "url": "games/mancala/",
+      "created": "2026-11-24",
+      "updated": "2026-11-25",
+      "notes": true,
+      "thumb": "thumbs/auto/mancala.jpg"
+    },
+    {
       "slug": "goji-jukugo",
       "title": "誤字熟語",
       "category": "game",
