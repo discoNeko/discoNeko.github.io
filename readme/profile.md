@@ -28,16 +28,16 @@
 <br><sub>ブラウザで遊べる · ゲーム · 試作 · 11/26 更新</sub>
 </td>
 <td width="33%" valign="top">
+<a href="https://disconeko.github.io/takken-2weeks/"><img src="https://disconeko.github.io/thumbs/auto/takken-2weeks.jpg" width="100%" alt="爆速2週間宅建"></a>
+<br><a href="https://disconeko.github.io/takken-2weeks/"><b>爆速2週間宅建</b></a>
+<br><sub>2 週間で宅建合格を目指すための学習ツール。</sub>
+<br><sub>外部サイトで公開 · ツール · 11/26 更新</sub>
+</td>
+<td width="33%" valign="top">
 <a href="https://disconeko.github.io/games/mancala/"><img src="https://disconeko.github.io/thumbs/auto/mancala.jpg" width="100%" alt="マンカラ"></a>
 <br><a href="https://disconeko.github.io/games/mancala/"><b>マンカラ</b></a>
 <br><sub>穴の石を反時計回りに配って、ゴールに多く集めた方が勝ち。CPU とも 2 人でも遊べる、シンプルなマンカラ。</sub>
 <br><sub>ブラウザで遊べる · ゲーム · 11/25 更新</sub>
-</td>
-<td width="33%" valign="top">
-<a href="https://disconeko.github.io/talks/macbeth/"><img src="https://disconeko.github.io/thumbs/auto/macbeth.jpg" width="100%" alt="マクベス、引き返せない男の原型"></a>
-<br><a href="https://disconeko.github.io/talks/macbeth/"><b>マクベス、引き返せない男の原型</b></a>
-<br><sub>シェイクスピア『マクベス』のあらすじ、当時の主題、初演当時の客の反応、400年上演され続ける理由を Claude Opus 5.5 に聞いた。客を呼んだのは魔女と亡霊。400年残ったのは、ためらう普通の人が一度殺して引き返せなくなる、という話の原型だった。図解版は予言の仕掛けと400年の受容史つき。</sub>
-<br><sub>ここで読める · 対話 · 11/24 更新</sub>
 </td>
 </tr></table>
 
