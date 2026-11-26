@@ -2,6 +2,23 @@
   "$comment": "ダッシュボードの台帳。access: hub=このリポジトリ内 / pages=外部の公開ページ / repo=ソースのみ公開 / private=非公開(パネルのみ・遷移不可)。status: playable / wip / prototype / cancelled / archived。notes: true なら notes/<slug>.md を詳細パネルに表示。",
   "items": [
     {
+      "slug": "wheel-of-toil",
+      "title": "苦役の車輪",
+      "category": "game",
+      "access": "hub",
+      "status": "prototype",
+      "summary": "← → を交互に押して、石臼の棒をひたすら押し回す。看守の鞭に耐えて 20 年、棒をへし折れ。",
+      "tags": [
+        "アクション",
+        "成長"
+      ],
+      "url": "games/wheel-of-toil/",
+      "created": "2026-11-26",
+      "updated": "2026-11-26",
+      "notes": true,
+      "thumb": "thumbs/wheel-of-toil.jpg"
+    },
+    {
       "slug": "mancala",
       "title": "マンカラ",
       "category": "game",

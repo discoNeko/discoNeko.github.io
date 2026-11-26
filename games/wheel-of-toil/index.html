@@ -1,0 +1,1177 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>苦役の車輪</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #f3e6c8;
+    --ink-dim: rgba(243, 230, 200, .62);
+    --panel: rgba(26, 18, 10, .74);
+    --line: rgba(243, 230, 200, .16);
+    --stam: #d9a441;
+    --spd: #8fbf6a;
+    --eye: #d0452f;
+    --blood: #b8261a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #1a130c; color: var(--ink);
+    font-family: 'Zen Kaku Gothic New', system-ui, sans-serif; -webkit-user-select: none; user-select: none; touch-action: none; }
+  #app canvas { display: block; }
+
+  .panel { position: fixed; background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px 14px; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+  #status { top: 16px; left: 16px; min-width: 190px; }
+  #status .year { font-family: 'Shippori Mincho B1', serif; font-weight: 800; font-size: 26px; letter-spacing: .04em; line-height: 1.1; }
+  #status .year small { font-size: 15px; font-weight: 600; margin-left: 6px; color: var(--ink-dim); }
+  #status .sub { font-size: 13px; color: var(--ink-dim); margin-top: 4px; }
+  #status .sub b { color: var(--ink); font-variant-numeric: tabular-nums; }
+  #hp { margin-top: 8px; display: flex; gap: 4px; align-items: center; font-size: 12px; color: var(--ink-dim); }
+  #hp i { width: 14px; height: 14px; border-radius: 3px; background: #c9b48a; display: inline-block; transition: background .3s; }
+  #hp i.lost { background: var(--blood); box-shadow: inset 0 0 0 2px rgba(0,0,0,.25); }
+
+  #meters { top: 16px; right: 16px; width: 240px; }
+  .meter { margin: 2px 0 9px; }
+  .meter:last-child { margin-bottom: 2px; }
+  .meter .lbl { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-dim); margin-bottom: 3px; }
+  .bar { position: relative; height: 9px; background: rgba(0,0,0,.45); border-radius: 5px; overflow: visible; }
+  .bar > .fill { position: absolute; inset: 0 auto 0 0; border-radius: 5px; width: 0; }
+  #stamFill { background: var(--stam); }
+  #spdFill { background: var(--spd); }
+  #eyeFill { background: var(--eye); }
+  #quota { position: absolute; top: -3px; bottom: -3px; width: 2px; background: #fff; box-shadow: 0 0 4px #000; }
+  #quota::after { content: 'ノルマ'; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--ink-dim); white-space: nowrap; }
+  .meter.spd { margin-bottom: 18px; }
+  #eyeMeter.alert .lbl span:first-child { color: var(--eye); font-weight: 700; }
+
+  #guide { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); display: flex; gap: 14px; align-items: center;
+    font-size: 13px; color: var(--ink-dim); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 8px 18px; white-space: nowrap; }
+  .key { display: inline-grid; place-items: center; min-width: 34px; height: 30px; padding: 0 8px; border-radius: 6px; font-weight: 700; color: var(--ink);
+    border: 1px solid var(--line); background: rgba(255,255,255,.04); transition: all .08s; }
+  .key.next { background: var(--ink); color: #2a1d10; border-color: var(--ink); }
+  .key.miss { background: var(--blood); color: #fff; border-color: var(--blood); }
+  #combo { min-width: 72px; font-variant-numeric: tabular-nums; }
+
+  #toast { position: fixed; top: 22%; left: 50%; transform: translate(-50%, 8px); text-align: center; pointer-events: none;
+    font-family: 'Shippori Mincho B1', serif; opacity: 0; transition: opacity .6s, transform .6s; text-shadow: 0 2px 12px rgba(0,0,0,.8); }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+  #toast .big { font-size: 40px; font-weight: 800; letter-spacing: .08em; }
+  #toast .small { font-size: 17px; font-weight: 600; margin-top: 4px; color: var(--ink); }
+
+  #flash { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, rgba(184,38,26,0) 30%, rgba(184,38,26,.75)); opacity: 0; transition: opacity .5s; }
+  #flash.on { opacity: 1; transition: none; }
+  #flash.white { background: #fff; }
+
+  #bubbles { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+  .bubble { position: absolute; left: 0; top: 0; background: #f6ecd6; color: #2a1d10; font-weight: 700; font-size: 14px; padding: 5px 10px; border-radius: 8px;
+    white-space: nowrap; box-shadow: 0 3px 10px rgba(0,0,0,.35); transition: opacity .3s; }
+  .bubble::after { content: ''; position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); border: 6px solid transparent; border-top-color: #f6ecd6; border-bottom: 0; }
+  .bubble.ov { background: #3a120c; color: #ffd9c8; font-size: 16px; }
+  .bubble.ov::after { border-top-color: #3a120c; }
+  .bubble.npc { font-size: 12px; font-weight: 500; opacity: .9; }
+
+  .overlay { position: fixed; inset: 0; display: grid; place-items: center; background: radial-gradient(ellipse at center, rgba(20,12,6,.55), rgba(10,6,3,.92)); z-index: 10; padding: 16px; }
+  .overlay.hidden { display: none; }
+  .card { max-width: 520px; text-align: center; }
+  .card h1 { font-family: 'Shippori Mincho B1', serif; font-weight: 800; font-size: clamp(44px, 11vw, 76px); letter-spacing: .12em; margin: 0; line-height: 1.1; }
+  .card .en { letter-spacing: .5em; font-size: 12px; color: var(--ink-dim); margin: 8px 0 26px; }
+  .card p { line-height: 1.9; color: var(--ink); margin: 0 0 8px; }
+  .card .how { display: inline-grid; grid-template-columns: auto auto; gap: 8px 14px; text-align: left; align-items: center; margin: 18px 0 26px; font-size: 14px; color: var(--ink-dim); }
+  .btn { font: inherit; font-weight: 700; font-size: 17px; color: #2a1d10; background: var(--ink); border: 0; border-radius: 999px; padding: 12px 34px; cursor: pointer; letter-spacing: .1em; }
+  .btn:hover { filter: brightness(1.08); }
+  .stats { display: grid; grid-template-columns: auto auto; gap: 6px 20px; justify-content: center; margin: 20px 0 28px; font-size: 15px; }
+  .stats dt { color: var(--ink-dim); text-align: right; }
+  .stats dd { margin: 0; text-align: left; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  #finale { position: fixed; left: 50%; top: 18%; transform: translateX(-50%); text-align: center; display: none; pointer-events: none; width: min(420px, 90vw); }
+  #finale.show { display: block; }
+  #finale .t1 { font-family: 'Shippori Mincho B1', serif; font-size: 30px; font-weight: 800; text-shadow: 0 2px 12px #000; }
+  #finale .t2 { font-size: 15px; margin: 6px 0 12px; text-shadow: 0 2px 8px #000; }
+  #finale .bar { height: 14px; border: 1px solid var(--line); }
+  #powFill { background: linear-gradient(90deg, #d9a441, #ff5a2a); }
+
+  .ended #meters, .ended #guide, .ended #touch { opacity: 0; pointer-events: none; transition: opacity .8s; }
+  #touch { position: fixed; left: 0; right: 0; bottom: 70px; display: none; justify-content: space-between; padding: 0 16px; pointer-events: none; }
+  #touch button { pointer-events: auto; width: 31vw; max-width: 150px; height: 110px; border-radius: 18px; border: 1px solid var(--line); background: rgba(26,18,10,.55);
+    color: var(--ink); font: inherit; font-size: 30px; font-weight: 700; touch-action: none; }
+  #touch button.rest { width: 22vw; max-width: 100px; font-size: 15px; align-self: flex-end; height: 70px; }
+  #touch button:active { background: rgba(243,230,200,.25); }
+  @media (pointer: coarse) {
+    #touch { display: flex; }
+    #guide .pc { display: none; }
+  }
+  @media (max-width: 640px) {
+    #status { top: 10px; left: 10px; min-width: 0; padding: 8px 10px; }
+    #status .year { font-size: 20px; }
+    #meters { top: auto; bottom: 200px; right: 10px; left: 10px; width: auto; padding: 8px 10px; }
+    #guide { bottom: 12px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<div id="status" class="panel">
+  <div class="year"><span id="yearNum">1</span>年目<small id="season">春</small></div>
+  <div class="sub">回転 <b id="rots">0</b>　力 <b id="str">1.00</b></div>
+  <div id="hp"><span>体</span></div>
+</div>
+
+<div id="meters" class="panel">
+  <div class="meter"><div class="lbl"><span>スタミナ</span><span id="stamTxt">100</span></div><div class="bar"><div class="fill" id="stamFill"></div></div></div>
+  <div class="meter spd"><div class="lbl"><span>回転速度</span><span id="spdTxt">0.00</span></div><div class="bar"><div class="fill" id="spdFill"></div><div id="quota"></div></div></div>
+  <div class="meter" id="eyeMeter"><div class="lbl"><span>看守の目</span><span id="eyeTxt"></span></div><div class="bar"><div class="fill" id="eyeFill"></div></div></div>
+</div>
+
+<div id="guide">
+  <span class="key" id="kL">←</span><span class="key" id="kR">→</span>
+  <span class="pc">交互に押して進め</span>
+  <span class="pc"><span class="key">Space</span> 休む</span>
+  <span id="combo"></span>
+</div>
+
+<div id="finale">
+  <div class="t1">棒が軋んでいる——</div>
+  <div class="t2">← → を交互に連打して、へし折れ！</div>
+  <div class="bar"><div class="fill" id="powFill"></div></div>
+</div>
+
+<div id="touch">
+  <button id="tL">←</button>
+  <button id="tRest" class="rest">休む</button>
+  <button id="tR">→</button>
+</div>
+
+<div id="toast"><div class="big"></div><div class="small"></div></div>
+<div id="flash"></div>
+<div id="bubbles"></div>
+
+<div id="title" class="overlay">
+  <div class="card">
+    <h1>苦役の車輪</h1>
+    <div class="en">THE WHEEL OF TOIL</div>
+    <p>罪状はもう覚えていない。<br>ただ「回せ」と言われた。</p>
+    <div class="how">
+      <span><span class="key">←</span> <span class="key">→</span></span><span>交互に押すと車輪を押す（同じ側を続けて押すとつまずく）</span>
+      <span><span class="key">Space</span></span><span>休む（スタミナ回復。ただし看守が見ている）</span>
+    </div>
+    <p style="color:var(--ink-dim);font-size:14px">ノルマを下回ると看守の目が溜まり、鞭が飛ぶ。<br>回し続けて、生き延びろ。20年。</p>
+    <div style="margin-top:22px"><button class="btn" id="startBtn">回し始める</button></div>
+  </div>
+</div>
+
+<div id="end" class="overlay hidden">
+  <div class="card">
+    <h1 id="endTitle"></h1>
+    <div class="en" id="endEn"></div>
+    <p id="endText"></p>
+    <dl class="stats" id="endStats"></dl>
+    <button class="btn" id="retryBtn">もう一度回す</button>
+  </div>
+</div>
+
+<script type="importmap">
+  { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+// =====================================================================
+//  定数
+// =====================================================================
+const R = 3.0;            // 囚人が歩く半径
+const BAR_Y = 1.12;       // 押し棒の高さ
+const SPOKE_LEN = 3.8;
+const SPLIT = 2.45;       // フィナーレで折れる位置
+const ROOT_Z = -0.66;     // 棒に対する体の位置（棒の後ろ）
+const END_YEAR = 20;
+const MAX_HP = 5;
+const L1 = 0.32, L2 = 0.31; // 腕の長さ（IK用）
+const SHOULDER_Y = 0.54;
+
+const $ = (id) => document.getElementById(id);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
+const rand = (a, b) => a + Math.random() * (b - a);
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+// =====================================================================
+//  レンダラ / シーン
+// =====================================================================
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+$('app').appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xd8c39a);
+scene.fog = new THREE.Fog(0xd8c39a, 30, 110);
+
+const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 400);
+camera.position.set(8, 4, -4);
+
+const hemi = new THREE.HemisphereLight(0xfff2d8, 0x5a4630, 0.65);
+scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xfff0d0, 1.7);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -17, right: 17, top: 17, bottom: -17, near: 1, far: 120 });
+sun.shadow.bias = -0.0006;
+scene.add(sun, sun.target);
+
+addEventListener('resize', () => {
+  renderer.setSize(innerWidth, innerHeight);
+  camera.aspect = innerWidth / innerHeight;
+  camera.fov = camera.aspect < 0.8 ? 70 : 55;
+  camera.updateProjectionMatrix();
+});
+dispatchEvent(new Event('resize'));
+
+// =====================================================================
+//  ヘルパ
+// =====================================================================
+const M = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.92, metalness: 0, flatShading: true, ...o });
+function mesh(geo, mat, x = 0, y = 0, z = 0) {
+  const m = new THREE.Mesh(geo, mat);
+  m.position.set(x, y, z);
+  m.castShadow = true; m.receiveShadow = true;
+  return m;
+}
+const box = (w, h, d, mat, x, y, z) => mesh(new THREE.BoxGeometry(w, h, d), mat, x, y, z);
+const cyl = (rt, rb, h, seg, mat, x, y, z) => mesh(new THREE.CylinderGeometry(rt, rb, h, seg), mat, x, y, z);
+function rod(p1, p2, r, mat) {
+  const len = p1.distanceTo(p2);
+  const m = cyl(r, r, len, 6, mat);
+  m.position.copy(p1).add(p2).multiplyScalar(0.5);
+  m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), p2.clone().sub(p1).normalize());
+  return m;
+}
+
+const wood = M(0x7a5232), woodDark = M(0x553621), stoneMat = M(0x8d877c);
+const ironMat = M(0x3b3b40, { metalness: 0.55, roughness: 0.5 });
+const ropeMat = M(0xb39a6a);
+
+// 地面のざらつきテクスチャ
+function noiseTexture() {
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const g = c.getContext('2d');
+  g.fillStyle = '#fff'; g.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 2600; i++) {
+    const v = 190 + Math.random() * 65 | 0;
+    g.fillStyle = `rgb(${v},${v},${v})`;
+    const s = Math.random() * 3 + 1;
+    g.fillRect(Math.random() * 256, Math.random() * 256, s, s);
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+const groundTex = noiseTexture();
+groundTex.repeat.set(40, 40);
+const pathTex = groundTex.clone(); pathTex.repeat.set(30, 2); pathTex.needsUpdate = true;
+
+// =====================================================================
+//  ワールド
+// =====================================================================
+const groundMat = M(0xb59a5a, { map: groundTex, flatShading: false });
+const ground = mesh(new THREE.CircleGeometry(160, 48), groundMat);
+ground.rotation.x = -Math.PI / 2; ground.castShadow = false;
+scene.add(ground);
+
+const pathMat = M(0x7a6440, { map: pathTex, flatShading: false, polygonOffset: true, polygonOffsetFactor: -2 });
+const path = mesh(new THREE.RingGeometry(R - 0.8, R + 0.8, 80, 1), pathMat, 0, 0.01, 0);
+path.rotation.x = -Math.PI / 2; path.castShadow = false;
+scene.add(path);
+
+// 小石
+const pebbleMat = M(0x8a8478);
+for (let i = 0; i < 90; i++) {
+  const a = rand(0, Math.PI * 2), d = rand(4.6, 14);
+  const p = mesh(new THREE.DodecahedronGeometry(rand(0.05, 0.22)), pebbleMat, Math.cos(a) * d, 0.03, Math.sin(a) * d);
+  p.rotation.set(rand(0, 3), rand(0, 3), 0);
+  scene.add(p);
+}
+
+// 石壁
+const GATE_A = Math.PI * 0.75;
+const wallMats = [0x8c8274, 0x7a7064, 0x9a9080, 0x857a6b].map((c) => M(c));
+for (let i = 0; i < 58; i++) {
+  const a = (i / 58) * Math.PI * 2;
+  if (Math.abs(wrap(a - GATE_A)) < 0.13) continue;
+  const h = rand(2.1, 2.9);
+  const b = box(1.7, h, 1.1, pick(wallMats), Math.cos(a) * 15.5, h / 2, Math.sin(a) * 15.5);
+  b.rotation.y = -a + Math.PI / 2;
+  scene.add(b);
+}
+// 門
+for (const s of [-1, 1]) {
+  const a = GATE_A + s * 0.15;
+  scene.add(box(1.2, 4.2, 1.2, wallMats[1], Math.cos(a) * 15.5, 2.1, Math.sin(a) * 15.5));
+}
+{
+  const lintel = box(4.8, 0.6, 1.1, woodDark, Math.cos(GATE_A) * 15.5, 4.1, Math.sin(GATE_A) * 15.5);
+  lintel.rotation.y = -GATE_A + Math.PI / 2;
+  scene.add(lintel);
+}
+
+// 遠くの山
+for (let i = 0; i < 22; i++) {
+  const a = rand(0, Math.PI * 2), d = rand(75, 120), h = rand(14, 38), r = rand(12, 26);
+  const c = new THREE.Color(0x8a6e4e).lerp(new THREE.Color(0x6b5a4a), Math.random());
+  const m = mesh(new THREE.ConeGeometry(r, h, 5 + (Math.random() * 3 | 0)), M(c), Math.cos(a) * d, h / 2 - 1, Math.sin(a) * d);
+  m.rotation.y = rand(0, 3); m.castShadow = false;
+  scene.add(m);
+}
+
+// 木箱・樽
+for (let i = 0; i < 9; i++) {
+  const a = rand(0, Math.PI * 2);
+  if (Math.abs(wrap(a - GATE_A)) < 0.4) continue;
+  const d = rand(12.5, 14);
+  if (Math.random() < 0.5) {
+    const s = rand(0.6, 0.9);
+    const c = box(s, s, s, wood, Math.cos(a) * d, s / 2, Math.sin(a) * d);
+    c.rotation.y = rand(0, 3); scene.add(c);
+  } else {
+    scene.add(cyl(0.35, 0.32, 0.9, 10, woodDark, Math.cos(a) * d, 0.45, Math.sin(a) * d));
+  }
+}
+
+// 松明
+const torches = [];
+for (let k = 0; k < 4; k++) {
+  const a = Math.PI / 4 + k * Math.PI / 2, d = 10.5;
+  const x = Math.cos(a) * d, z = Math.sin(a) * d;
+  scene.add(box(0.12, 2.2, 0.12, woodDark, x, 1.1, z));
+  scene.add(cyl(0.2, 0.1, 0.18, 8, ironMat, x, 2.25, z));
+  const flame = new THREE.Mesh(new THREE.ConeGeometry(0.13, 0.4, 6), new THREE.MeshBasicMaterial({ color: 0xffa040 }));
+  flame.position.set(x, 2.5, z); scene.add(flame);
+  const light = new THREE.PointLight(0xff9a40, 0, 13, 1.6);
+  light.position.set(x, 2.7, z); scene.add(light);
+  torches.push({ flame, light, seed: Math.random() * 10 });
+}
+
+// 雪
+const SNOW_N = 1400;
+const snowGeo = new THREE.BufferGeometry();
+const snowPos = new Float32Array(SNOW_N * 3);
+for (let i = 0; i < SNOW_N; i++) {
+  const a = rand(0, Math.PI * 2), d = Math.sqrt(Math.random()) * 22;
+  snowPos.set([Math.cos(a) * d, rand(0, 16), Math.sin(a) * d], i * 3);
+}
+snowGeo.setAttribute('position', new THREE.BufferAttribute(snowPos, 3));
+const snowMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.09, transparent: true, opacity: 0, depthWrite: false });
+scene.add(new THREE.Points(snowGeo, snowMat));
+
+// =====================================================================
+//  車輪（回転する本体）
+// =====================================================================
+scene.add(cyl(1.7, 1.85, 0.55, 14, stoneMat, 0, 0.275, 0)); // 下臼（固定）
+
+const wheel = new THREE.Group();
+scene.add(wheel);
+wheel.add(cyl(1.45, 1.5, 0.5, 14, M(0x9a9488), 0, 0.8, 0)); // 上臼
+wheel.add(cyl(0.3, 0.36, 4.6, 10, wood, 0, 2.3, 0));        // 心棒
+wheel.add(cyl(0.5, 0.5, 0.4, 10, woodDark, 0, BAR_Y, 0));   // ハブ
+for (const y of [1.6, 2.6, 3.6]) wheel.add(cyl(0.34, 0.34, 0.08, 10, ironMat, 0, y, 0));
+// 上部の歯車
+const gear = new THREE.Group(); gear.position.y = 4.4; wheel.add(gear);
+gear.add(cyl(1.25, 1.25, 0.24, 20, woodDark));
+for (let k = 0; k < 18; k++) {
+  const a = (k / 18) * Math.PI * 2;
+  const t = box(0.3, 0.24, 0.18, wood, Math.cos(a) * 1.34, 0, Math.sin(a) * 1.34);
+  t.rotation.y = -a; gear.add(t);
+}
+
+const spokes = [];
+for (let i = 0; i < 4; i++) {
+  const g = new THREE.Group();
+  g.rotation.y = (i * Math.PI) / 2;
+  wheel.add(g);
+  const innerLen = SPLIT - 0.45;
+  g.add(box(innerLen, 0.15, 0.15, wood, 0.45 + innerLen / 2, BAR_Y, 0));
+  const outer = new THREE.Group();
+  outer.position.set(SPLIT, BAR_Y, 0);
+  const outerLen = SPOKE_LEN - SPLIT;
+  outer.add(box(outerLen, 0.15, 0.15, wood, outerLen / 2, 0, 0));
+  outer.add(box(0.06, 0.19, 0.19, ironMat, outerLen - 0.08, 0, 0));
+  outer.add(box(0.06, 0.19, 0.19, ironMat, 0.02, 0, 0));
+  g.add(outer);
+  g.add(rod(new THREE.Vector3(1.15, 4.4, 0), new THREE.Vector3(SPLIT - 0.1, BAR_Y + 0.07, 0), 0.025, ropeMat));
+  spokes.push({ g, outer });
+}
+
+// =====================================================================
+//  人間モデル
+// =====================================================================
+function makeHuman(o) {
+  const skinMat = M(o.skin), clothMat = M(o.cloth), pantsMat = M(o.pants), hairMat = M(o.hair), darkMat = M(0x2a1e14);
+  const root = new THREE.Group();
+  const hips = new THREE.Group(); hips.position.y = 0.9; root.add(hips);
+  hips.add(box(0.36, 0.2, 0.23, pantsMat, 0, 0, 0));
+
+  const legs = [-1, 1].map((s) => {
+    const thigh = new THREE.Group(); thigh.position.set(0.1 * s, -0.06, 0); hips.add(thigh);
+    const tm = box(0.15, 0.44, 0.16, o.legCloth ? pantsMat : skinMat, 0, -0.22, 0); thigh.add(tm);
+    const knee = new THREE.Group(); knee.position.y = -0.44; thigh.add(knee);
+    knee.add(box(0.13, 0.42, 0.14, o.boots ? darkMat : skinMat, 0, -0.21, 0));
+    knee.add(box(0.15, 0.07, 0.26, o.boots ? darkMat : skinMat, 0, -0.42, 0.05));
+    if (o.chains) knee.add(box(0.17, 0.06, 0.17, ironMat, 0, -0.33, 0));
+    return { thigh, knee, tm };
+  });
+
+  const torso = new THREE.Group(); hips.add(torso);
+  const chest = box(0.44, 0.56, 0.25, o.shirt ? clothMat : skinMat, 0, 0.32, 0); torso.add(chest);
+  if (o.shirt) torso.add(box(0.46, 0.07, 0.27, darkMat, 0, 0.08, 0)); // ベルト
+
+  const head = new THREE.Group(); head.position.y = 0.6; torso.add(head);
+  head.add(box(0.12, 0.08, 0.12, skinMat, 0, 0.02, 0));
+  head.add(box(0.25, 0.27, 0.25, skinMat, 0, 0.18, 0));
+  for (const s of [-1, 1]) head.add(box(0.045, 0.035, 0.01, darkMat, 0.06 * s, 0.2, 0.126));
+  head.add(box(0.27, 0.07, 0.27, hairMat, 0, 0.33, 0));
+  const hairBack = new THREE.Group(); hairBack.position.set(0, 0.32, -0.12); head.add(hairBack);
+  hairBack.add(box(0.27, 0.2, 0.05, hairMat, 0, -0.1, 0));
+  const beard = new THREE.Group(); beard.position.set(0, 0.11, 0.12); head.add(beard);
+  beard.add(box(0.22, 0.1, 0.05, hairMat, 0, -0.05, 0));
+  if (o.hat) {
+    head.add(box(0.46, 0.04, 0.46, darkMat, 0, 0.34, 0));
+    head.add(box(0.28, 0.16, 0.28, darkMat, 0, 0.43, 0));
+    head.add(box(0.17, 0.035, 0.03, hairMat, 0, 0.12, 0.13));
+  }
+
+  const arms = [-1, 1].map((s) => {
+    const shoulder = new THREE.Group(); shoulder.position.set(0.29 * s, SHOULDER_Y, 0); torso.add(shoulder);
+    const upper = box(0.13, 0.32, 0.13, o.shirt ? clothMat : skinMat, 0, -0.16, 0); shoulder.add(upper);
+    const elbow = new THREE.Group(); elbow.position.y = -0.32; shoulder.add(elbow);
+    const fore = box(0.12, 0.27, 0.12, skinMat, 0, -0.135, 0); elbow.add(fore);
+    const hand = box(0.11, 0.09, 0.11, skinMat, 0, -0.31, 0); elbow.add(hand);
+    if (o.chains) elbow.add(box(0.145, 0.05, 0.145, ironMat, 0, -0.24, 0));
+    return { s, shoulder, elbow, upper, fore, hand };
+  });
+
+  return { root, hips, torso, chest, head, legs, arms, beard, hairBack, skinMat, hairMat };
+}
+
+const SKIN_PALE = new THREE.Color(0xd9b08c), SKIN_TAN = new THREE.Color(0x9a6038);
+
+const player = makeHuman({ skin: 0xd9b08c, cloth: 0x6b5236, pants: 0x6b5236, hair: 0x3a2a1c, chains: true });
+spokes[0].g.add(player.root);
+player.root.position.set(R, 0, ROOT_Z);
+
+const npcs = [
+  { skin: 0xb88660, hair: 0x6e6a62, pants: 0x5a4a34 },
+  { skin: 0x8a5a3a, hair: 0x1a1410, pants: 0x4a3c2a },
+  { skin: 0xc49a74, hair: 0x7a4a24, pants: 0x5e4e38 },
+].map((c, i) => {
+  const h = makeHuman({ ...c, cloth: c.pants, chains: true });
+  h.beard.scale.y = 1 + i * 1.5; h.hairBack.scale.y = 1 + i;
+  h.chest.scale.set(0.92, 1, 0.9);
+  spokes[i + 1].g.add(h.root);
+  h.root.position.set(R, 0, ROOT_Z);
+  h.phaseOff = i * 1.7; h.name = `npc${i}`;
+  return h;
+});
+
+const ovH = makeHuman({ skin: 0xc9a07c, cloth: 0x6a2420, pants: 0x2a2420, hair: 0x2a1c12, shirt: true, legCloth: true, boots: true, hat: true });
+ovH.beard.visible = false;
+scene.add(ovH.root);
+const whipHand = ovH.arms[0];
+{
+  const handle = box(0.045, 0.045, 0.32, M(0x3a2414), 0, -0.34, 0.1);
+  handle.rotation.x = -0.6;
+  whipHand.elbow.add(handle);
+}
+const WHIP_N = 16;
+const whipMat = M(0x2e1a10);
+const whipSegs = [];
+for (let i = 0; i < WHIP_N; i++) {
+  const s = new THREE.Mesh(new THREE.BoxGeometry(0.028 - i * 0.0012, 0.028 - i * 0.0012, 1), whipMat);
+  s.castShadow = true; scene.add(s); whipSegs.push(s);
+}
+
+// =====================================================================
+//  サウンド（WebAudio で合成）
+// =====================================================================
+let actx = null, noiseBuf = null, master = null;
+function initAudio() {
+  if (!actx) {
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    master = actx.createGain(); master.gain.value = 0.7; master.connect(actx.destination);
+    noiseBuf = actx.createBuffer(1, actx.sampleRate, actx.sampleRate);
+    const d = noiseBuf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  }
+  if (actx.state === 'suspended') actx.resume();
+}
+function env(g, t, a, peak, dec) {
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(peak, t + a);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + a + dec);
+}
+function sfxThump(v = 0.5) {
+  if (!actx) return;
+  const t = actx.currentTime, o = actx.createOscillator(), g = actx.createGain();
+  o.frequency.setValueAtTime(110, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+  env(g, t, 0.005, v * 0.5, 0.14);
+  o.connect(g).connect(master); o.start(t); o.stop(t + 0.2);
+}
+function sfxNoise(dur, type, freq, q, peak, attack = 0.002) {
+  const t = actx.currentTime, s = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain();
+  s.buffer = noiseBuf; f.type = type; f.frequency.value = freq; f.Q.value = q;
+  env(g, t, attack, peak, dur);
+  s.connect(f).connect(g).connect(master); s.start(t, Math.random() * 0.5); s.stop(t + dur + 0.05);
+}
+function sfxCrack() {
+  if (!actx) return;
+  sfxNoise(0.09, 'highpass', 2200, 0.7, 1.0, 0.001);
+  sfxNoise(0.25, 'bandpass', 900, 1.2, 0.25, 0.003);
+}
+function sfxCreak(p = 1) {
+  if (!actx) return;
+  const t = actx.currentTime, o = actx.createOscillator(), lfo = actx.createOscillator(), lg = actx.createGain();
+  const f = actx.createBiquadFilter(), g = actx.createGain();
+  o.type = 'sawtooth'; o.frequency.value = rand(95, 130) * p;
+  lfo.frequency.value = rand(18, 30); lg.gain.value = 22;
+  lfo.connect(lg).connect(o.frequency);
+  f.type = 'bandpass'; f.frequency.value = 700; f.Q.value = 6;
+  env(g, t, 0.06, 0.07, 0.35);
+  o.connect(f).connect(g).connect(master);
+  o.start(t); lfo.start(t); o.stop(t + 0.5); lfo.stop(t + 0.5);
+}
+function sfxBell() {
+  if (!actx) return;
+  const t = actx.currentTime;
+  for (const [fr, v] of [[523, 0.18], [784, 0.08], [1046, 0.05]]) {
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.frequency.value = fr; env(g, t, 0.01, v, 1.8);
+    o.connect(g).connect(master); o.start(t); o.stop(t + 2);
+  }
+}
+function sfxSnap() {
+  if (!actx) return;
+  sfxNoise(0.5, 'lowpass', 1400, 0.8, 1.0, 0.001);
+  sfxNoise(0.12, 'highpass', 1500, 0.7, 0.8, 0.001);
+  sfxThump(1.4);
+}
+
+// =====================================================================
+//  ゲーム状態
+// =====================================================================
+const S = {
+  state: 'title', // title | play | finale | freed | dead
+  theta: 0, omega: 0, stamina: 100, hp: MAX_HP, susp: 0,
+  lastKey: null, combo: 0, lastStepT: -9, fear: 0, stumble: 0, resting: false, pulse: 0,
+  year: 0, yearInt: 0, whips: 0, steps: 0, pow: 0, t: 0, endT: 0, shake: 0,
+  warned: false, creakAcc: 0, npcTalkT: 6,
+};
+const strength = () => 1 + S.year * 0.12;
+const quota = () => 0.38 * (1 + S.year * 0.07);
+const ov = { a: Math.PI, r: 7, dist: 0, yaw: 0, whipT: -1, hit: false, fallen: 0 };
+
+const YEAR_TEXT = {
+  1: '足の裏が硬くなってきた',
+  2: '肩が少し盛り上がってきた',
+  3: '隣の男の名前を知った。もう忘れた',
+  4: '鞭の音で季節がわかるようになった',
+  5: '腕が太くなった。棒が少し軽い',
+  7: '看守が一人代わった。鞭は同じだった',
+  9: '夢の中でも回している',
+  10: 'ヒゲが胸まで届いた',
+  12: '石臼より自分の方が重い気がする',
+  14: '看守が目を合わせなくなった',
+  16: '棒の方が先に悲鳴を上げはじめた',
+  18: '棒にヒビが入っている',
+  19: 'あと一年。……あと一年？',
+};
+
+// =====================================================================
+//  入力
+// =====================================================================
+function step(side) {
+  initAudio();
+  if (S.state !== 'play' && S.state !== 'finale') return;
+  if (S.state === 'play' && S.resting) return;
+  if (side === S.lastKey) { // つまずき
+    S.combo = 0; S.stumble = 0.45; S.stamina = Math.max(0, S.stamina - 2); S.lastKey = null;
+    flashKey(side, 'miss');
+    sfxThump(0.2);
+    return;
+  }
+  S.lastKey = side;
+  S.combo++; S.steps++; S.lastStepT = S.t; S.pulse = 1;
+  if (S.state === 'finale') {
+    S.pow = Math.min(1, S.pow + 0.055);
+    if (S.pow >= 1) { snap(); return; }
+    S.shake = Math.max(S.shake, 0.08);
+    sfxThump(0.7);
+    if (Math.random() < 0.3) sfxCreak(0.7);
+    return;
+  }
+  const staminaF = 0.25 + 0.75 * Math.sqrt(S.stamina / 100);
+  const comboF = 1 + Math.min(S.combo, 15) * 0.02;
+  const fearF = S.fear > 0 ? 1.4 : 1;
+  S.omega += 0.05 * strength() * staminaF * comboF * fearF;
+  S.stamina = Math.max(0, S.stamina - 3.2 / (0.7 + 0.3 * strength()));
+  sfxThump(0.35 + staminaF * 0.25);
+}
+function flashKey(side, cls) {
+  const el = $(side === 'L' ? 'kL' : 'kR');
+  el.classList.add(cls);
+  setTimeout(() => el.classList.remove(cls), 160);
+}
+addEventListener('keydown', (e) => {
+  if (e.code === 'Space') { e.preventDefault(); S.resting = true; initAudio(); return; }
+  if (e.repeat) return;
+  if (e.code === 'ArrowLeft' || e.code === 'KeyA') step('L');
+  if (e.code === 'ArrowRight' || e.code === 'KeyD') step('R');
+  if (e.code === 'Enter' && S.state === 'title') startGame();
+});
+addEventListener('keyup', (e) => { if (e.code === 'Space') S.resting = false; });
+addEventListener('blur', () => { S.resting = false; });
+$('tL').addEventListener('pointerdown', (e) => { e.preventDefault(); step('L'); });
+$('tR').addEventListener('pointerdown', (e) => { e.preventDefault(); step('R'); });
+$('tRest').addEventListener('pointerdown', (e) => { e.preventDefault(); S.resting = true; });
+for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) $('tRest').addEventListener(ev, () => { S.resting = false; });
+$('startBtn').addEventListener('click', startGame);
+$('retryBtn').addEventListener('click', () => { location.hash = 'play'; location.reload(); });
+
+function startGame() {
+  initAudio();
+  $('title').classList.add('hidden');
+  S.state = 'play';
+  toast('1年目', '回せ、と言われた');
+}
+
+// =====================================================================
+//  UI 演出
+// =====================================================================
+let toastTimer = 0;
+function toast(big, small) {
+  const el = $('toast');
+  el.querySelector('.big').textContent = big;
+  el.querySelector('.small').textContent = small || '';
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+function flash(white = false) {
+  const el = $('flash');
+  el.classList.toggle('white', white);
+  el.classList.add('on');
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('on')));
+}
+const bubbles = [];
+function say(h, text, dur = 2, cls = '') {
+  const old = bubbles.find((b) => b.h === h);
+  if (old) { old.el.remove(); bubbles.splice(bubbles.indexOf(old), 1); }
+  const el = document.createElement('div');
+  el.className = `bubble ${cls}`;
+  el.textContent = text;
+  $('bubbles').appendChild(el);
+  bubbles.push({ h, el, t: dur });
+}
+const _v = new THREE.Vector3();
+function updateBubbles(dt) {
+  for (let i = bubbles.length - 1; i >= 0; i--) {
+    const b = bubbles[i];
+    b.t -= dt;
+    if (b.t <= 0) { b.el.remove(); bubbles.splice(i, 1); continue; }
+    b.h.head.getWorldPosition(_v); _v.y += 0.6;
+    _v.project(camera);
+    const x = (_v.x * 0.5 + 0.5) * innerWidth, y = (-_v.y * 0.5 + 0.5) * innerHeight;
+    b.el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -100%)`;
+    b.el.style.opacity = _v.z > 1 ? 0 : Math.min(1, b.t * 3);
+  }
+}
+
+// HP 表示
+const hpEl = $('hp');
+const hpIcons = [];
+for (let i = 0; i < MAX_HP; i++) { const e = document.createElement('i'); hpEl.appendChild(e); hpIcons.push(e); }
+
+// =====================================================================
+//  ゲーム進行
+// =====================================================================
+function newYear(y) {
+  S.hp = Math.min(MAX_HP, S.hp + 1);
+  sfxBell();
+  if (y >= END_YEAR) return;
+  toast(`${y + 1}年目`, YEAR_TEXT[y] || '');
+}
+
+function whipHit() {
+  S.hp--; S.whips++;
+  S.fear = 2.5; S.susp = 35; S.warned = false;
+  S.shake = 0.45;
+  flash();
+  sfxCrack();
+  say(ovH, pick(['回せ！', '休むな！', '止まるな！', 'もっと速く！', '誰が休めと言った！']), 1.6, 'ov');
+  if (S.hp <= 0) die();
+}
+
+function die() {
+  S.state = 'dead'; S.endT = 0;
+  setTimeout(() => say(ovH, '……チッ、次のを連れてこい', 2.5, 'ov'), 900);
+  setTimeout(() => showEnd(false), 3200);
+}
+
+function startFinale() {
+  S.state = 'finale'; S.pow = 0;
+  $('finale').classList.add('show');
+  toast('20年目', '');
+  say(ovH, '……なんだ、その腕は', 2.5, 'ov');
+}
+
+function snap() {
+  S.state = 'freed'; S.endT = 0;
+  $('finale').classList.remove('show');
+  const outer = spokes[0].outer;
+  player.torso.attach(outer);
+  outer.userData.from = { p: outer.position.clone(), q: outer.quaternion.clone() };
+  flash(true); sfxSnap(); S.shake = 0.8;
+  setTimeout(sfxBell, 600);
+  npcs.forEach((h, i) => setTimeout(() => say(h, pick(['うおお！', '折れた……！', '嘘だろ', 'やりやがった！']), 2.4, 'npc'), 500 + i * 300));
+  setTimeout(() => showEnd(true), 4200);
+}
+
+function showEnd(freed) {
+  $('endTitle').textContent = freed ? '自由' : '力尽きた';
+  $('endEn').textContent = freed ? 'BROKEN WHEEL' : 'THE WHEEL TURNS ON';
+  $('endText').innerHTML = freed
+    ? '二十年回し続けた腕は、ついに棒をへし折った。<br>門の外の風は、思っていたより冷たかった。'
+    : '車輪は止まらない。<br>明日には別の誰かが、同じ棒を押している。';
+  const rows = [
+    ['勤続', `${Math.floor(S.year)}年 ${Math.floor((S.year % 1) * 12)}ヶ月`],
+    ['総回転', `${(S.theta / (Math.PI * 2)).toFixed(1)} 周`],
+    ['歩数', `${S.steps.toLocaleString()} 歩`],
+    ['受けた鞭', `${S.whips} 回`],
+    ['最終的な力', strength().toFixed(2)],
+  ];
+  $('endStats').innerHTML = rows.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('');
+  $('end').classList.remove('hidden');
+}
+
+function updateGame(dt) {
+  if (S.state === 'play') {
+    // 車輪の物理
+    const load = 0.05, npcPush = 0.025;
+    S.omega += (npcPush - load - 0.35 * S.omega - 0.2 * S.omega * S.omega) * dt;
+    S.omega = Math.max(0, S.omega);
+    S.theta += S.omega * dt;
+
+    S.stamina = Math.min(100, S.stamina + (S.resting ? 28 : 7) * dt);
+    if (S.t - S.lastStepT > 0.9) S.combo = 0;
+    S.fear = Math.max(0, S.fear - dt);
+
+    // 看守の目
+    if (ov.whipT < 0) {
+      if (S.omega < quota()) S.susp += (S.resting ? 18 : 13) * dt;
+      else S.susp -= 9 * dt;
+      S.susp = clamp(S.susp, 0, 100);
+    }
+    if (S.susp > 62 && !S.warned) { S.warned = true; say(ovH, pick(['おい……', '手が止まってるぞ', '見ているぞ']), 1.8, 'ov'); }
+    if (S.susp < 40) S.warned = false;
+
+    // 年
+    S.year = S.theta / (Math.PI * 2);
+    const yi = Math.floor(S.year);
+    if (yi > S.yearInt) { S.yearInt = yi; newYear(yi); }
+    if (S.year >= END_YEAR) { S.year = END_YEAR; startFinale(); }
+
+    // きしみ音
+    S.creakAcc += S.omega * dt;
+    if (S.creakAcc > Math.PI / 4) { S.creakAcc = 0; if (S.omega > 0.15) sfxCreak(); }
+
+    // 仲間のぼやき
+    S.npcTalkT -= dt;
+    if (S.npcTalkT < 0) {
+      S.npcTalkT = rand(9, 16);
+      const lines = ['うぅ……', 'あと何周だ……', '水……', '足の感覚がない', 'いつか、ここを出る', '今日は何曜日だ', '……雪か'];
+      if (S.year > 6) lines.push('お前、太くなったな', 'お前が押すと楽だ');
+      say(pick(npcs), pick(lines), 2.4, 'npc');
+    }
+  } else if (S.state === 'finale') {
+    S.omega *= Math.exp(-dt * 3);
+    S.theta += S.omega * dt;
+    S.pow = Math.max(0, S.pow - 0.13 * dt);
+  } else if (S.state === 'dead' || S.state === 'freed') {
+    S.omega *= Math.exp(-dt * 2);
+    S.theta += S.omega * dt;
+    S.endT += dt;
+  }
+  S.stumble = Math.max(0, S.stumble - dt);
+  S.pulse = Math.max(0, S.pulse - dt * 4);
+  S.shake = Math.max(0, S.shake - dt);
+  wheel.rotation.y = -S.theta;
+}
+
+// =====================================================================
+//  看守 AI
+// =====================================================================
+const _pp = new THREE.Vector3(), _hp = new THREE.Vector3(), _tp = new THREE.Vector3();
+function updateOverseer(dt) {
+  const chase = (S.state === 'play' && (S.susp > 50 || ov.whipT >= 0)) || S.state === 'finale';
+  const targetA = chase ? S.theta + 0.42 : Math.PI + Math.sin(S.t * 0.15) * 0.5;
+  const targetR = chase ? 4.35 : 7;
+  const d = wrap(targetA - ov.a);
+  const speed = (chase ? 3.4 : 1.0) / ov.r;
+  let move = 0;
+  if (S.state !== 'freed' && ov.whipT < 0) {
+    move = Math.sign(d) * Math.min(Math.abs(d), speed * dt);
+    ov.a += move;
+    ov.r += (targetR - ov.r) * Math.min(1, dt * 1.5);
+  }
+  if (S.state === 'freed') ov.r += (6.5 - ov.r) * Math.min(1, dt * 2);
+  const x = Math.cos(ov.a) * ov.r, z = Math.sin(ov.a) * ov.r;
+  const moved = Math.hypot(x - ovH.root.position.x, z - ovH.root.position.z);
+  ov.dist += moved;
+  ovH.root.position.set(x, 0, z);
+
+  // 向き
+  player.chest.getWorldPosition(_pp);
+  let yaw;
+  if (moved / Math.max(dt, 1e-4) > 0.6 && ov.whipT < 0 && !(chase && Math.abs(d) < 0.4) && S.state !== 'freed') {
+    yaw = Math.atan2(x - ovH.root.userData.px, z - ovH.root.userData.pz);
+  } else {
+    yaw = Math.atan2(_pp.x - x, _pp.z - z);
+  }
+  ovH.root.userData.px = x; ovH.root.userData.pz = z;
+  if (!Number.isNaN(yaw)) ov.yaw += wrap(yaw - ov.yaw) * Math.min(1, dt * 8);
+  ovH.root.rotation.y = ov.yaw;
+
+  // 鞭を振る
+  if (S.state === 'play' && S.susp >= 100 && ov.whipT < 0 && Math.abs(d) < 0.2 && Math.abs(ov.r - targetR) < 0.5) {
+    ov.whipT = 0; ov.hit = false;
+  }
+  if (ov.whipT >= 0) {
+    ov.whipT += dt / 0.75;
+    if (ov.whipT > 0.55 && !ov.hit) { ov.hit = true; if (S.state === 'play') whipHit(); }
+    if (ov.whipT >= 1) ov.whipT = -1;
+  }
+
+  // ポーズ
+  const walk = ov.dist * 4.2;
+  const amp = clamp(moved / Math.max(dt, 1e-4) / 3, 0, 0.6);
+  ovH.legs.forEach((l, i) => {
+    const p = walk + i * Math.PI;
+    l.thigh.rotation.x = Math.sin(p) * amp;
+    l.knee.rotation.x = 0.05 + Math.max(0, -Math.cos(p)) * amp * 1.5;
+  });
+  ovH.torso.rotation.x = 0.05 + amp * 0.15;
+  ovH.hips.position.y = 0.9 + Math.abs(Math.sin(walk)) * amp * 0.05;
+  const off = ovH.arms[1];
+  off.shoulder.rotation.set(0.15, 0, -0.35); off.elbow.rotation.x = -1.4; // 腰に手
+
+  let sh = -0.25 - Math.sin(walk) * amp * 0.5, el = -0.4, wind = 0, strike = 0;
+  if (ov.whipT >= 0) {
+    const t = ov.whipT;
+    wind = smooth(0, 0.42, t) * (1 - smooth(0.42, 0.6, t));
+    strike = smooth(0.45, 0.58, t) * (1 - smooth(0.75, 1, t));
+    sh = lerp(sh, -3.0, wind); sh = lerp(sh, -0.7, strike);
+    el = lerp(el, -0.2, wind + strike);
+  }
+  whipHand.shoulder.rotation.x = sh; whipHand.shoulder.rotation.z = 0.15; whipHand.elbow.rotation.x = el;
+
+  // フィナーレ後：尻もち
+  if (S.state === 'freed') {
+    ov.fallen = Math.min(1, ov.fallen + dt * 2.5);
+    ovH.root.rotation.x = -1.35 * smooth(0, 1, ov.fallen);
+    ovH.root.position.y = 0.12 * ov.fallen;
+    whipHand.shoulder.rotation.x = -1.8; off.shoulder.rotation.x = -1.8;
+  }
+
+  updateWhip(wind, strike);
+}
+
+// 鞭（セグメントの連なり）
+const whipPts = Array.from({ length: WHIP_N + 1 }, () => new THREE.Vector3());
+const _fw = new THREE.Vector3(), _a = new THREE.Vector3(), _b = new THREE.Vector3(), _c = new THREE.Vector3();
+function bez(p0, p1, p2, t, out) {
+  const u = 1 - t;
+  return out.set(0, 0, 0).addScaledVector(p0, u * u).addScaledVector(p1, 2 * u * t).addScaledVector(p2, t * t);
+}
+function updateWhip(wind, strike) {
+  whipHand.hand.getWorldPosition(_hp);
+  player.chest.getWorldPosition(_tp);
+  _fw.set(Math.sin(ov.yaw), 0, Math.cos(ov.yaw));
+  const len = 2.6;
+  // 待機：垂れて地面を這う
+  const idle = [], back = [], hit = [];
+  for (let i = 0; i <= WHIP_N; i++) {
+    const s = i / WHIP_N;
+    const drop = Math.min(_hp.y - 0.03, s * len);
+    const along = Math.max(0, s * len - (_hp.y - 0.03));
+    idle.push(_hp.clone().addScaledVector(_fw, -0.1 - along * 0.9).add(new THREE.Vector3(Math.sin(S.t * 2 + s * 3) * 0.04, -drop, 0)));
+  }
+  // 振りかぶり：後ろへ流れる
+  _a.copy(_hp).addScaledVector(_fw, -0.6).add(new THREE.Vector3(0, 1.4, 0));
+  _b.copy(_hp).addScaledVector(_fw, -2.2).add(new THREE.Vector3(0, 0.3, 0));
+  for (let i = 0; i <= WHIP_N; i++) back.push(bez(_hp, _a, _b, i / WHIP_N, new THREE.Vector3()));
+  // 打撃：プレイヤーの背中へ
+  _c.copy(_hp).lerp(_tp, 0.5).add(new THREE.Vector3(0, 0.9, 0));
+  for (let i = 0; i <= WHIP_N; i++) hit.push(bez(_hp, _c, _tp, i / WHIP_N, new THREE.Vector3()));
+  for (let i = 0; i <= WHIP_N; i++) {
+    whipPts[i].copy(idle[i]).lerp(back[i], wind).lerp(hit[i], strike);
+  }
+  for (let i = 0; i < WHIP_N; i++) {
+    const seg = whipSegs[i], p = whipPts[i], q = whipPts[i + 1];
+    seg.position.copy(p).add(q).multiplyScalar(0.5);
+    seg.scale.z = Math.max(0.001, p.distanceTo(q));
+    seg.lookAt(q);
+  }
+}
+
+// =====================================================================
+//  囚人のアニメーション
+// =====================================================================
+function armIK(h, lean, hipsY, ty, tz) {
+  const sy = hipsY + SHOULDER_Y * Math.cos(lean), sz = SHOULDER_Y * Math.sin(lean);
+  const dy = ty - sy, dz = tz - sz;
+  const D = clamp(Math.hypot(dy, dz), 0.1, L1 + L2 - 0.002);
+  const ad = Math.atan2(-dz, -dy);
+  const alpha = Math.acos(clamp((L1 * L1 + D * D - L2 * L2) / (2 * L1 * D), -1, 1));
+  const beta = Math.acos(clamp((L1 * L1 + L2 * L2 - D * D) / (2 * L1 * L2), -1, 1));
+  for (const a of h.arms) {
+    a.shoulder.rotation.x = ad + alpha - lean;
+    a.shoulder.rotation.z = 0;
+    a.elbow.rotation.x = -(Math.PI - beta);
+  }
+}
+function legPose(h, phase, amp, base) {
+  h.legs.forEach((l, i) => {
+    const p = phase + i * Math.PI;
+    l.thigh.rotation.x = base + Math.sin(p) * amp;
+    l.knee.rotation.x = 0.18 + Math.max(0, -Math.cos(p)) * amp * 1.4;
+  });
+}
+function posePusher(h, phase, effort, lean, t) {
+  const hipsY = 0.86 + Math.abs(Math.sin(phase)) * 0.035 - effort * 0.03;
+  h.hips.position.y = hipsY;
+  h.torso.rotation.x = lean;
+  h.head.rotation.x = -lean * 0.55;
+  legPose(h, phase, 0.38 + effort * 0.08, 0.28 + effort * 0.08);
+  armIK(h, lean, hipsY, BAR_Y, -ROOT_Z - 0.07);
+  h.chest.position.y = 0.32 + Math.sin(t * (2 + effort * 4)) * 0.006;
+}
+
+function animate(dt) {
+  const t = S.t;
+  const walkPhase = S.theta * R * 5;
+  const effort = clamp(S.omega / Math.max(quota(), 0.01), 0, 1.5);
+
+  // 仲間
+  npcs.forEach((h) => {
+    if (S.state === 'freed') {
+      h.torso.rotation.x = lerp(h.torso.rotation.x, 0, dt * 3);
+      h.hips.position.y = 0.9; legPose(h, 0, 0, 0);
+      const up = smooth(0.5, 1.2, S.endT);
+      for (const a of h.arms) { a.shoulder.rotation.x = lerp(-0.3, -2.9, up); a.shoulder.rotation.z = a.s * 0.25 * up; a.elbow.rotation.x = -0.3 * up; }
+      h.head.rotation.x = -0.2;
+      return;
+    }
+    posePusher(h, walkPhase + h.phaseOff, 0.6, 0.62 + Math.sin(t * 0.7 + h.phaseOff) * 0.04, t + h.phaseOff);
+  });
+
+  // プレイヤーの成長
+  const g = clamp(S.year / END_YEAR, 0, 1);
+  player.chest.scale.set(1 + g * 0.75, 1 + g * 0.12, 1 + g * 0.5);
+  for (const a of player.arms) {
+    a.shoulder.position.x = a.s * (0.29 + g * 0.16);
+    a.upper.scale.set(1 + g * 1.0, 1, 1 + g * 1.0);
+    a.fore.scale.set(1 + g * 0.7, 1, 1 + g * 0.7);
+  }
+  for (const l of player.legs) l.tm.scale.set(1 + g * 0.45, 1, 1 + g * 0.45);
+  player.beard.scale.y = 0.6 + g * 6;
+  player.hairBack.scale.y = 1 + g * 3.2;
+  player.skinMat.color.copy(SKIN_PALE).lerp(SKIN_TAN, smooth(0, 0.5, g));
+
+  const root = player.root;
+  if (S.state === 'dead') {
+    const k = smooth(0, 1.2, S.endT);
+    root.rotation.x = lerp(0, Math.PI / 2 * 0.96, k);
+    root.position.y = lerp(0, 0.14, k);
+    player.torso.rotation.x = lerp(player.torso.rotation.x, 0, dt * 4);
+    for (const a of player.arms) { a.shoulder.rotation.x = lerp(a.shoulder.rotation.x, -2.6, dt * 3); a.elbow.rotation.x = -0.3; }
+    legPose(player, 0, 0, 0);
+    return;
+  }
+  if (S.state === 'freed') {
+    const k = smooth(0, 0.7, S.endT);
+    player.torso.rotation.x = lerp(0.6, -0.08, k);
+    player.head.rotation.x = lerp(-0.3, -0.25, k);
+    player.hips.position.y = lerp(0.86, 0.9, k);
+    legPose(player, 0, 0, lerp(0.3, 0, k));
+    for (const a of player.arms) {
+      a.shoulder.rotation.x = lerp(-1.6, -Math.PI, k);
+      a.shoulder.rotation.z = 0;
+      a.elbow.rotation.x = lerp(-0.6, 0, k);
+    }
+    const o = spokes[0].outer, from = o.userData.from;
+    const outerLen = SPOKE_LEN - SPLIT;
+    o.position.lerpVectors(from.p, new THREE.Vector3(-outerLen / 2, 1.27, 0), k);
+    o.quaternion.slerpQuaternions(from.q, new THREE.Quaternion(), k);
+    return;
+  }
+
+  let lean = 0.6 + effort * 0.08;
+  if (S.resting && S.state === 'play') lean = 0.42;
+  if (S.state === 'finale') lean = 0.78 + Math.sin(t * 40) * 0.015 * (0.3 + S.pow);
+  lean += S.stumble * 0.6 * Math.sin(S.stumble * 14);
+  lean += S.pulse * 0.05;
+  posePusher(player, walkPhase, effort, lean, t);
+  if (S.stamina < 25 && S.state === 'play') player.head.rotation.x += Math.sin(t * 9) * 0.06; // 息切れ
+}
+
+// =====================================================================
+//  環境（季節・昼夜）
+// =====================================================================
+const SEASONS = ['春', '夏', '秋', '冬'];
+const GROUND_C = [0x86894e, 0xb9a060, 0x9e7244, 0xd6dbe0].map((c) => new THREE.Color(c));
+const PATH_C = [0x6e5a3a, 0x8a6e44, 0x6e4c2e, 0x8a7a6a].map((c) => new THREE.Color(c));
+const SKY_C = [0xbcd6e6, 0xe8d4a2, 0xe2b98c, 0xc8d0d8].map((c) => new THREE.Color(c));
+const NIGHT = new THREE.Color(0x101830), DUSK = new THREE.Color(0xd8794a);
+const _c1 = new THREE.Color(), _c2 = new THREE.Color();
+function seasonLerp(arr, s, out) {
+  const i = Math.floor(s) % 4, j = (i + 1) % 4;
+  return out.copy(arr[i]).lerp(arr[j], smooth(0.7, 1, s - Math.floor(s)));
+}
+function updateEnv(dt) {
+  const s = ((S.year % 1) + 1) % 1 * 4;
+  seasonLerp(GROUND_C, s, groundMat.color);
+  seasonLerp(PATH_C, s, pathMat.color);
+
+  const a = S.theta + 0.9;
+  const sunH = Math.sin(a) * 0.9 + 0.35;
+  const day = smooth(-0.15, 0.3, sunH);
+  const duskK = Math.max(0, 1 - Math.abs(sunH - 0.05) / 0.3) * 0.7;
+  seasonLerp(SKY_C, s, _c1);
+  _c2.copy(NIGHT).lerp(_c1, day).lerp(DUSK, duskK * day);
+  scene.background.copy(_c2);
+  scene.fog.color.copy(_c2);
+  sun.position.set(Math.cos(a) * 40, sunH * 40, 18);
+  sun.intensity = 1.8 * smooth(-0.02, 0.25, sunH);
+  sun.color.setHex(0xfff0d0).lerp(DUSK, duskK * 0.6);
+  hemi.intensity = 0.28 + 0.42 * day;
+  hemi.color.setHex(0xfff2d8).lerp(new THREE.Color(0x7088c0), 1 - day);
+
+  for (const tc of torches) {
+    const f = 0.85 + Math.sin(S.t * 13 + tc.seed) * 0.08 + Math.sin(S.t * 31 + tc.seed * 2) * 0.07;
+    tc.light.intensity = (0.4 + 6 * (1 - day)) * f;
+    tc.flame.scale.set(1, f, 1);
+  }
+
+  // 雪
+  const snowAmt = smooth(2.85, 3.1, s) * (1 - smooth(3.8, 3.98, s));
+  snowMat.opacity = snowAmt * 0.9;
+  if (snowAmt > 0.01) {
+    const p = snowGeo.attributes.position;
+    for (let i = 0; i < SNOW_N; i++) {
+      let y = p.getY(i) - dt * (1.2 + (i % 7) * 0.12);
+      if (y < 0) y += 16;
+      p.setY(i, y);
+      p.setX(i, p.getX(i) + Math.sin(S.t + i) * dt * 0.2);
+    }
+    p.needsUpdate = true;
+  }
+}
+
+// =====================================================================
+//  カメラ
+// =====================================================================
+const camPos = new THREE.Vector3(9, 4, -5), camLook = new THREE.Vector3(0, 1, 0);
+const _wp = new THREE.Vector3(), _des = new THREE.Vector3(), _look = new THREE.Vector3();
+function updateCamera(dt) {
+  player.hips.getWorldPosition(_wp);
+  const th = S.theta;
+  const tan = new THREE.Vector3(-Math.sin(th), 0, Math.cos(th));
+  const out = new THREE.Vector3(Math.cos(th), 0, Math.sin(th));
+  const portrait = camera.aspect < 0.8;
+  if (S.state === 'title') {
+    const a = S.t * 0.08;
+    _des.set(Math.cos(a) * 11, 5.5, Math.sin(a) * 11);
+    _look.set(0, 1.6, 0);
+  } else if (S.state === 'freed' || S.state === 'dead') {
+    const freed = S.state === 'freed';
+    const orbit = Math.min(S.endT * 0.12, 0.5);
+    _des.copy(_wp).addScaledVector(out, freed ? 4.2 : 3.6).addScaledVector(tan, (freed ? 2.4 : 1.2) + orbit * 2)
+      .add(new THREE.Vector3(0, freed ? 1.0 : 2.6, 0));
+    _look.copy(_wp).addScaledVector(out, -0.3).add(new THREE.Vector3(0, freed ? 0.8 : 0, 0));
+  } else {
+    const back = portrait ? 4.4 : 3.4, side = portrait ? 4.6 : 3.8;
+    _des.copy(_wp).addScaledVector(tan, -back).addScaledVector(out, side).add(new THREE.Vector3(0, portrait ? 2.9 : 2.2, 0));
+    _look.copy(_wp).addScaledVector(tan, 1.4).addScaledVector(out, -0.9).add(new THREE.Vector3(0, 0.3, 0));
+  }
+  const k = 1 - Math.exp(-dt * (S.state === 'title' ? 1.5 : 3));
+  camPos.lerp(_des, k); camLook.lerp(_look, k);
+  camera.position.copy(camPos);
+  if (S.shake > 0) camera.position.add(new THREE.Vector3(rand(-1, 1), rand(-1, 1), rand(-1, 1)).multiplyScalar(S.shake * 0.25));
+  camera.lookAt(camLook);
+  sun.target.position.set(_wp.x * 0.5, 0, _wp.z * 0.5);
+  sun.position.add(sun.target.position);
+}
+
+// =====================================================================
+//  HUD
+// =====================================================================
+function updateHUD() {
+  document.body.classList.toggle('ended', S.state === 'freed' || S.state === 'dead');
+  $('yearNum').textContent = Math.min(END_YEAR, Math.floor(S.year) + 1);
+  $('season').textContent = SEASONS[Math.floor(((S.year % 1) + 1) % 1 * 4)];
+  $('rots').textContent = (S.theta / (Math.PI * 2)).toFixed(1);
+  $('str').textContent = strength().toFixed(2);
+  hpIcons.forEach((e, i) => e.classList.toggle('lost', i >= S.hp));
+
+  $('stamFill').style.width = `${S.stamina}%`;
+  $('stamTxt').textContent = Math.round(S.stamina);
+  const maxSpd = 1.6;
+  $('spdFill').style.width = `${clamp(S.omega / maxSpd, 0, 1) * 100}%`;
+  $('spdFill').style.background = S.omega >= quota() ? 'var(--spd)' : '#b0894a';
+  $('quota').style.left = `${clamp(quota() / maxSpd, 0, 1) * 100}%`;
+  $('spdTxt').textContent = `${(S.omega * R).toFixed(2)} m/s`;
+  $('eyeFill').style.width = `${S.susp}%`;
+  $('eyeMeter').classList.toggle('alert', S.susp > 62);
+  $('eyeTxt').textContent = ov.whipT >= 0 ? '鞭！' : S.susp >= 100 ? '来るぞ' : S.susp > 62 ? '睨んでいる' : S.susp > 30 ? '見ている' : '';
+
+  const next = S.lastKey === 'L' ? 'R' : S.lastKey === 'R' ? 'L' : null;
+  $('kL').classList.toggle('next', next !== 'R');
+  $('kR').classList.toggle('next', next !== 'L');
+  $('combo').textContent = S.resting ? '休憩中…' : S.combo >= 4 ? `リズム ×${Math.min(S.combo, 15)}` : S.stamina < 20 ? 'ハァ…ハァ…' : '';
+  $('powFill').style.width = `${S.pow * 100}%`;
+}
+
+// =====================================================================
+//  ループ
+// =====================================================================
+const clock = new THREE.Clock();
+function frame() {
+  const dt = Math.min(clock.getDelta(), 0.05);
+  S.t += dt;
+  updateGame(dt);
+  updateOverseer(dt);
+  animate(dt);
+  updateEnv(dt);
+  if (!window.G?.freeCam) updateCamera(dt);
+  updateHUD();
+  updateBubbles(dt);
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+frame();
+
+if (location.hash === '#play') { history.replaceState(null, '', location.pathname); startGame(); }
+
+// デバッグ用
+window.G = { S, ov, camera, player, setYear: (y) => { S.theta = y * Math.PI * 2; S.yearInt = Math.floor(y); } };
+
+</script>
+</body>
+</html>
